@@ -1,0 +1,44 @@
+<?php
+
+namespace Amplify\Widget;
+
+use Amplify\Widget\Abstracts\Widget;
+use Amplify\Widget\Commands\WidgetMakeCommand;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\ServiceProvider;
+
+class WidgetServiceProvider extends ServiceProvider
+{
+    public function register()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/Config/widget.php',
+            'amplify.widget'
+        );
+    }
+
+    /**
+     * Bootstrap services.
+     *
+     */
+    public function boot(): void
+    {
+        $this->loadViewsFrom(__DIR__ . '/Views', 'widget');
+
+        $this->loadRoutesFrom(__DIR__ . '/Routes/widget.php');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([WidgetMakeCommand::class]);
+        }
+
+        App::booted(function ($app) {
+            $request = $this->app->make(\Illuminate\Http\Request::class);
+            if (!$request?->is('admin/*')) {
+                foreach (config('amplify.widget', []) as $classNameSpace => $options) {
+                    Widget::register($classNameSpace, $options['name'], $options);
+                }
+            }
+        });
+
+    }
+}

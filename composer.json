@@ -24,7 +24,9 @@
     },
     "extra": {
         "laravel": {
-            "providers": []
+            "providers": [
+                "Amplify\\Widget\\WidgetServiceProvider"
+            ]
         }
     }
 }
