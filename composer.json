@@ -1,0 +1,30 @@
+{
+    "name": "amplify/widget",
+    "description": "This is a Widget module for amplify",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Hafijul Islam",
+            "email": "hafijul.islam@easyask.com",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ext-gd": "*",
+        "amplify/sayt" : "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Amplify\\Widget\\": "./"
+        },
+        "files": [
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": []
+        }
+    }
+}

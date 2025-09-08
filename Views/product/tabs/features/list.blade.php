@@ -1,0 +1,8 @@
+<div @class(["col-md-6", "d-none" => empty($group?->group_items) ])>
+    <h4>{{ $group->group_name ?? '' }}</h4>
+    <ul>
+        @foreach ($group?->group_items ?? [] as $item)
+            <li class="d-flex justify-content-start gap-2"><b>{{ $item->name }}:</b> {{ $item->value }}</li>
+        @endforeach
+    </ul>
+</div>
