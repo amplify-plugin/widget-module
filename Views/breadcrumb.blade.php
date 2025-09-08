@@ -1,6 +1,6 @@
 <div {!! $htmlAttributes !!}>
     <div class="page-title">
-        <div class="@if(template_option('full_screen_header')) container-fluid @else container @endif">
+        <div class="@if(theme_option('full_screen_header')) container-fluid @else container @endif">
             @if(!$dontShowTitle)
                 <div class="column">
                     <h1 class="cs-truncate-1"

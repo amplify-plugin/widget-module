@@ -75,7 +75,7 @@ class Checkout extends BaseComponent
         $countries = Country::select(['iso2', 'id', 'name'])->whereIn('id', $country_codes)->orderBy('name', 'ASC')->get();
         $states = State::select(['iso2', 'country_id', 'country_code', 'name'])->whereIn('country_id', $country_codes)->orderBy('name', 'ASC')->get();
         $shipOptions = ErpApi::getShippingOption();
-        $templateBrandColor = template_option('primary_color');
+        $templateBrandColor = theme_option('primary_color');
         $clientCode = config('amplify.basic.client_code');
 
         return view('widget::client.rhsparts.checkout', compact('templateBrandColor', 'steps', 'cart', 'cartItemCount', 'customer', 'verifyingPost', 'addresses', 'countries', 'states', 'shipOptions', 'cenposInfo', 'clientCode'));

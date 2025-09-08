@@ -67,7 +67,7 @@ class Checkout extends BaseComponent
         $countries = Country::select('id', 'name', 'iso2')->whereIn('id', $country_codes)->get();
         $states = State::select('iso2', 'country_id', 'name')->whereIn('country_id', $country_codes)->get();
         $shipOptions = ErpApi::getShippingOption();
-        $templateBrandColor = template_option('primary_color');
+        $templateBrandColor = theme_option('primary_color');
         $hasChooseShipPermission = havePermissions(['checkout.choose-shipto']);
 
         return view('widget::checkout', compact('templateBrandColor', 'steps', 'cart', 'cartItemCount', 'customer', 'cartPricingInfo', 'addresses', 'countries', 'states', 'shipOptions', 'hasChooseShipPermission'));
