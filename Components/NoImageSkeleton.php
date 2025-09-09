@@ -41,7 +41,7 @@ class NoImageSkeleton extends BaseComponent
         $filepath = public_path(config('amplify.frontend.fallback_image_path'));
 
         if (! file_exists($filepath)) {
-            $filepath = public_path('img/No-Image-Placeholder-min.png');
+            $filepath = public_path('assets/img/No-Image-Placeholder-min.png');
         }
 
         $imagesrc = 'data:image/png;base64, '.base64_encode(file_get_contents($filepath));
