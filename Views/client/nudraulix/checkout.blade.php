@@ -38,7 +38,7 @@
 @pushonce('plugin-script')
     <script src="{{ asset('packages/select2/dist/js/select2.min.js') }}"></script>
     <script src="{{ asset('vendor/jp-card/credit-card.min.js') }}"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset("assets/js/app.js") }}"></script>
 @endpushonce
 @pushonce('footer-script')
     <script src="{{ asset('js/checkout.js') }}"></script>

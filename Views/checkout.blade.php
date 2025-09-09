@@ -38,7 +38,7 @@
     <script src="{{ asset('vendor/jp-card/credit-card.min.js') }}"></script>
 @endpushonce
 @pushonce('footer-script')
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset("assets/js/app.js") }}"></script>
 @endpushonce
 
 <script>

@@ -39,7 +39,7 @@
     <script src="{{ asset('vendor/jp-card/credit-card.min.js') }}"></script>
 @endpushonce
 @pushonce('plugin-script')
-    <script src="{{ asset(mix('js/app.js')) }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
 @endpushonce
 
 <script>

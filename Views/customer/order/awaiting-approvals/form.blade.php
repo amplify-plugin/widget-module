@@ -118,7 +118,7 @@
 </div>
 
 @pushonce("footer-script")
-    <script src="{{ asset("js/app.js") }}"></script>
+    <script src="{{ asset("assets/js/app.js") }}"></script>
 @endpushonce
 @php
     push_css("
