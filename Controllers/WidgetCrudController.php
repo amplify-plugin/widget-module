@@ -89,7 +89,7 @@ class WidgetCrudController extends BackpackCustomCrudController
         $this->data['allPageTypes'] = $this->getAllPageTypes();
         $this->data['allTags'] = $this->getAllTags();
 
-        $this->crud->setCreateView('crud::pages.widget.create');
+        $this->crud->setCreateView('backend::pages.widget.create');
     }
 
     /**
@@ -103,7 +103,7 @@ class WidgetCrudController extends BackpackCustomCrudController
     {
         $this->data['widgetData'] = $this->crud->getCurrentEntry();
 
-        $this->crud->setUpdateView('crud::pages.widget.create');
+        $this->crud->setUpdateView('backend::pages.widget.create');
 
         $this->setupCreateOperation();
     }
