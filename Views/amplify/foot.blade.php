@@ -22,7 +22,7 @@
 <script
     @switch(config('amplify.basic.client_code'))
     @case('RHS')
-        src="{{ template_asset('rhsparts/js/rhs-cart.js') }}"
+        src="{{ theme_asset('rhsparts/js/rhs-cart.js') }}"
         @break
     @case('DKL')
         src="{{ asset('frontend/dk-lok/js/cart.js') }}"

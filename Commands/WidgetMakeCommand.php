@@ -37,9 +37,9 @@ class WidgetMakeCommand extends Command
     {
         parent::__construct();
 
-        $this->classRootDir = base_path('modules/Widget/Components');
+        $this->classRootDir = base_path('plugins/Widget/Components');
 
-        $this->bladeRootDir = base_path('modules/Widget/Views');
+        $this->bladeRootDir = base_path('plugins/Widget/Views');
     }
 
     /**
@@ -165,7 +165,7 @@ class WidgetMakeCommand extends Command
 
     private function registerConfig($classPath, $name)
     {
-        $config_path = base_path('modules/Widget/Config/widget.php');
+        $config_path = base_path('plugins/Widget/Config/widget.php');
 
         $file_content = file_get_contents($config_path);
 
