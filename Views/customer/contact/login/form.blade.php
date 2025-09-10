@@ -1,5 +1,5 @@
 @pushonce("footer-script")
-	<script src="{{ asset("assets/js/app.js") }}"></script>
+	<script src="{{ asset("vendor/backend/js/backend.js") }}"></script>
 @endpushonce
 <div {!! $htmlAttributes !!}>
     <div class="row">

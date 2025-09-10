@@ -3,7 +3,7 @@
     $pathname = explode('/', request()->path())[0];
 @endphp
 @pushonce("footer-script")
-    <script src="{{ asset("assets/js/app.js") }}"></script>
+    <script src="{{ asset("vendor/backend/js/backend.js") }}"></script>
 @endpushonce
 <div {!! $htmlAttributes !!}>
     <div id="app">
