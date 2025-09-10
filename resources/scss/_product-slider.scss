@@ -1,0 +1,36 @@
+/**
+ * @class Amplify\Widget\Components\Product\ProductSlider
+ * @name Product Slider
+ * @code product-slider
+ * @description
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-product-slider {
+    .product-old-price {
+        text-decoration: line-through;
+        font-size: small;
+    }
+
+    .product-card {
+        padding: 1rem !important;
+
+        .product-body {
+            width: 100%;
+            padding-top: 1rem !important;
+        }
+
+        .product-thumb {
+            width: 100% !important;
+            height: 190px !important;
+            background-color: transparent;
+            display: contents;
+            img {
+                width: 100% !important;
+                height: 190px !important;
+                object-fit: contain;
+            }
+        }
+    }
+}

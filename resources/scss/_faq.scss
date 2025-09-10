@@ -1,0 +1,25 @@
+/**
+ * @class Amplify\Widget\Components\Faq
+ * @name Faq
+ * @code faq
+ * @description
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-faq {
+    .faq-reaction {
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .faq-reaction:hover {
+        color: var(--primary);
+    }
+
+    .faq-btn {
+        margin: 0;
+        font-size: 14px;
+        padding-inline: 0.5rem;
+    }
+}

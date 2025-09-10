@@ -1,0 +1,158 @@
+/**
+ * @class Amplify\Widget\Components\FlipperCard
+ * @name Flipper Card
+ * @code flipper-card
+ * @description Flipper card widget
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-flipper-card {
+    .flip-card {
+        background-color: transparent;
+        width: 100%;
+        height: 258px;
+        overflow: hidden;
+        perspective: 1000px;
+        /* Remove this if you don't want the 3D effect */
+        border-radius: 11px;
+    }
+
+    /* This container is needed to position the front and back side */
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s;
+        transform-style: preserve-3d;
+    }
+
+    /* Do an horizontal flip when you move the mouse over the flip box container */
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    /* Position the front and back side */
+    .flip-card-front,
+    .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        /* Safari */
+        backface-visibility: hidden;
+    }
+
+    /* Style the front side (fallback if image is missing) */
+    .flip-card-front {
+        background-color: transparent;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .flip-card-front img {
+        width: 100%;
+        object-fit: cover;
+    }
+
+    /* Style the back side */
+    .flip-card-back {
+        height: 100%;
+        width: 100%;
+        background-color: #8f8b8b !important;
+        color: white;
+        transform: rotateY(180deg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .flip-content {
+        font-size: 17px;
+        line-height: 1.5;
+        color: #2b2e2f;
+        margin-bottom: 0.7rem;
+    }
+
+    .flip-card-back a {
+        text-decoration: none;
+        font-size: 12px;
+        border-radius: 5px;
+    }
+
+    .flip-card-back p {
+        text-align: center;
+    }
+
+    .flip-card-back h1 {
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .card-title {
+        position: absolute;
+        bottom: 1rem;
+        left: 2rem;
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: #f1f1f1;
+    }
+
+    .read-more-btn {
+        padding: 4px 12px;
+        width: 100%;
+        background: #ff471a;
+        color: #ffff;
+        text-align: center;
+    }
+
+    .read-more-btn:hover {
+        background: #811f03;
+        transition: 0.3s all;
+        color: #ffff;
+    }
+
+    .grid-5-col {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 24px;
+        width: 100%;
+    }
+
+    @media only screen and (max-width: 1200px) {
+        .grid-5-col {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media only screen and (max-width: 992px) {
+        .grid-5-col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .flip-card {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+    }
+
+    @media only screen and (max-width: 576px) {
+        .grid-5-col {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 16px;
+        }
+    }
+}
+

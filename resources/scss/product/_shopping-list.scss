@@ -1,0 +1,29 @@
+/**
+ * @class Amplify\Widget\Components\Product\ShoppingList
+ * @name Product ShoppingList
+ * @code product.shopping-list
+ * @description This wizard provides functionality for shopping
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+.x-product-shopping-list {
+    .shopping-dropdown .dropdown-header {
+        color: #000;
+        padding: .25rem 1rem;
+        font-weight: 500;
+    }
+    .shopping-dropdown .dropdown-item.list-item {
+        position: relative;
+        padding: .375rem 1rem .375rem 1.75rem;
+    }
+    .shopping-dropdown .dropdown-item.list-item::before {
+        content: "•";
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.1em;
+        line-height: 1;
+        color: #6c757d;
+    }
+}

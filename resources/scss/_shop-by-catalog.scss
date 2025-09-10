@@ -1,0 +1,54 @@
+/**
+ * @class Amplify\Widget\Components\ShopByCatalog
+ * @name Shop By Catalog
+ * @code shop-by-catalog
+ * @description
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-shop-by-catalog {
+    .custom-search-button {
+        border-radius: 0 25px 25px 0 !important;
+    }
+
+    .custom-search-field {
+        border-radius: 25px 0 0 25px !important
+    }
+
+    .brand-img-container {
+        width: 154px;
+        height: 154px;
+        margin: 10px;
+    }
+
+    .mg {
+        margin-bottom: 10px;
+    }
+
+    .mg1 {
+        margin-bottom: 5px;
+    }
+
+    .brand-img {
+        width: 100%;
+        /* or any custom size */
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .brand-name {
+        width: 154px;
+    }
+
+    .filter {
+        margin-left: -12px;
+    }
+
+    @media only screen and (max-width: 800px) {
+        .filter {
+            width: 100% !important;
+        }
+    }
+
+}

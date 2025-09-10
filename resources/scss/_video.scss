@@ -1,0 +1,14 @@
+/**
+ * @class Amplify\Widget\Components\Video
+ * @name Video
+ * @code video
+ * @description Video widget
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-video {
+    .gallery-item > a:hover::before {
+        opacity: 0;
+    }
+}

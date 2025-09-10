@@ -1,0 +1,52 @@
+/**
+ * @class Amplify\Widget\Components\Product\ProductGallery
+ * @name Product Product Gallery
+ * @code product.product-gallery
+ * @description Login widget
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-product-product-gallery {
+    border-radius: 8px;
+    border: 1px solid #e9e9ea;
+    padding: 16px;
+    width: 100% !important;
+    height: 490px;
+
+    .product-gallery {
+        padding-top: 0 !important;
+
+        .gallery-item {
+            width: 100%;
+
+            a {
+                height: 300px;
+
+                img {
+                    height: 100%;
+                    object-fit: contain;
+                }
+            }
+        }
+
+        .product-thumbnail {
+            height: 96px;
+            width: auto;
+            display: inline-block;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+
+        .owl-stage-outer {
+            .owl-item {
+             .product-thumbnail {
+                 display: contents !important;
+             }
+            }
+        }
+    }
+}

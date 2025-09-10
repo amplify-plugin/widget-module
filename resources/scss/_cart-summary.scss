@@ -1,0 +1,41 @@
+/**
+ * @class Amplify\Widget\Components\CartSummary
+ * @name Cart Summary
+ * @code cart-summary
+ * @description cart detail handle products
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-cart-summary {
+    .item-count span,button {
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        padding-inline: 1rem;
+        border: 1px solid #eee;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .item-quantity {
+        height: 35px !important;
+        width: 70px !important;
+    }
+
+    .item-increase {
+
+    }
+
+    .item-decrease {
+    }
+
+    #cart-item-summary {
+        td {
+            vertical-align: top !important;
+        }
+    }
+}

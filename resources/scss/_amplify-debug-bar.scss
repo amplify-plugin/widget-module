@@ -1,0 +1,17 @@
+.amplify-debug-bar {
+    border: 1px solid #ff6300 !important;
+    border-radius: 0 !important;
+    margin: 2px !important;
+    &::before {
+        font-size: 12px !important;
+        content: attr(data-component);
+        display: block;
+        padding: 2px 5px;
+        background-color: #e49d6f;
+        color: #0c1021;
+        float: left;
+        z-index: 999999;
+        position: absolute;
+        text-wrap: balance;
+    }
+}

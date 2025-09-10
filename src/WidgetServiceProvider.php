@@ -4,7 +4,6 @@ namespace Amplify\Widget;
 
 use Amplify\Widget\Abstracts\Widget;
 use Amplify\Widget\Commands\WidgetMakeCommand;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class WidgetServiceProvider extends ServiceProvider
@@ -12,7 +11,7 @@ class WidgetServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/Config/widget.php',
+            __DIR__ . '/config/widget.php',
             'amplify.widget'
         );
     }
@@ -23,15 +22,15 @@ class WidgetServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/Views', 'widget');
+        $this->loadViewsFrom(__DIR__ . '/../views', 'widget');
 
-        $this->loadRoutesFrom(__DIR__ . '/Routes/widget.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/widget.php');
 
         if ($this->app->runningInConsole()) {
             $this->commands([WidgetMakeCommand::class]);
         }
 
-        App::booted(function ($app) {
+        $this->app->booted(function ($app) {
             $request = $this->app->make(\Illuminate\Http\Request::class);
             if (!$request?->is('admin/*')) {
                 foreach (config('amplify.widget', []) as $classNameSpace => $options) {

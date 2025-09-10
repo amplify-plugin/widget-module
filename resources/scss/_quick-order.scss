@@ -1,0 +1,51 @@
+/**
+ * @class Amplify\Widget\Components\QuickOrder
+ * @name Quick Order
+ * @code quick-order
+ * @description
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-quick-order {
+    #upload_btn {
+        height: 34px !important;
+    }
+
+    .product-card.product-list {
+        margin-bottom: 15px;
+    }
+
+    .table {
+        margin-bottom: 0px;
+    }
+
+    .table td.fit,
+    .table th.fit {
+        white-space: nowrap;
+        width: 1%;
+    }
+
+    .tableFixHead {
+        max-height: 465px !important;
+        overflow-y: auto !important;
+        width: auto !important;
+    }
+
+    .tableFixHead table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .tableFixHead table th {
+        position: sticky;
+        top: -1px;
+        z-index: 1;
+        background: #eee !important;
+    }
+
+    .tableFixHead table th,
+    .tableFixHead table td {
+        padding: 8px 16px;
+    }
+}

@@ -1,0 +1,83 @@
+/**
+ * @class Amplify\Widget\Components\Shop\ProductDetails
+ * @name Product Details
+ * @code product-details
+ * @description Product details widget
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-product-details {
+    .position-relative {
+        height: 61px;
+        width: 91px;
+    }
+
+    .position-absolute {
+        top: 35%;
+        right: 42%;
+    }
+
+    .iframe-style {
+        width: 100%;
+        height: 600px;
+    }
+
+    .img-style {
+        max-width: 50% !important;
+        height: auto;
+        vertical-align: middle;
+    }
+
+    .qty_field {
+        width: 70px !important;
+    }
+
+    .table td.fit,
+    .table th.fit {
+        white-space: nowrap;
+        width: 1%;
+    }
+
+    .tableFixHead {
+        max-height: 400px !important;
+        overflow-y: auto !important;
+        width: auto !important;
+    }
+
+    .tableFixHead table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .tableFixHead table th {
+        position: sticky;
+        top: -1px;
+        z-index: 1;
+        background: #eee !important;
+    }
+
+    .tableFixHead table th,
+    .tableFixHead table td {
+        padding: 8px 16px;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto auto;
+        padding: 10px;
+    }
+
+    .grid-item {
+        padding: 20px;
+    }
+
+    .pswp__zoom-wrap video {
+        height: 100% !important;;
+    }
+
+    .product-manufacturer-image {
+        height: 50px !important;
+        margin-bottom: 1.5rem;
+    }
+}

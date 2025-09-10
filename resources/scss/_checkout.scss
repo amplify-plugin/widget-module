@@ -1,0 +1,18 @@
+.x-checkout, .x-order-checkout {
+    .checkout {
+        display: none;
+    }
+
+    .active {
+        display: inline !important;
+    }
+
+    .tab-content {
+        padding: 10px 0 !important;
+    }
+
+
+    .form-group {
+        margin-bottom: 10px !important;
+    }
+}

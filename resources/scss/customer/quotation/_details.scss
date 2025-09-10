@@ -1,0 +1,31 @@
+/**
+ * @class Amplify\Widget\Components\Customer\Quotation\Details
+ * @name Customer Quotation Details
+ * @code customer.quotation.details
+ * @description
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-customer-quotation-details{
+
+    .remove {
+        position: absolute;
+        top: 2px;
+        right: 10px;
+    }
+
+    .ordernote {
+        padding-left: 0.75rem;
+        height: 75px;
+        border-radius: 8px 0 0 8px !important
+    }
+
+    .product-thumb > img {
+        width: auto;
+        max-width: 45px;
+        max-height: 50px;
+        margin: 5px auto;
+    }
+}
+

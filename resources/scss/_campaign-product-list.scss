@@ -1,0 +1,22 @@
+/**
+ * @class Amplify\Widget\Components\Campaign\CampaignProductList
+ * @name Campaign Product List
+ * @code campaign-product-list
+ * @description Campaign Product List
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-campaign-product-list {
+    .product-thumb {
+        position: relative;
+        width: 100% !important;
+        height: 190px !important;
+
+        img {
+            width: 100% !important;
+            height: 190px !important;
+            object-fit: contain !important;
+        }
+    }
+}

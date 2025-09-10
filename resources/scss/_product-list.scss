@@ -1,0 +1,103 @@
+/**
+ * @class Amplify\Widget\Components\Shop\ProductList
+ * @name Product List
+ * @code product-list
+ * @description Product list widget retries all the products from the configured source and displays in a grid or list view. It applies the filters while retrieving the products. Products are represented with warehouse, inventory, action buttons, etc based on the contact's permissions.
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-product-list {
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    .brand-link {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-link {
+        color: #2B2B2B !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-link:hover {
+        color: #0F76BC !important;
+    }
+
+    .table td {
+        text-align: center;
+        vertical-align: top;
+    }
+
+    #new_table_list.product-card.product-list {
+        margin-bottom: 15px;
+    }
+
+    #new_table_list.product-card.product-list .product-thumb > img {
+        width: auto;
+        max-width: 45px;
+        max-height: 50px;
+        margin: 5px auto;
+    }
+
+    #new_table_list.product-card.product-list .product-thumb {
+        position: relative;
+        overflow: hidden;
+        width: 100px;
+        height: auto;
+        max-height: 50px;
+        padding: 0 10px;
+        border-right: 1px solid #e1e7ec;
+    }
+
+    #new_table_list.product-card.product-list .product-info {
+        padding: 10px;
+    }
+
+    #new_table_list.product-card.product-list .product-title {
+        margin-bottom: 0;
+        font-size: 14px;
+    }
+
+    #new_table_list.product-card.product-list .product-title a {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    #new_table_list.product-card .product-price {
+        margin-bottom: 0px;
+        font-size: 14px;
+    }
+
+    .warehouses label {
+        font-size: 12px;
+        right: 0;
+        top: -2px;
+    }
+
+    tr.cs-border-bottom {
+        border-bottom: 2px solid #d0d0d1;
+    }
+
+    #table_list_tbody tr {
+        border-left: 1px solid #d0d0d1;
+        border-right: 1px solid #d0d0d1;
+    }
+}

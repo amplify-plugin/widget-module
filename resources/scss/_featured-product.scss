@@ -1,0 +1,19 @@
+/**
+ * @class Amplify\Widget\Components\Product\FeaturedProduct
+ * @name Featured Product
+ * @code featured-product
+ * @description
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-featured-products {
+    p.entry-title {
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        font-size: 1rem;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+}

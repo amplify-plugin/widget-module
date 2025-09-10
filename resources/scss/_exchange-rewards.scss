@@ -1,0 +1,23 @@
+/**
+ * @class Amplify\Widget\Components\ExchangeRewards\Index
+ * @name Exchange Rewards
+ * @code exchange-rewards
+ * @description
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-exchange-rewards {
+    .user-info a {
+        text-decoration:none;
+    }
+    .w-logo{
+        width: 145px !important;
+
+        @media (max-width: 768px) {
+            width: 30px !important;
+            height: 30px !important;
+            padding: 4px;
+        }
+    }
+}
