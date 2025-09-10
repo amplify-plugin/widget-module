@@ -45,45 +45,44 @@ class ProductSkuTable extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-                $hasPermission = customer(true)?->canAny(['favorites.manage-global-list', 'favorites.manage-personal-list']) ?? false;
-                $campaign_id = request('campaign');
-                $sku_list = json_decode($this->product?->Sku_List, true) ?? [];
-                $skuIds = $skuCodes = [];
+        $hasPermission = customer(true)?->canAny(['favorites.manage-global-list', 'favorites.manage-personal-list']) ?? false;
+        $campaign_id = request('campaign');
+        $sku_list = json_decode($this->product?->Sku_List, true) ?? [];
+        $skuIds = $skuCodes = [];
 
-                foreach ($sku_list as $sku) {
-                    $skuIds[] = $sku[0];
-                    $skuCodes[] = ['item' => $sku[1]];
+        foreach ($sku_list as $sku) {
+            $skuIds[] = $sku[0];
+            $skuCodes[] = ['item' => $sku[1]];
+        }
+
+        $sku_products = Product::with('attributes', 'productImage')->whereIn('id', $skuIds)->get();
+
+        if (customer_check()) {
+            $this->orderList = OrderList::with('orderListItems')->whereCustomerId(customer()->getKey())->get();
+            $erpProductDetails = ErpApi::getProductPriceAvailability([
+                'warehouse' => customer()->warehouse->code ?? '',
+                'items' => $skuCodes,
+            ]);
+
+            $sku_products?->each(function ($product) use ($erpProductDetails, $campaign_id) {
+                $product->ERP = $erpProductDetails->first(function ($item) use ($product) {
+                    return trim($item->ItemNumber) == trim($product->product_code);
+                });
+
+                if ($campaign_id) {
+                    $product->campaignProduct = CampaignProduct::where([
+                        'product_id' => $product->id,
+                        'campaign_id' => $campaign_id,
+                    ])->first();
                 }
 
-                $sku_products = Product::with('attributes', 'productImage')->whereIn('id', $skuIds)->get();
-
-                if (customer_check()) {
-                    $this->orderList = OrderList::with('orderListItems')->whereCustomerId(customer()->getKey())->get();
-                    $erpProductDetails = ErpApi::getProductPriceAvailability([
-                        'warehouse' => customer()->warehouse->code ?? '',
-                        'items' => $skuCodes,
-                    ]);
-
-                    $sku_products?->each(function ($product) use ($erpProductDetails, $campaign_id) {
-                        $product->ERP = $erpProductDetails->first(function ($item) use ($product) {
-                            return trim($item->ItemNumber) == trim($product->product_code);
-                        });
-
-                        if ($campaign_id) {
-                            $product->campaignProduct = CampaignProduct::where([
-                                'product_id' => $product->id,
-                                'campaign_id' => $campaign_id,
-                            ])->first();
-                        }
-
-                        $this->productExistOnFavorite($product->id, $product);
-                    });
-                }
-
+                $this->productExistOnFavorite($product->id, $product);
+            });
+        }
 
         return view('widget::client.steven.product.product-sku-table', [
-                        'sku_products' => $sku_products,
-                        'hasPermission' => $hasPermission,
+            'sku_products' => $sku_products,
+            'hasPermission' => $hasPermission,
         ]);
     }
 

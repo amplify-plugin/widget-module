@@ -29,7 +29,7 @@ class InformationTabs extends BaseComponent
             Product::TAB_SPECIFICATION,
             Product::TAB_DOCUMENT,
             Product::TAB_SKU,
-            Product::TAB_RELATED_ITEM
+            Product::TAB_RELATED_ITEM,
         ];
     }
 

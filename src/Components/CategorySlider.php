@@ -100,16 +100,16 @@ class CategorySlider extends BaseComponent
     {
 
         $this->categoryData = Category::query()
-                ->when($this->parentCategoryIds !== '', function (Builder $query) {
-                    $query->whereIn('parent_id', explode(',', $this->parentCategoryIds));
-                }, function (Builder $query) {
-                    // $query->whereNull('parent_id');
-                })
-                ->when($this->showFeatured, function ($query) {
-                    $query->where('featured', $this->showFeatured ? 1 : 0);
-                })
-                ->orderBy('created_at', $this->sortOrder)
-                ->limit($this->limit)->get();
+            ->when($this->parentCategoryIds !== '', function (Builder $query) {
+                $query->whereIn('parent_id', explode(',', $this->parentCategoryIds));
+            }, function (Builder $query) {
+                // $query->whereNull('parent_id');
+            })
+            ->when($this->showFeatured, function ($query) {
+                $query->where('featured', $this->showFeatured ? 1 : 0);
+            })
+            ->orderBy('created_at', $this->sortOrder)
+            ->limit($this->limit)->get();
     }
 
     public function carouselOptions(): string

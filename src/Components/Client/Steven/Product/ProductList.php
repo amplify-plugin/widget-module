@@ -62,7 +62,7 @@ class ProductList extends BaseComponent
             $warehouseString = $warehouses->pluck('WarehouseNumber')->implode(',');
 
             $erpCustomer = ErpApi::getCustomerDetail();
-            if (!Str::contains($warehouseString, $erpCustomer->DefaultWarehouse)) {
+            if (! Str::contains($warehouseString, $erpCustomer->DefaultWarehouse)) {
                 $warehouseString = "$warehouseString,{$erpCustomer->DefaultWarehouse}";
             }
 

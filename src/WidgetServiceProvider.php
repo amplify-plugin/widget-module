@@ -11,20 +11,19 @@ class WidgetServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/config/widget.php',
+            __DIR__.'/config/widget.php',
             'amplify.widget'
         );
     }
 
     /**
      * Bootstrap services.
-     *
      */
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../views', 'widget');
+        $this->loadViewsFrom(__DIR__.'/../views', 'widget');
 
-        $this->loadRoutesFrom(__DIR__ . '/../routes/widget.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/widget.php');
 
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/widget'),
@@ -36,7 +35,7 @@ class WidgetServiceProvider extends ServiceProvider
 
         $this->app->booted(function ($app) {
             $request = $this->app->make(\Illuminate\Http\Request::class);
-            if (!$request?->is('admin/*')) {
+            if (! $request?->is('admin/*')) {
                 foreach (config('amplify.widget', []) as $classNameSpace => $options) {
                     Widget::register($classNameSpace, $options['name'], $options);
                 }
