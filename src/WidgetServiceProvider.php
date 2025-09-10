@@ -11,7 +11,7 @@ class WidgetServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/config/widget.php',
+            __DIR__ . '/../config/widget.php',
             'amplify.widget'
         );
     }
