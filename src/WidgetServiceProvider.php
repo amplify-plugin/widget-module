@@ -22,7 +22,7 @@ class WidgetServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../views', 'widget');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'widget');
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/widget.php');
 
