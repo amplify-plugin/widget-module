@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body" id="quick-view-output">
                 <div class='loader-wrapper'>
-                    <img src="{{ asset('img/loading.gif') }}" width="30">
+                    <img src="{{ asset('assets/img/loading.gif') }}" width="30">
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
 
     function setQuickViewLoader () {
         $('#quick-view-output').html(`<div class='loader-wrapper'>
-            <img src="{{ asset('img/loading.gif') }}" width="30">
+            <img src="{{ asset('assets/img/loading.gif') }}" width="30">
         </div>`);
     }
 

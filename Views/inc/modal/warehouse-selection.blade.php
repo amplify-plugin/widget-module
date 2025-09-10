@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body" id="warehouse-selection-output">
                 <div class='loader-wrapper'>
-                    <img src="{{ asset('img/loading.gif') }}" width="30">
+                    <img src="{{ asset('assets/img/loading.gif') }}" width="30">
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
 
     function setWarehouseSelectionLoader () {
         $('#warehouse-selection-output').html(`<div class='loader-wrapper'>
-            <img src="{{ asset('img/loading.gif') }}" width="30">
+            <img src="{{ asset('assets/img/loading.gif') }}" width="30">
         </div>`);
     }
 
