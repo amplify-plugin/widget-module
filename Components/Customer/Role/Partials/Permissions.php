@@ -2,6 +2,7 @@
 
 namespace Amplify\Widget\Components\Customer\Role\Partials;
 
+use Amplify\System\Backend\Models\Permission;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -38,10 +39,9 @@ class Permissions extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $model = "\App\Models\Permission";
         $key_attribute = 'id';
 
-        $field['options'] = $model::where('guard_name', 'customer')->orderBy('name', 'ASC')->pluck('name', 'id')->toArray();
+        $field['options'] = Permission::where('guard_name', 'customer')->orderBy('name', 'ASC')->pluck('name', 'id')->toArray();
         $field['value'] = $this->role?->permissions()->pluck($key_attribute)->toArray() ?? [];
         $field['label'] = 'Permission';
         $field['name'] = 'permission';
@@ -55,7 +55,7 @@ class Permissions extends BaseComponent
         }
 
         return view('widget::customer.role.partials.permissions', [
-            'model' => $model,
+            'model' => Permission::class,
             'key_attribute' => $key_attribute,
             'field' => $field,
             'permissionOptions' => $permissionOptions,
