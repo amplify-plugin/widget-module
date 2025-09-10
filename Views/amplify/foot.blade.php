@@ -34,7 +34,7 @@
         src="{{ asset('frontend/nudraulix/js/cart.js') }}"
         @break
     @default
-        src="{{ asset('js/cart.js') }}"
+        src="{{ asset('assets/js/cart.js') }}"
 @endswitch
     id='cart-script' data-cart-page-url="{{ customerCartUrl() }}"></script>
 @stack('custom-script')

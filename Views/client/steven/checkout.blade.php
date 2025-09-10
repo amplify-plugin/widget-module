@@ -39,10 +39,10 @@
 @endpushonce
 
 @pushonce('custom-script')
-    <script src="{{ asset('js/jquery-migrate.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-migrate.js') }}"></script>
     <script src="https://www.cenpos.com/Plugins/porthole.min.js"></script>
     <script src="https://www.cenpos.com/Plugins/jquery.simplewebpay.js"></script>
-    <script src="{{ asset('js/cenpos-payment.js') }}"></script>
+    <script src="{{ asset('assets/js/cenpos-payment.js') }}"></script>
     <script src="{{ asset('packages/select2/dist/js/select2.min.js') }}"></script>
     <script src="{{ asset('packages/select2/dist/js/select2.min.js') }}"></script>
 @endpushonce
