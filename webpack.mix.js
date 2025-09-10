@@ -14,5 +14,8 @@ const mix = require('laravel-mix');
 mix.setResourceRoot('resources')
     .setPublicPath('public')
     .sourceMaps(true, 'source-map')
-    .sass('resources/scss/widget.scss', 'public/css/widget.css')
+    .sass('resources/scss/widgets.scss', 'public/css/widgets.css')
+    .options({
+        processCssUrls: false
+    })
     .version();
