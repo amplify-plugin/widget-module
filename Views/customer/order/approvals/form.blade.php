@@ -167,7 +167,7 @@
 </script>
 
 @pushonce("footer-script")
-    <script src="{{ asset("vendor/backend/js/backend.js") }}"></script>
+    <script src="{{ mix("js/backend.js", "vendor/backend") }}"></script>
 @endpushonce
 @php
     push_css("
