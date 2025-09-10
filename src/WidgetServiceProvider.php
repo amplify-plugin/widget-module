@@ -11,7 +11,7 @@ class WidgetServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/widget.php',
+            __DIR__.'/../config/widget.php',
             'amplify.widget'
         );
     }
@@ -21,7 +21,7 @@ class WidgetServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'widget');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'widget');
 
         $this->loadRoutesFrom(__DIR__.'/../routes/widget.php');
 
