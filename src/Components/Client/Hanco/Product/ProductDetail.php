@@ -23,7 +23,7 @@ class ProductDetail extends BaseComponent
 
     public function isMasterProduct($product): bool
     {
-        return !empty($product?->Full_Sku_Count) && $product?->Full_Sku_Count == $product?->Sku_Count;
+        return ! empty($product?->Full_Sku_Count) && $product?->Full_Sku_Count == $product?->Sku_Count;
     }
 
     /**
@@ -39,7 +39,7 @@ class ProductDetail extends BaseComponent
 
         $dbProduct = store()->productModel;
 
-        if (!$dbProduct) {
+        if (! $dbProduct) {
             abort(404, 'Product Unavailable');
         }
 
@@ -62,7 +62,7 @@ class ProductDetail extends BaseComponent
             $value = $item->pivot->attribute_value;
             $value = UtilityHelper::isJson($value) ? json_decode($value, true)[config('app.locale')] ?? null : $value;
 
-            return (object)[
+            return (object) [
                 'name' => $item->name,
                 'value' => $value,
             ];
@@ -77,7 +77,7 @@ class ProductDetail extends BaseComponent
             $products = ErpApi::getProductPriceAvailability([
                 'items' => [
                     [
-                        'item' => (!empty($Product->Sku_ProductCode) ? $Product->Sku_ProductCode : $Product->Product_Code),
+                        'item' => (! empty($Product->Sku_ProductCode) ? $Product->Sku_ProductCode : $Product->Product_Code),
                     ],
                 ],
                 'warehouse' => $warehouseString,
@@ -86,16 +86,16 @@ class ProductDetail extends BaseComponent
             $warehouseNumber = $products->pluck('WarehouseID');
             $Product->warehouses = Warehouse::whereIn('code', $warehouseNumber)->get(['code', 'name'])->toArray();
 
-            $Product->warehouses = array_map(fn($warehouse, $index) => array_merge($warehouse, [
+            $Product->warehouses = array_map(fn ($warehouse, $index) => array_merge($warehouse, [
                 'price' => $products[$index]['Price'],
-                'quantity_available' => (int)$products[$index]['QuantityAvailable'],
+                'quantity_available' => (int) $products[$index]['QuantityAvailable'],
                 'unit_of_measure' => $products[$index]['UnitOfMeasure'],
             ]), $Product->warehouses, array_keys($Product->warehouses));
 
             $customer = ErpApi::getCustomerDetail();
             $warehouse_code = $customer->DefaultWarehouse ?: (customer_check() ? customer()?->warehouse?->code : config('amplify.frontend.guest_checkout_warehouse'));
 
-            $Product->ERP = $products->when((bool)$warehouse_code, fn($query) => $query->where('WarehouseID', $warehouse_code))->first();
+            $Product->ERP = $products->when((bool) $warehouse_code, fn ($query) => $query->where('WarehouseID', $warehouse_code))->first();
 
         }
 

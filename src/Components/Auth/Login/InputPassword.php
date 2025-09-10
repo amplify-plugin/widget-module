@@ -11,12 +11,9 @@ use Illuminate\Contracts\View\View;
  */
 class InputPassword extends BaseComponent
 {
-
     public function __construct(
         public bool $togglePassword = false,
-    ) {
-        
-    }
+    ) {}
 
     /**
      * Whether the component should be rendered

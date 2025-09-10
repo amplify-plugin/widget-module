@@ -11,12 +11,8 @@ abstract class Widget
     /**
      * Register a binding for widget class
      * if abstract is an array <key,value> as widget code and value overwrite
-     *
-     * @param array|string $abstract
-     * @param callable|string|null $concrete
-     * @return void
      */
-    public static function overwrite(array|string $abstract, callable|string $concrete = null): void
+    public static function overwrite(array|string $abstract, callable|string|null $concrete = null): void
     {
         if (is_string($abstract) && empty($concrete)) {
             throw new \InvalidArgumentException('Concrete argument must not be empty.');
@@ -33,10 +29,6 @@ abstract class Widget
 
     /**
      * Resolve the widget class to render form binding
-     *
-     * @param string $code
-     * @param string $default
-     * @return string
      */
     public static function resolve(string $code, string $default): string
     {
@@ -57,11 +49,6 @@ abstract class Widget
 
     /**
      * Register the class with short code to use in frontend
-     *
-     * @param string $defaultClass
-     * @param string $shortcode
-     * @param array $options
-     * @return void
      */
     public static function register(string $defaultClass, string $shortcode, array $options = []): void
     {
@@ -72,8 +59,6 @@ abstract class Widget
 
     /**
      * Return a list of overwrites registers for widget
-     *
-     * @return array
      */
     public static function getOverwriteAlias(): array
     {

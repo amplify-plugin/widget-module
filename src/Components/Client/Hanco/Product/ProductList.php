@@ -57,7 +57,7 @@ class ProductList extends BaseComponent
             $cellCount += 4;
             $warehouses = ErpApi::getWarehouses();
             $warehouseString = $warehouses->reduce(function ($previous, $current) {
-                return $previous . ',' . $current->WarehouseNumber;
+                return $previous.','.$current->WarehouseNumber;
             }, '');
             if (! empty($productCodes)) {
                 $erpProductDetails = ErpApi::getProductPriceAvailability([
@@ -91,6 +91,7 @@ class ProductList extends BaseComponent
                 });
             }
         }
+
         return view('widget::client.hanco.product.product-list', [
             'productsData' => $productsData,
             'seoPath' => $seoPath,

@@ -3,7 +3,6 @@
 namespace Amplify\Widget\Components;
 
 use Amplify\Widget\Abstracts\BaseComponent;
-use Closure;
 use Illuminate\Contracts\View\View;
 
 /**

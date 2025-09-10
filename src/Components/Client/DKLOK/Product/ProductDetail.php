@@ -135,7 +135,7 @@ class ProductDetail extends BaseComponent
         }
 
         $cadView = $this->getCadView($dbProduct);
-        if (!empty($cadView)) {
+        if (! empty($cadView)) {
             $tabs[] = [
                 'id' => 'view',
                 'label' => 'Product View (2D/3D)',

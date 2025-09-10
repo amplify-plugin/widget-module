@@ -37,7 +37,7 @@ trait DefaultMenuTrait
         $item->has_children = $menu->children->isNotEmpty();
         $item->seo_path = $menu->seo_path;
         $item->sub_category_depth = $menu->sub_category_depth;
-        $item->display_product_count = (bool)($menu->display_product_count ?? false);
+        $item->display_product_count = (bool) ($menu->display_product_count ?? false);
 
         $menuPermissions = ! config('amplify.basic.is_permission_system_enabled') ? [] : $menu->permissions?->pluck('name')->toArray();
 

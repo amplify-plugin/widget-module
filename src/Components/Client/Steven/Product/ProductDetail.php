@@ -77,7 +77,7 @@ class ProductDetail extends BaseComponent
             $warehouses = ErpApi::getWarehouses([['enabled', '=', true]]);
             $warehouseString = $warehouses->pluck('WarehouseNumber')->implode(',');
             $erpCustomer = ErpApi::getCustomerDetail();
-            if (!Str::contains($warehouseString, $erpCustomer->DefaultWarehouse)) {
+            if (! Str::contains($warehouseString, $erpCustomer->DefaultWarehouse)) {
                 $warehouseString = "$warehouseString,{$erpCustomer->DefaultWarehouse}";
             }
             $products = ErpApi::getProductPriceAvailability([
