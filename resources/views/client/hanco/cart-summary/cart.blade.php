@@ -151,7 +151,7 @@
     </div>
 </div>
 @pushonce('footer-script')
-    <script src="{{ asset('frontend/hanco/js/cart-summary.js') }}"></script>
+    <script src="{{ asset('assets/js/cart-summary.js') }}"></script>
 @endpushonce
 
 @php
