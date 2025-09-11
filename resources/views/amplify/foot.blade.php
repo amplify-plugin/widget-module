@@ -27,9 +27,6 @@
     @case('DKL')
         src="{{ asset('frontend/dk-lok/js/cart.js') }}"
         @break
-    @case('HAN')
-        src="{{ asset('frontend/hanco/js/cart.js') }}"
-        @break
     @case('NUX')
         src="{{ asset('frontend/nudraulix/js/cart.js') }}"
         @break
