@@ -66,7 +66,6 @@ class ProductDetails extends BaseComponent
             'ACT' => \Amplify\Widget\Components\Client\CalTool\Product\ProductDetail::class,
             'NUX' => \Amplify\Widget\Components\Client\Nudraulix\Product\ProductDetail::class,
             'DKL' => \Amplify\Widget\Components\Client\DKLOK\Product\ProductDetail::class,
-            'STV' => \Amplify\Widget\Components\Client\Steven\Product\ProductDetail::class,
             'HAN' => \Amplify\Widget\Components\Client\Hanco\Product\ProductDetail::class,
             default => \Amplify\Widget\Components\Client\Demo\Product\ProductDetails::class,
         };

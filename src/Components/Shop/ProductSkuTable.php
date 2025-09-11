@@ -48,7 +48,6 @@ class ProductSkuTable extends BaseComponent
             'SPI' => \Amplify\Widget\Components\Client\SpiSafety\Product\ProductSkuTable::class,
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Product\ProductSkuTable::class,
             'ACT' => \Amplify\Widget\Components\Client\CalTool\Product\ProductSkuTable::class,
-            'STV' => \Amplify\Widget\Components\Client\Steven\Product\ProductSkuTable::class,
             'DKL' => \Amplify\Widget\Components\Client\DKLOK\Product\ProductSkuTable::class,
             default => \Amplify\Widget\Components\Client\Demo\Product\ProductSkuTable::class,
         };

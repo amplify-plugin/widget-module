@@ -29,6 +29,10 @@ class WidgetServiceProvider extends ServiceProvider
             __DIR__.'/../public' => public_path('vendor/widget'),
         ], 'widget-asset');
 
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/amplify/widget'),
+        ]);
+
         if ($this->app->runningInConsole()) {
             $this->commands([WidgetMakeCommand::class]);
         }

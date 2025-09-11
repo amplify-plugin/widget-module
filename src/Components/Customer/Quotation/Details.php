@@ -47,7 +47,6 @@ class Details extends BaseComponent
 
         $class = match (config('amplify.basic.client_code')) {
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Quotation\Details::class,
-            'STV' => \Amplify\Widget\Components\Client\Steven\Quotation\Details::class,
             default => \Amplify\Widget\Components\Client\Demo\Quotation\Details::class,
         };
         $this->component = new $class;

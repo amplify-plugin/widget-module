@@ -84,7 +84,6 @@ class ProductList extends BaseComponent
             'ACT' => \Amplify\Widget\Components\Client\CalTool\Product\ProductList::class,
             'NUX' => \Amplify\Widget\Components\Client\Nudraulix\Product\ProductList::class,
             'DKL' => \Amplify\Widget\Components\Client\DKLOK\Product\ProductList::class,
-            'STV' => \Amplify\Widget\Components\Client\Steven\Product\ProductList::class,
             'HAN' => \Amplify\Widget\Components\Client\Hanco\Product\ProductList::class,
             default => \Amplify\Widget\Components\Client\Demo\Product\ProductList::class,
         };
