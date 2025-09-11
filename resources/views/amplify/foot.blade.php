@@ -25,10 +25,10 @@
         src="{{ theme_asset('rhsparts/js/rhs-cart.js') }}"
         @break
     @case('DKL')
-        src="{{ asset('frontend/dk-lok/js/cart.js') }}"
+        src="{{ asset('themes/dk-lok/assets/js/cart.js') }}"
         @break
     @case('NUX')
-        src="{{ asset('frontend/nudraulix/js/cart.js') }}"
+        src="{{ asset('themes/nudraulix/assets/js/cart.js') }}"
         @break
     @default
         src="{{ asset('assets/js/cart.js') }}"
