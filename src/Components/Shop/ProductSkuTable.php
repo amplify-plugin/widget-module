@@ -43,7 +43,7 @@ class ProductSkuTable extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $class = match (config('amplify.basic.client_code')) {
+        $class = match (config('amplify.client_code')) {
             'MW' => \Amplify\Widget\Components\Client\MountainWest\Product\ProductSkuTable::class,
             'SPI' => \Amplify\Widget\Components\Client\SpiSafety\Product\ProductSkuTable::class,
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Product\ProductSkuTable::class,

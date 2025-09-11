@@ -115,7 +115,7 @@ class ShopByBrand extends BaseComponent
                 ->toArray();
         }
 
-        $class = match (config('amplify.basic.client_code')) {
+        $class = match (config('amplify.client_code')) {
             'RHS' => ['bg' => 'btn-rhs-bg', 'bg-outline' => 'btn-rhs-bg-outline', 'hide_number_row' => 1],
             default => ['bg' => 'btn-warning', 'bg-outline' => 'btn-outline-warning'],
         };

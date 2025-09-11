@@ -27,7 +27,7 @@ class Checkout extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $class = match (config('amplify.basic.client_code')) {
+        $class = match (config('amplify.client_code')) {
             'ACT' => \Amplify\Widget\Components\Client\CalTool\Checkout::class,
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Checkout::class,
             'DKL' => \Amplify\Widget\Components\Client\DKLOK\Checkout::class,

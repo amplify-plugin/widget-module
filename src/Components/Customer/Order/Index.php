@@ -40,7 +40,7 @@ class Index extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $class = match (config('amplify.basic.client_code')) {
+        $class = match (config('amplify.client_code')) {
             'DKL' => \Amplify\Widget\Components\Client\DKLOK\Order\Index::class,
             'NUX' => \Amplify\Widget\Components\Client\Nudraulix\Order\Index::class,
             default => \Amplify\Widget\Components\Client\Demo\Order\Index::class,

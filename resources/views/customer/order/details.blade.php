@@ -89,7 +89,7 @@
                                 <td>
                                     {{ str()->limit(optional($item['product'])->product_name, 40, '...') }}
                                 </td>
-                                @if(config('amplify.basic.client_code') =='RHS')
+                                @if(config('amplify.client_code') =='RHS')
                                 <td>{{ price_format($item['TotalLineAmount'] ?? 0) }}</td>
                                 @else
                                 <td>{{ price_format($item['ActualSellPrice'] ?? 0) }}</td>

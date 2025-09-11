@@ -35,7 +35,7 @@
                     @if (isset($stock?->Warehouses))
                         <td scope="row" class="align-middle">{{ $stock->Warehouses->WarehouseName }}</td>
                     @else
-                        @if(config('amplify.basic.client_code') === 'ACT')
+                        @if(config('amplify.client_code') === 'ACT')
                             @php
                                 $warehouse = Warehouse::whereCode($stock->WarehouseID)->first();
                             @endphp

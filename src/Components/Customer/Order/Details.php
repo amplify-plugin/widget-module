@@ -67,7 +67,7 @@ class Details extends BaseComponent
         $customParts = $this->getCustomPartsForCustomer($customerId, $products);
 
         // Client code
-        $clientCode = config('amplify.basic.client_code');
+        $clientCode = config('amplify.client_code');
 
         // Loop and inject product and custom part number
         for ($key = 0; $key < count($order['OrderDetail']); $key++) {

@@ -95,7 +95,7 @@
                                         {{ $item['PODetails']['ReqShipDt'] }}
                                     @endif
                                 </td>
-                                @if(config('amplify.basic.client_code') =='RHS')
+                                @if(config('amplify.client_code') =='RHS')
                                     <td style="width: 85px">{{ price_format($item['TotalLineAmount'] ?? 0) }}</td>
                                 @else
                                     <td style="width: 85px">{{ price_format($item['ActualSellPrice'] ?? 0) }}</td>

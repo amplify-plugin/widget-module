@@ -71,7 +71,7 @@ class Checkout extends BaseComponent
         $shipOptions = ErpApi::getShippingOption();
         $templateBrandColor = theme_option('primary_color');
         $cenposPaymentUrl = config('amplify.payment.gateways.cenpos.payment_url');
-        $clientCode = config('amplify.basic.client_code');
+        $clientCode = config('amplify.client_code');
 
         return view('widget::client.dklok.checkout', compact('templateBrandColor', 'steps', 'cart', 'cartItemCount', 'customer', 'addresses', 'countries', 'states', 'shipOptions', 'cenposPaymentUrl', 'clientCode', 'isCreditCardRequired'));
     }

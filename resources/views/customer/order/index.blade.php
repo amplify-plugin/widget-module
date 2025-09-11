@@ -12,7 +12,7 @@
                             value="{{ request('created_end_date', now(config('app.timezone'))->format('Y-m-d')) }}"
                             id="created_end_date">
                         <div class="d-flex justify-content-center justify-content-md-end">
-                            @if (config(config('amplify.basic.client_code') != 'STV'))
+                            @if (config(config('amplify.client_code') != 'STV'))
                                 <label class="pr-2">
                                     <select name="type" onchange="$('#order-search-form').submit();"
                                         class="form-control  form-control-sm">

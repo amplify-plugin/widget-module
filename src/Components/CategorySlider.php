@@ -87,7 +87,7 @@ class CategorySlider extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $view = match (config('amplify.basic.client_code')) {
+        $view = match (config('amplify.client_code')) {
             'ACT' => 'widget::client.cal-tool.widget.category-slider',
             'HAN' => 'widget::client.hanco.widget.category-slider',
             default => 'widget::category-slider',
@@ -114,7 +114,7 @@ class CategorySlider extends BaseComponent
 
     public function carouselOptions(): string
     {
-        $responsive = match (config('amplify.basic.client_code')) {
+        $responsive = match (config('amplify.client_code')) {
             'ACT' => [
                 '0' => ['items' => 1],
                 '470' => ['items' => 2],

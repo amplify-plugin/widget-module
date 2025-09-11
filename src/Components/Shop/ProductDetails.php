@@ -59,7 +59,7 @@ class ProductDetails extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $class = match (config('amplify.basic.client_code')) {
+        $class = match (config('amplify.client_code')) {
             'MW' => \Amplify\Widget\Components\Client\MountainWest\Product\ProductDetail::class,
             'SPI' => \Amplify\Widget\Components\Client\SpiSafety\Product\ProductDetail::class,
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Product\ProductDetail::class,

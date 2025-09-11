@@ -45,7 +45,7 @@ class Details extends BaseComponent
     public function render(): View|Closure|string
     {
 
-        $class = match (config('amplify.basic.client_code')) {
+        $class = match (config('amplify.client_code')) {
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Quotation\Details::class,
             default => \Amplify\Widget\Components\Client\Demo\Quotation\Details::class,
         };

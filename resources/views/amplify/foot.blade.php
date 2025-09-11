@@ -20,7 +20,7 @@
 <x-site.script-manager position="google_event" />
 <!-- Custom Script -->
 <script
-    @switch(config('amplify.basic.client_code'))
+    @switch(config('amplify.client_code'))
     @case('RHS')
         src="{{ theme_asset('rhsparts/js/rhs-cart.js') }}"
         @break

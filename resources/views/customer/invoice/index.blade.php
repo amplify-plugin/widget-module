@@ -87,7 +87,7 @@
                                     @endif
                                 </div>
                             </form>
-                            @if(config('amplify.basic.client_code') == 'STV')
+                            @if(config('amplify.client_code') == 'STV')
                                 {{-- 🆕  Status dropdown (not part of form) --}}
                                 <div class="mt-2 d-flex justify-content-center justify-content-md-end">
                                     <label class="mb-0 pl-2">

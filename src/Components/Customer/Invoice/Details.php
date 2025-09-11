@@ -43,7 +43,7 @@ class Details extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $class = match (config('amplify.basic.client_code')) {
+        $class = match (config('amplify.client_code')) {
             default => \Amplify\Widget\Components\Client\Demo\Invoice\Details::class,
         };
         $this->component = new $class;
