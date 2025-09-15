@@ -2,7 +2,7 @@
     <div class="lang-currency-switcher-wrap">
         <div class="lang-currency-switcher dropdown-toggle">
                 <span class="language">
-                    <img alt="{{ $active->name ?? '' }}" src="{{ assets_image($active->flag ?? '') }}">
+                    <img alt="{{ $active->name ?? '' }}" src="{{ $active->flag ?? '' }}">
                 </span>
         </div>
         <div class="dropdown-menu">
@@ -11,7 +11,7 @@
                     @continue
                 @endif
                 <a class="dropdown-item" href="{{ url("languages/".$language->code) }}"><img
-                        src="{{ assets_image($language->flag) }}"
+                        src="{{ $language->flag }}"
                         alt="{{ $language->name ?? null }}">{{ $language->name ?? null }}</a>
             @endforeach
         </div>

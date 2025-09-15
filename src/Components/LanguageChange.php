@@ -2,11 +2,10 @@
 
 namespace Amplify\Widget\Components;
 
-use Amplify\System\Backend\Models\Language;
+use Amplify\System\Support\Language;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * @class LanguageChange
@@ -40,11 +39,9 @@ class LanguageChange extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $languages = Cache::remember('site-language', 86400, function () {
-            return Language::all();
-        });
+        $languages = new Language();
 
-        $active = $languages->where('code', session('locale_lang', config('app.fallback_locale')))->first();
+        $active = $languages->where('code', session('locale_lang', config('app.locale')))->first();
 
         return view('widget::language-change', [
             'languages' => $languages,
