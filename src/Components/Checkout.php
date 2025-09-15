@@ -5,14 +5,13 @@ namespace Amplify\Widget\Components;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
 
 /**
  * @class Checkout
  */
 class Checkout extends BaseComponent
 {
-    public Component $component;
+    public $component;
 
     /**
      * Whether the component should be rendered
