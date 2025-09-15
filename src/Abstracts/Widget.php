@@ -53,11 +53,11 @@ abstract class Widget
      */
     public static function register(string $defaultClass, string $shortcode, array $options = []): void
     {
-        if (!isset($options['name'])) {
+        if (! isset($options['name'])) {
             $options['name'] = $shortcode;
         }
 
-        Config::set("amplify.widget." . $defaultClass, $options);
+        Config::set('amplify.widget.'.$defaultClass, $options);
     }
 
     public static function process(string $defaultClass, string $shortcode): void

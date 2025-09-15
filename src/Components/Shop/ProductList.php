@@ -2,7 +2,6 @@
 
 namespace Amplify\Widget\Components\Shop;
 
-use Amplify\System\Helpers\UtilityHelper;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -13,19 +12,18 @@ use Illuminate\Contracts\View\View;
 class ProductList extends BaseComponent
 {
     public function __construct(
-        public bool   $showDiscountBadge = false,
-        public bool   $showFavourite = false,
-        public bool   $showPublicPrice = false,
-        public bool   $showCartButton = false,
-        public bool   $displayProductCode = false,
-        public bool   $displayProductBrand = false,
-        public bool   $skuQuickOrderOption = false,
+        public bool $showDiscountBadge = false,
+        public bool $showFavourite = false,
+        public bool $showPublicPrice = false,
+        public bool $showCartButton = false,
+        public bool $displayProductCode = false,
+        public bool $displayProductBrand = false,
+        public bool $skuQuickOrderOption = false,
         public string $cartButtonLabel = 'Add To Cart',
         public string $detailButtonLabel = 'View Details',
-        public bool   $humanizeProductName = true,
+        public bool $humanizeProductName = true,
         public string $alertMessageUnauthenticated = '',
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -111,6 +109,6 @@ class ProductList extends BaseComponent
 
     public function isShowMultipleWarehouse($product): bool
     {
-        return !$this->isMasterProduct($product) && erp()->allowMultiWarehouse() && havePermissions(['checkout.choose-warehouse']);
+        return ! $this->isMasterProduct($product) && erp()->allowMultiWarehouse() && havePermissions(['checkout.choose-warehouse']);
     }
 }
