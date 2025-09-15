@@ -77,21 +77,6 @@ class Details extends BaseComponent
             $order['OrderDetail'][$key]['custom_part_number'] = $product ? $customParts[$product->id] ?? null : null;
         }
 
-        if ($clientCode === 'STV') {
-            $trackingResponse = ErpApi::getTrackShipment(['order_number' => $param, 'order_suffix' => (int) request('suffix')]);
-            $order->TrackingShipments = $this->prepareTrackingShipment($trackingResponse);
-
-            $noteList = ErpApi::getNotesList(['order_number' => $param]);
-            $order->NoteList = $this->prepareNotes($noteList);
-            $contact = customer(true);
-
-            return view('widget::client.steven.order.order-details', [
-                'order' => $order,
-                'customer' => $customer,
-                'contact' => $contact,
-            ]);
-        }
-
         if (in_array($clientCode, ['NUX', 'DKL'])) {
             $noteList = ErpApi::getNotesList(['order_number' => $param]);
             $order->NoteList = $this->prepareNotesDk($noteList);
