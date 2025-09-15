@@ -2,9 +2,9 @@
 
 namespace Amplify\Widget\Components;
 
+use Amplify\System\Backend\Models\Brand;
 use Amplify\System\Helpers\UtilityHelper;
 use Amplify\Widget\Abstracts\BaseComponent;
-use App\Model\Brand;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
