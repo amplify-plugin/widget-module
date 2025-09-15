@@ -22,7 +22,6 @@ return [
             ],
             [
                 'name' => 'button-title',
-                'name' => 'button-title',
                 'type' => 'text',
                 'value' => 'Login',
                 'hint' => 'Display label of login button',

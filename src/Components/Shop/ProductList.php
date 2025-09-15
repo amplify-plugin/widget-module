@@ -12,56 +12,21 @@ use Illuminate\Contracts\View\View;
  */
 class ProductList extends BaseComponent
 {
-    public $component;
-
-    public ?bool $showDiscountBadge;
-
-    public ?bool $showFavourite;
-
-    public ?bool $displayProductCode;
-
-    public ?bool $displayProductBrand;
-
-    public ?bool $skuQuickOrderOption;
-
-    public ?bool $showPublicPrice;
-
-    public ?bool $showCartButton;
-
-    public string $cartButtonLabel;
-
-    public string $detailButtonLabel;
-
-    public string $alertMessageUnauthenticated;
-
-    private bool $humanizeProductName;
-
     public function __construct(
-        string $showDiscountBadge = 'false',
-        string $showFavourite = 'false',
-        string $showPublicPrice = 'false',
-        string $showCartButton = 'false',
-        string $displayProductCode = 'false',
-        string $displayProductBrand = 'false',
-        string $skuQuickOrderOption = 'false',
-        string $cartButtonLabel = 'Add To Cart',
-        string $detailButtonLabel = 'View Details',
-        string $humanizeProductName = 'true',
-        string $alertMessageUnauthenticated = '',
-
-    ) {
+        public bool   $showDiscountBadge = false,
+        public bool   $showFavourite = false,
+        public bool   $showPublicPrice = false,
+        public bool   $showCartButton = false,
+        public bool   $displayProductCode = false,
+        public bool   $displayProductBrand = false,
+        public bool   $skuQuickOrderOption = false,
+        public string $cartButtonLabel = 'Add To Cart',
+        public string $detailButtonLabel = 'View Details',
+        public bool   $humanizeProductName = true,
+        public string $alertMessageUnauthenticated = '',
+    )
+    {
         parent::__construct();
-        $this->showDiscountBadge = UtilityHelper::typeCast($showDiscountBadge, 'bool');
-        $this->showFavourite = UtilityHelper::typeCast($showFavourite, 'bool');
-        $this->showPublicPrice = UtilityHelper::typeCast($showPublicPrice, 'bool');
-        $this->showCartButton = UtilityHelper::typeCast($showCartButton, 'bool');
-        $this->displayProductCode = UtilityHelper::typeCast($displayProductCode, 'bool');
-        $this->displayProductBrand = UtilityHelper::typeCast($displayProductBrand, 'bool');
-        $this->skuQuickOrderOption = UtilityHelper::typeCast($skuQuickOrderOption, 'bool');
-        $this->humanizeProductName = UtilityHelper::typeCast($humanizeProductName, 'bool');
-        $this->cartButtonLabel = $cartButtonLabel;
-        $this->detailButtonLabel = $detailButtonLabel;
-        $this->alertMessageUnauthenticated = $alertMessageUnauthenticated;
     }
 
     /**
@@ -97,12 +62,12 @@ class ProductList extends BaseComponent
 
     public function allowDisplayProductCode(): bool
     {
-        return (bool) $this->displayProductCode;
+        return $this->displayProductCode;
     }
 
     public function allowDisplayProductBrand(): bool
     {
-        return (bool) $this->displayProductBrand;
+        return $this->displayProductBrand;
     }
 
     public function allowFavourites(): bool
@@ -112,12 +77,12 @@ class ProductList extends BaseComponent
 
     public function displayDiscountBadge(): bool
     {
-        return (bool) $this->showDiscountBadge;
+        return $this->showDiscountBadge;
     }
 
     public function allowQuickView(): bool
     {
-        return (bool) $this->skuQuickOrderOption;
+        return $this->skuQuickOrderOption;
     }
 
     public function humanizeProductName(string $productName = ''): ?string
@@ -146,6 +111,6 @@ class ProductList extends BaseComponent
 
     public function isShowMultipleWarehouse($product): bool
     {
-        return ! $this->isMasterProduct($product) && erp()->allowMultiWarehouse() && havePermissions(['checkout.choose-warehouse']);
+        return !$this->isMasterProduct($product) && erp()->allowMultiWarehouse() && havePermissions(['checkout.choose-warehouse']);
     }
 }

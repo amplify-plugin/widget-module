@@ -3,6 +3,7 @@
 namespace Amplify\Widget\Abstracts;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Config;
 
 abstract class Widget
 {
@@ -30,7 +31,7 @@ abstract class Widget
     /**
      * Resolve the widget class to render form binding
      */
-    public static function resolve(string $code, string $default): string
+    private static function resolve(string $code, string $default): string
     {
         if (isset(self::$overwrites[$code])) {
 
@@ -51,6 +52,15 @@ abstract class Widget
      * Register the class with short code to use in frontend
      */
     public static function register(string $defaultClass, string $shortcode, array $options = []): void
+    {
+        if (!isset($options['name'])) {
+            $options['name'] = $shortcode;
+        }
+
+        Config::set("amplify.widget." . $defaultClass, $options);
+    }
+
+    public static function process(string $defaultClass, string $shortcode): void
     {
         $class = self::resolve($shortcode, $defaultClass);
 

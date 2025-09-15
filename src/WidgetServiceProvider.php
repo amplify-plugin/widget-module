@@ -41,7 +41,7 @@ class WidgetServiceProvider extends ServiceProvider
             $request = $this->app->make(\Illuminate\Http\Request::class);
             if (! $request?->is('admin/*')) {
                 foreach (config('amplify.widget', []) as $classNameSpace => $options) {
-                    Widget::register($classNameSpace, $options['name'], $options);
+                    Widget::process($classNameSpace, $options['name']);
                 }
             }
         });
