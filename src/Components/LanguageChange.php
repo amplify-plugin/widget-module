@@ -39,7 +39,7 @@ class LanguageChange extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $languages = new Language();
+        $languages = new Language;
 
         $active = $languages->where('code', session('locale_lang', config('app.locale')))->first();
 
