@@ -2,18 +2,15 @@
 
 namespace Amplify\Widget\Components\Product;
 
+use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Amplify\Widget\Abstracts\BaseComponent;
 
 /**
  * @class Uom
- * @package Amplify\Widget\Components\Product
- *
  */
 class Uom extends BaseComponent
 {
-
     public function __construct(public string $code = 'EA', public string $default = 'Each')
     {
         parent::__construct();
