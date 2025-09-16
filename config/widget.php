@@ -3685,5 +3685,19 @@ return [
         '@nestedItems' => [],
         'description' => '',
     ],
+    Amplify\Widget\Components\Product\Uom::class => [
+        'name' => 'product.uom',
+        'reserved' => true,
+        'internal' => true,
+        '@inside' => null,
+        '@client' => null,
+        'model' => [],
+        '@attributes' => [
+            ['name' => 'code', 'type' => 'text', 'value' => 'EA'],
+            ['name' => 'default', 'type' => 'text', 'value' => 'Each'],
+        ],
+        '@nestedItems' => [],
+        'description' => 'Give an a product unit of measurement code return Human readable Label',
+    ],
     // DO NOT REMOVE THIS COMMENT//
 ];
