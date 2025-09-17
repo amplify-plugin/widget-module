@@ -3,8 +3,8 @@
     <table class="table table-striped">
         @foreach ($group->group_items ?? [] as $item)
             <tr>
-                <th>{{ $item->name ?? null }}</th>
-                <td>{{ $item->value ?? null }}</td>
+                <th>{!! $item->name ?? null !!}</th>
+                <td>{!! $item->value ?? null !!}</td>
             </tr>
         @endforeach
     </table>
