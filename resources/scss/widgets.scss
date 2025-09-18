@@ -49,7 +49,6 @@
 @use "customer-order";
 @use "faq";
 @use "poster";
-@use "shop-sidebar";
 @use "product-slider";
 @use "manufacture-slider";
 @use "banner-slider";
@@ -122,9 +121,7 @@
 @use "auth/login/input-remember-forgot-password";
 @use "image";
 @use "custom-form";
-@use "shop-toolbar";
 @use "customer/role/partials/permissions";
-@use "shop-pagination";
 @use "video";
 @use "product-list";
 @use "product-details";
@@ -154,7 +151,6 @@
 @use "campaign-start-date";
 @use "campaign-end-date";
 @use "campaign-product-list";
-@use "shop-empty-result";
 @use "customer/order/rules/index" as index2;
 @use "customer/order/rules/form" as form7;
 @use "customer/order/awaiting-approvals/index" as index3;
@@ -206,8 +202,5 @@
 @use "amplify/web-page";
 @use "amplify/error-page";
 @use "scroll-to-top";
-@use "shop-search-in-result";
-@use "shop-in-stock-filter";
 @use "cookie-consent";
-@use "shop-categories";
 @use "category-grid";
