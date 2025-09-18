@@ -5,6 +5,15 @@
 <x-site.meta-tags :tags="$meta_data"/>
 <!-- Favicon -->
 <x-site.favicon/>
+@stack('plugin-style')
+@stack('template-style')
+@stack('custom-style')
+@stack('internal-style')
+@stack('head-script')
+<!--Google Analytics -->
+<x-google-analytic/>
+<!--Custom Head Scripts -->
+<x-site.script-manager position="header"/>
 <!-- CSS Variable Overwrites Start-->
 <style>
     :root {
@@ -24,12 +33,3 @@
     }
 </style>
 <!-- CSS Variable Overwrites End-->
-@stack('plugin-style')
-@stack('template-style')
-@stack('custom-style')
-@stack('internal-style')
-@stack('head-script')
-<!--Google Analytics -->
-<x-google-analytic/>
-<!--Custom Head Scripts -->
-<x-site.script-manager position="header"/>
