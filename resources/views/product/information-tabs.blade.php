@@ -1,9 +1,9 @@
 <div {!! $htmlAttributes !!}>
     {!!  $before  ?? '' !!}
-    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+    <ul class="nav nav-tabs {{ $headerClass }}" id="myTab" role="tablist">
         @if($displayTab(\Amplify\System\Backend\Models\Product::TAB_DESCRIPTION))
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#description"
+                <a class="nav-link" data-toggle="tab" href="#description"
                    role="tab">{{__('Description')}}</a>
             </li>
         @endif
@@ -35,7 +35,7 @@
 
     <div class="tab-content">
         @if($displayTab(\Amplify\System\Backend\Models\Product::TAB_DESCRIPTION))
-            <div class="tab-pane fade show active" id="description" role="tabpanel"
+            <div class="tab-pane fade show" id="description" role="tabpanel"
                  aria-labelledby="description-tab">
                 {!! $product->description !!}
             </div>
@@ -71,3 +71,19 @@
 
     {!!  $after  ?? '' !!}
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        let tab = document.querySelector('.x-product-information-tabs .nav-link:first-of-type');
+        if (tab) {
+            tab.dispatchEvent(new MouseEvent("click", {
+                bubbles: true,
+                cancelable: true,
+                view: window
+            }));
+        }
+    });
+    // document.addEventListener("DOMContentLoaded", (event) => {
+    //     let tabs = document.querySelectorAll('.x-product-information-tabs .nav-link');
+    //     tabs.forEach(tab => console.log({width: tab.width, offsetWidth: tab.offsetWidth}));
+    // });
+</script>

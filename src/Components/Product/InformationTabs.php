@@ -19,7 +19,9 @@ class InformationTabs extends BaseComponent
         public Product|ItemRow $product,
         public string $featureSpecsView = 'list',
         public array $only = [],
-        public array $skip = [])
+        public array $skip = [],
+        public string $headerClass = 'nav-justified'
+    )
     {
         parent::__construct();
 
