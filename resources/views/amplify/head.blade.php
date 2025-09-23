@@ -5,10 +5,15 @@
 <x-site.meta-tags :tags="$meta_data"/>
 <!-- Favicon -->
 <x-site.favicon/>
+<!-- Plugin Style -->
 @stack('plugin-style')
+<!-- Template Style -->
 @stack('template-style')
+<!-- Custom Style -->
 @stack('custom-style')
+<!-- Internal Style -->
 @stack('internal-style')
+<!-- Head Style -->
 @stack('head-script')
 <!--Google Analytics -->
 <x-google-analytic/>

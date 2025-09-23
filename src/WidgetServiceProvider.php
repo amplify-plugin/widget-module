@@ -44,6 +44,8 @@ class WidgetServiceProvider extends ServiceProvider
                     Widget::process($classNameSpace, $options['name']);
                 }
             }
+
+            push_css('vendor/widget/css/widgets.css', 'custom-style');
         });
 
     }
