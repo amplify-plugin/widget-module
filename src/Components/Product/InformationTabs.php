@@ -21,8 +21,7 @@ class InformationTabs extends BaseComponent
         public array $only = [],
         public array $skip = [],
         public string $headerClass = 'nav-justified'
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->tabs = [
