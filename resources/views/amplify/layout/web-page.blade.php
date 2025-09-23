@@ -7,6 +7,6 @@
 <body {!! $htmlAttributes !!}>
 @stack('off-canvas-menu')
 {!! $slot !!}
-<x-amplify.right-side-panel />
+{{--<x-amplify.right-side-panel />--}}
 </body>
 </html>
