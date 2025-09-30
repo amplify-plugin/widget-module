@@ -18,11 +18,6 @@ use Illuminate\Support\Facades\Session;
  */
 class ProductSlider extends BaseComponent
 {
-    /**
-     * @var array
-     */
-    public $options;
-
     public $title = '';
 
     private $merchandising_zone = 1;
@@ -215,7 +210,7 @@ class ProductSlider extends BaseComponent
     {
         $image = $product->Product_Image ?? '';
 
-        if (! empty($product->Sku_List) && count(json_decode($product->Sku_List, true)) === 1) {
+        if (! empty($product->Sku_List) && count($product->Sku_List) === 1) {
             if (! empty($product->Sku_ProductImage)) {
                 $image = $product->Sku_ProductImage;
             }
