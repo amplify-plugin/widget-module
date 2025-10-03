@@ -62,7 +62,7 @@ class ShopByCatalog extends BaseComponent
     private function prepareData()
     {
         $this->categories = Cache::remember('site-shop-by-catalog-data', HOUR, function () {
-            $catalogId = config('amplify.search.default_catalog');
+            $catalogId = config('amplify.sayt.default_catalog');
 
             return Category::query()
                 ->when(! empty($this->parentCategoryIds), function ($query) {

@@ -119,7 +119,7 @@ class ProductDetails extends BaseComponent
         }
 
         /* Preparing site_search */
-        $site_search = '-'.trim(config('amplify.search.product_search_by_id_prefix')).'='.trim($product_id)
+        $site_search = '-'.trim(config('amplify.sayt.product_search_by_id_prefix')).'='.trim($product_id)
             .$site_search_additional_param;
         /* Getting product from easyAsk server and return */
         $easyAskPageService = new Sayt;
