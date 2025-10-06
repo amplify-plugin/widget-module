@@ -3,7 +3,6 @@
     const AMPLIFY_BASE_URL = '{{ config('app.url') }}';
     const AMPLIFY_DATE_FORMAT = '{{ config('amplify.basic.date_format') }}';
     const AMPLIFY_BASE_CURRENCY = '{{ config('amplify.basic.global_currency', 'USD') }}';
-    const AMPLIFY_SAYT_CAT_PATH = '{!! \Sayt::getDefaultCatPath() !!}';
 </script>
 <x-cookie-consent />
 <!-- Plugin Script -->
