@@ -3,6 +3,7 @@
 namespace Amplify\Widget\Components\Customer;
 
 use Amplify\Frontend\Helpers\CustomerHelper;
+use Amplify\System\Backend\Models\AccountTitle;
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Backend\Models\Customer;
 use Amplify\System\Helpers\SecurityHelper;
@@ -49,8 +50,10 @@ class Profile extends BaseComponent
     {
         $urls = CustomerHelper::redirecteableUrls();
         $minPassLength = SecurityHelper::passwordLength();
+        $defaultWarehouse = \customer()->warehouse->name;
+        $accountTitles = AccountTitle::enabled()->get()->pluck('name', 'id')->toArray();
 
-        return view('widget::customer.profile', compact('urls', 'minPassLength'));
+        return view('widget::customer.profile', compact('urls', 'minPassLength', 'defaultWarehouse', 'accountTitles'));
     }
 
     public function customerName()
