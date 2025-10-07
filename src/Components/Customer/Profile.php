@@ -50,7 +50,7 @@ class Profile extends BaseComponent
     {
         $urls = CustomerHelper::redirecteableUrls();
         $minPassLength = SecurityHelper::passwordLength();
-        $defaultWarehouse = \customer()->warehouse->name;
+        $defaultWarehouse = \customer()->warehouse?->name ?? null;
         $accountTitles = AccountTitle::enabled()->get()->pluck('name', 'id')->toArray();
 
         return view('widget::customer.profile', compact('urls', 'minPassLength', 'defaultWarehouse', 'accountTitles'));
