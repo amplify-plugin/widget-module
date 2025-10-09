@@ -173,10 +173,12 @@
                         <div class="form-group">
                             <label for="accept_term"></label>
                             <div class="custom-control custom-checkbox">
+                                <input type="hidden" name="required[]" value="contact_accept_term"/>
                                 <input class="form-control custom-control-input"
                                        id="accept_term-checkbox-yes"
                                        name="accept_term"
                                        type="checkbox"
+                                       required
                                        @checked(old('accept_term') =='yes')
                                        value="yes">
                                 <label for="accept_term-checkbox-yes"

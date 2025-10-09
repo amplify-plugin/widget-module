@@ -29,7 +29,8 @@
     </div>
     <div class="col-md-6">
         @if($acceptTermsConfirmation)
-            {!! \Form::rCheckbox('contact_accept_term','', ['yes' => 'I accept the '.config('app.name').' Terms and Conditions.']) !!}
+            <input type="hidden" name="required[]" value="contact_accept_term"/>
+            {!! \Form::rCheckbox('contact_accept_term','', ['yes' => 'I accept the '.config('app.name').' Terms and Conditions.'], [], true) !!}
         @endif
     </div>
     @if($captchaVerification)

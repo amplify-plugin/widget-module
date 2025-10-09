@@ -120,7 +120,8 @@
                     <div class="form-group">
                         <label for="accept_term"></label>
                         <div class="custom-control custom-checkbox">
-                            <input class="form-control custom-control-input" id="customer_accept_term-checkbox-yes"
+                            <input type="hidden" name="required[]" value="accept_term"/>
+                            <input class="form-control custom-control-input" required id="customer_accept_term-checkbox-yes"
                                 name="accept_term" type="checkbox" @checked(old('accept_term') == 'yes') value="yes">
                             <label for="customer_accept_term-checkbox-yes" class="custom-control-label">
                                 {!! $termsLabel ?? '' !!}
