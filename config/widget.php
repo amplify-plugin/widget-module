@@ -1091,17 +1091,6 @@ return [
         '@nestedItems' => [],
         'description' => '',
     ],
-    Amplify\Widget\Components\Customer\Message\Index::class => [
-        'name' => 'customer.message',
-        'reserved' => true,
-        'internal' => false,
-        '@inside' => null,
-        '@client' => null,
-        'model' => ['message'],
-        '@attributes' => [],
-        '@nestedItems' => [],
-        'description' => '',
-    ],
     Amplify\Widget\Components\Customer\Role\Partials\Permissions::class => [
         'name' => 'customer.role.partials.permissions',
         'reserved' => true,
