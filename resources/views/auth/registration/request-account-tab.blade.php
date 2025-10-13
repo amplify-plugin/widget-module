@@ -15,20 +15,23 @@
     </li>
 @endpush
 
-<div {!! $htmlAttributes !!}>
-    <div class="d-flex justify-content-between mb-3">
-        <h5 class="subtitle font-weight-bold">{{ $displayableSubTitle }}</h5>
-        <span>
-        <span class="font-weight-bold text-danger">*</span>
-            {{ trans('Indicates a Required Field') }}
-        </span>
-    </div>
+@dump($errors)
 
+<div {!! $htmlAttributes !!}>
     <form method="post" id="registration-form-request-account"
-          action="{{ route('frontend.registration.request-account', ['tab' => 'request-account']) }}">
+          action="{{ route('frontend.registration.request-account') }}">
         @csrf
-        <x-honeypot />
-            @includeWhen($withCustomerVerification, 'widget::auth.registration.request-account.stepped')
-            @includeWhen(!$withCustomerVerification, 'widget::auth.registration.request-account.single')
+        {!! \Form::hidden('tab', 'request-account') !!}
+        <x-honeypot/>
+        <div class="d-flex justify-content-between mb-3">
+            <h5 class="subtitle font-weight-bold">{{ $displayableSubTitle }}</h5>
+            <span>
+                <span class="font-weight-bold text-danger">*</span>
+                {{ trans('Indicates a Required Field') }}
+            </span>
+        </div>
+
+        @includeWhen($withCustomerVerification, 'widget::auth.registration.request-account.stepped')
+        @includeWhen(!$withCustomerVerification, 'widget::auth.registration.request-account.single')
     </form>
 </div>
