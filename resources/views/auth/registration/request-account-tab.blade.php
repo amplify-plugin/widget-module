@@ -15,8 +15,6 @@
     </li>
 @endpush
 
-@dump($errors)
-
 <div {!! $htmlAttributes !!}>
     <form method="post" id="registration-form-request-account"
           action="{{ route('frontend.registration.request-account') }}">

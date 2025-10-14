@@ -1,5 +1,4 @@
 <div {!! $htmlAttributes !!}>
-    @dump('Shop sidebar')
     <div class="sidebar-toggle position-left">
         <i class="icon-filter pe-7s-filter"></i>
     </div>
