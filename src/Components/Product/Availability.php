@@ -4,14 +4,12 @@ namespace Amplify\Widget\Components\Product;
 
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Sayt\Classes\ItemRow;
+use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Amplify\Widget\Abstracts\BaseComponent;
 
 /**
  * @class Availability
- * @package Amplify\Widget\Components\Product
- *
  */
 class Availability extends BaseComponent
 {
@@ -37,14 +35,12 @@ class Availability extends BaseComponent
     {
         $availability = 'A';
 
-        if ($this->product instanceof ItemRow && !property_exists($this->product, 'availability')) {
+        if ($this->product instanceof ItemRow && ! property_exists($this->product, 'availability')) {
 
             $this->product = Product::findOrFail($this->product->Amplify_Id);
 
             $availability = $this->product->availability?->value ?? 'A';
         }
-
-
 
         return view('widget::product.availability', compact('availability'));
     }
