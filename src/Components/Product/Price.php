@@ -2,16 +2,20 @@
 
 namespace Amplify\Widget\Components\Product;
 
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\System\Backend\Models\Product;
+use Amplify\System\Sayt\Classes\ItemRow;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Amplify\Widget\Abstracts\BaseComponent;
 
 /**
- * @class Uom
+ * @class Price
+ * @package Amplify\Widget\Components\Product
+ *
  */
-class Uom extends BaseComponent
+class Price extends BaseComponent
 {
-    public function __construct(public string $code = 'EA', public string $default = 'Each')
+    public function __construct(public Product|ItemRow $product, public mixed $value = null, public ?string $uom = 'EA', public string $element = 'div')
     {
         parent::__construct();
     }
@@ -30,11 +34,6 @@ class Uom extends BaseComponent
     public function render(): View|Closure|string
     {
 
-        return view('widget::product.uom');
-    }
-
-    public function uomLabel(): string|\Illuminate\Support\Collection
-    {
-        return unit_of_measurement($this->code, $this->default);
+        return view('widget::product.price');
     }
 }
