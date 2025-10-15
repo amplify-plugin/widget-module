@@ -114,7 +114,10 @@
                     {!! \Form::rSelect('contact_account_title', trans('Account Title'), $accountTitles, null, true, ['placeholder' => 'Select Account Title/Department']) !!}
                 </div>
                 <div class="col-md-6">
-                    {!! \Form::rTel('contact_phone_number', trans('Phone'), null, true, ['placeholder' => 'Enter Contact Phone Number']) !!}
+                    {!! \Form::rTel('contact_phone_number', trans('Phone'), null, true, [
+    'placeholder' => 'Enter Contact Phone Number', 'pattern' => '^[0-9+\-\(\)\.\s]+$',
+    'title' => 'The field may only contain digits and phone symbols (+,-,(,),. & space).'
+    ]) !!}
                 </div>
                 <div class="col-md-6">
                     {!! \Form::rEmail('contact_email', trans("Email Address"), null, true, ['placeholder' => 'Email Address']) !!}

@@ -1,25 +1,26 @@
 @push('tab-title')
     <li class="nav-item">
         <a class="nav-link @if ($active) active @endif" href="#" id="{{ $slugTitle }}-tab"
-            data-toggle="tab" data-target="#{{ $slugTitle }}" type="button" role="tab"
-            aria-controls="{{ $slugTitle }}" aria-selected="true">
+           data-toggle="tab" data-target="#{{ $slugTitle }}" type="button" role="tab"
+           aria-controls="{{ $slugTitle }}" aria-selected="true">
             {{ $displayableTitle ?? '' }}
         </a>
     </li>
 @endpush
 
 <div {!! $htmlAttributes !!}>
-    <div class="d-flex justify-content-between mb-3">
-        <h4 class="subtitle">{{ $displayableSubTitle }}</h4>
-        <span>
-            <span class="font-weight-bold text-danger">*</span>
-            {{ trans('Indicates a Required Field') }}
-        </span>
-    </div>
     <form method="post" id="registration-form-cash-customer"
-        action="{{ route('frontend.registration.create-cash-customer') . '?tab=cash-customer' }}">
+          action="{{ route('frontend.registration.create-cash-customer') }}">
         @csrf
-        <x-honeypot />
+        {!! \Form::hidden('tab', 'cash-customer') !!}
+        <x-honeypot/>
+        <div class="d-flex justify-content-between mb-3">
+            <h4 class="subtitle">{{ $displayableSubTitle }}</h4>
+            <span>
+                <span class="font-weight-bold text-danger">*</span>
+                {{ trans('Indicates a Required Field') }}
+            </span>
+        </div>
         <div class="row">
             <div class="@if ($askIndustryClassification) col-md-6 @else col-md-12 @endif">
                 {!! \Form::rText('company_name', 'Company', null, true, ['placeholder' => 'Name']) !!}
@@ -54,7 +55,10 @@
                 </div>
             @endif
             <div class="col-md-6">
-                {!! \Form::rTel('phone_number', 'Phone Number', null, true, ['placeholder' => 'Enter Phone Number']) !!}
+                {!! \Form::rTel('phone_number', 'Phone Number', null, true, [
+    'placeholder' => 'Enter Phone Number', 'pattern' => '^[0-9+\-\(\)\.\s]+$',
+    'title' => 'The field may only contain digits and phone symbols (+,-,(,),. & space).'
+    ]) !!}
             </div>
         </div>
         <fieldset>
@@ -67,14 +71,14 @@
                     <div class="form-group">
                         {!! \Form::label('address_1', 'Street Address', true) !!}
                         <input name="address_1" value="{{ old('address.0.address_1') }}" placeholder="Address Line 1"
-                            class="form-control my-1" type="text" id="address_1" required="required">
+                               class="form-control my-1" type="text" id="address_1" required="required">
                         <input name="address_2" value="{{ old('address.0.address_2') }}" placeholder="Address Line 2"
-                            class="form-control my-1" type="text" id="address_2">
+                               class="form-control my-1" type="text" id="address_2">
                         <input name="address_3" value="{{ old('address.0.address_3') }}" placeholder="Address Line 3"
-                            class="form-control my-1" type="text" id="address_3">
+                               class="form-control my-1" type="text" id="address_3">
                         <span id="address_1-error" class="d-block invalid-feedback">
                             @error('address.*')
-                                {{ $message }}
+                            {{ $message }}
                             @enderror
                         </span>
                     </div>
@@ -106,7 +110,7 @@
                         <label for="newsletter"></label>
                         <div class="custom-control custom-checkbox">
                             <input class="form-control custom-control-input" id="customer_newsletter_checkbox_yes"
-                                name="newsletter" type="checkbox" @checked(old('newsletter') == 'yes') value="yes">
+                                   name="newsletter" type="checkbox" @checked(old('newsletter') == 'yes') value="yes">
                             <label for="customer_newsletter_checkbox_yes" class="custom-control-label">
                                 {!! $newsletterLabel ?? '' !!}
                             </label>
@@ -121,8 +125,9 @@
                         <label for="accept_term"></label>
                         <div class="custom-control custom-checkbox">
                             <input type="hidden" name="required[]" value="accept_term"/>
-                            <input class="form-control custom-control-input" required id="customer_accept_term-checkbox-yes"
-                                name="accept_term" type="checkbox" @checked(old('accept_term') == 'yes') value="yes">
+                            <input class="form-control custom-control-input" required
+                                   id="customer_accept_term-checkbox-yes"
+                                   name="accept_term" type="checkbox" @checked(old('accept_term') == 'yes') value="yes">
                             <label for="customer_accept_term-checkbox-yes" class="custom-control-label">
                                 {!! $termsLabel ?? '' !!}
                             </label>
@@ -136,7 +141,7 @@
             @if ($captchaVerification)
                 <div class="col-md-12">
                     <x-captcha :display="$captchaVerification" id="captcha-container-register" field-name="captcha"
-                        :reload-captcha="$active" />
+                               :reload-captcha="$active"/>
                 </div>
             @endif
         </div>
@@ -163,17 +168,17 @@
                 return;
             }
 
-            $.get(`/get-states-by-country-code/${countryCode}`, {}, function(response) {
+            $.get(`/get-states-by-country-code/${countryCode}`, {}, function (response) {
                 stateDropdown.empty();
                 stateDropdown.append(`<option value="">Select a State</option>`);
-                $.each(response.states, function(index, state) {
+                $.each(response.states, function (index, state) {
                     let selected = (state.iso2 === selectState) ? 'selected' : '';
                     stateDropdown.append(
-                    `<option value="${state.iso2}" ${selected}>${state.name}</option>`);
+                        `<option value="${state.iso2}" ${selected}>${state.name}</option>`);
                 });
             }).catch((err) => {
                 ShowNotification('error', 'Address Form', err.response.data.message ??
-                'The given data is invalid.');
+                    'The given data is invalid.');
                 console.error('Error fetching states:', err);
             });
         }

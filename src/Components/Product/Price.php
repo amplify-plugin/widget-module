@@ -1,28 +1,21 @@
 <?php
 
-namespace Amplify\Widget\Components\Customer\Message;
+namespace Amplify\Widget\Components\Product;
 
+use Amplify\System\Backend\Models\Product;
+use Amplify\System\Sayt\Classes\ItemRow;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 
 /**
- * @class History
+ * @class Price
  */
-class History extends BaseComponent
+class Price extends BaseComponent
 {
-    /**
-     * @var array
-     */
-    public $options;
-
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
+    public function __construct(public Product|ItemRow $product, public mixed $value = null, public ?string $uom = 'EA', public string $element = 'div')
     {
         parent::__construct();
-
     }
 
     /**
@@ -39,6 +32,6 @@ class History extends BaseComponent
     public function render(): View|Closure|string
     {
 
-        return view('widget::customer.message.history');
+        return view('widget::product.price');
     }
 }
