@@ -27,6 +27,7 @@
                 <div class="px-2 col-md-6">
                     {!! \Form::rText('customer_street_address', trans('Street Address'), null, false, ['placeholder' => trans('Enter Street Address')]) !!}
                     {!! \Form::rText('customer_postal_code', trans('Postal/Zip Code'), null, false, ['placeholder' => trans('Enter Postal/Zip Code')]) !!}
+                    <input type="hidden" name="required[]" value="search_account_number">
                     {!! \Form::rText('search_account_number', trans('Customer Number/Code'), null, false, ['placeholder' => trans('Enter Customer Number/Code')]) !!}
                     <button class="btn btn-primary"
                             onclick="verifyCustomerInformation(event, this);"
