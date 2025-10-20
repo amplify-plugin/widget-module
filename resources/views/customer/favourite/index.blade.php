@@ -135,7 +135,7 @@
                                                                     @if (customer(true)->can('favorites.manage-global-list') || customer(true)->can('favorites.manage-personal-list'))
                                                                         <a class="dropdown-item"
                                                                             href="{{ route('frontend.favourites.show', $orderList->id) }}">
-                                                                            <i class="icon-bag mr-1"></i> View
+                                                                            <i class="icon-eye mr-1"></i> Preview
                                                                         </a>
                                                                     @endif
                                                                     <!-- @if (customer(true)->can('favorites.manage-personal-list') || customer(true)->can('favorites.manage-personal-list'))

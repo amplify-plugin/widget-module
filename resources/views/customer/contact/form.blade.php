@@ -77,8 +77,8 @@
                                 <input type="password" name="password" autocomplete="new-password"
                                        class="form-control @error('password') is-invalid @enderror"
                                        data-form-type="other" id="password-field" style="padding-right: 40px;">
-                                <button type="button" class="btn btn-link position-absolute" 
-                                        style="right: 0px; top: 35%; transform: translateY(-50%); border: none; background: none; padding: 0; z-index: 10; outline: none; box-shadow: none;"
+                                <button type="button" class="btn btn-link position-absolute"
+                                        style="right: 0; top: 30%; transform: translateY(-50%); border: none; background: none; padding: 0; z-index: 10; outline: none; box-shadow: none;"
                                         id="toggle-password">
                                     <i class="fa fa-eye" id="password-eye" style="color: #6c757d;"></i>
                                 </button>
@@ -98,8 +98,8 @@
                             <div class="position-relative">
                                 <input type="password" name="password_confirmation" autocomplete="new-password"
                                        class="form-control" data-form-type="other" id="password-confirmation-field" style="padding-right: 40px;">
-                                <button type="button" class="btn btn-link position-absolute" 
-                                        style="right: 0px; top: 35%; transform: translateY(-50%); border: none; background: none; padding: 0; z-index: 10; outline: none; box-shadow: none;"
+                                <button type="button" class="btn btn-link position-absolute"
+                                        style="right: 0; top: 30%; transform: translateY(-50%); border: none; background: none; padding: 0; z-index: 10; outline: none; box-shadow: none;"
                                         id="toggle-password-confirmation">
                                     <i class="fa fa-eye" id="password-confirmation-eye" style="color: #6c757d;"></i>
                                 </button>
@@ -183,12 +183,12 @@
                 </div>
                 <div class="form-group" style="margin-bottom: 0 !important;">
                     <div class="btn-group" role="group">
-                        <button type="submit" class="btn btn-success">
-                            <span class="pe-7s-diskette"></span>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="pe-7s-diskette"></i>
                             <span>Save</span>
                         </button>
                     </div>
-                    <a href="{{ route('frontend.contacts.index') }}" class="btn btn-default">Cancel</a>
+                    <a href="{{ route('frontend.contacts.index') }}" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </form>
         </div>
@@ -196,24 +196,24 @@
 </div>
 
 <style>
-    .select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
-        color: #606975;
-    }
+    /*.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {*/
+    /*    color: #606975;*/
+    /*}*/
 
-    .select2-container .select2-selection--single .select2-selection__clear {
-        float: right;
-        margin-right: 1.6rem;
-        margin-top: 0.7rem;
-        height: 1rem;
-        width: 1rem;
-        line-height: 1rem;
-        padding-left: 0.25rem;
-        padding-top: 0.05%;
-    }
+    /*.select2-container .select2-selection--single .select2-selection__clear {*/
+    /*    float: right;*/
+    /*    margin-right: 1.6rem;*/
+    /*    margin-top: 0.7rem;*/
+    /*    height: 1rem;*/
+    /*    width: 1rem;*/
+    /*    line-height: 1rem;*/
+    /*    padding-left: 0.25rem;*/
+    /*    padding-top: 0.05%;*/
+    /*}*/
 
-    .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {
-        display: unset;
-    }
+    /*.select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered {*/
+    /*    display: unset;*/
+    /*}*/
 
     /* Remove focus and hover effects from password toggle buttons */
     #toggle-password, #toggle-password-confirmation {

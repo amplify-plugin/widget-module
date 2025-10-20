@@ -24,7 +24,7 @@
                         <span>Save</span>
                     </button>
                 </div>
-                <a href="{{ route('frontend.roles.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('frontend.roles.index') }}" class="btn btn-outline-secondary">Cancel</a>
             </div>
         </form>
     </div>

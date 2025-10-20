@@ -71,7 +71,7 @@
                     @if (customer(true)->can('contact-management.add'))
                         <div class="col-md-6 mb-2 mb-md-0">
                             <div class="d-flex justify-content-center justify-content-md-end">
-                                <a class="btn btn-sm btn-primary mr-0" href="{{ route('frontend.contacts.create') }}">
+                                <a class="btn btn-sm btn-success mr-0" href="{{ route('frontend.contacts.create') }}">
                                     <i class="icon-plus"></i> Add New Contact
                                 </a>
                             </div>

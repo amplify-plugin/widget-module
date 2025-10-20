@@ -105,7 +105,7 @@
                                 <span>Save</span>
                             </button>
                         </div>
-                        <a class="btn btn-default" href="{{ route('frontend.contacts.index') }}">Cancel</a>
+                        <a class="btn btn-outline-secondary" href="{{ route('frontend.contacts.index') }}">Cancel</a>
                     </div>
                 </div>
             </div>

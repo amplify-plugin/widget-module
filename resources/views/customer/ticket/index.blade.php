@@ -5,8 +5,8 @@
                 @if (customer(true)->can('ticket.tickets'))
                     <x-slot name="rightside">
                         <div class="d-flex justify-content-center justify-content-md-end">
-                            <a href="{{ route('frontend.tickets.create') }}" class="btn btn-primary btn-sm mr-0 px-4">
-                                <i class="icon-plus"></i>New Ticket
+                            <a href="{{ route('frontend.tickets.create') }}" class="btn btn-success btn-sm mr-0 px-4">
+                                <i class="icon-plus"></i>Add New Ticket
                             </a>
                         </div>
                     </x-slot>
@@ -42,7 +42,7 @@
                             </td>
                             @if (customer(true)->can('ticket.tickets'))
                                 <td class="d-flex flex-column justify-content-center m-0">
-                                    <a class="badge btn-info text-decoration-none mb-1"
+                                    <a class="btn btn-info text-decoration-none mb-1"
                                        href="{{ route('frontend.tickets.show', $thread->id) }}">
                                         Conversations
                                     </a>

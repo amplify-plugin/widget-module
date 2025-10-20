@@ -37,7 +37,7 @@
                         <div class="col-md-6 mb-2 mb-md-0">
                             <div class="d-flex justify-content-center justify-content-md-end">
                                 <a class="btn btn-sm btn-success mr-0" href="{{ route('frontend.roles.create') }}">
-                                    <i class="icon-plus"></i> Add Role
+                                    <i class="icon-plus"></i> Add New Role
                                 </a>
                             </div>
                         </div>

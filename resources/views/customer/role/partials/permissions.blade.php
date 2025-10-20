@@ -61,95 +61,91 @@
     </div>
 </div>
 
-@php
-    $fieldInitChecklist =  $field['fieldInitChecklist'];
+@pushonce('footer-script')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            $('.collapse').on('hide.bs.collapse', function () {
+                var id = $(this).attr('id');
 
-    push_js(function() use ($fieldInitChecklist) {
-        return <<<HTML
-document.addEventListener("DOMContentLoaded", function () {
-    $('.collapse').on('hide.bs.collapse', function () {
-        var id = $(this).attr('id');
+                var element = $("a[data-target='#" + id + "']").find('i');
 
-        var element = $("a[data-target='#" + id + "']").find('i');
+                element.removeClass('pe-7s-angle-up');
+                element.addClass('pe-7s-angle-down');
+            });
 
-        element.removeClass('pe-7s-angle-up');
-        element.addClass('pe-7s-angle-down');
-    });
+            $('.collapse').on('show.bs.collapse', function () {
+                var id = $(this).attr('id');
 
-    $('.collapse').on('show.bs.collapse', function () {
-        var id = $(this).attr('id');
+                var element = $("a[data-target='#" + id + "']").find('i');
 
-        var element = $("a[data-target='#" + id + "']").find('i');
+                element.removeClass('pe-7s-angle-down');
+                element.addClass('pe-7s-angle-up');
+            });
 
-        element.removeClass('pe-7s-angle-down');
-        element.addClass('pe-7s-angle-up');
-    });
+            let element = $('.{{ $field['fieldInitChecklist'] }}');
+            bpFieldInitChecklist(element);
+        });
 
-    let element = $('.{$fieldInitChecklist}');
-    bpFieldInitChecklist(element);
-});
+        function initCheckboxes(checkboxes, hidden_input, selected_options) {
 
-function initCheckboxes(checkboxes, hidden_input, selected_options) {
+            checkboxes.each(function (key, option) {
 
-    checkboxes.each(function (key, option) {
+                var id = $(option).val();
 
-        var id = $(option).val();
+                if (selected_options.map(String).includes(id)) {
+                    $(option).prop('checked', 'checked');
+                } else {
+                    $(option).prop('checked', false);
+                }
+            });
 
-        if (selected_options.map(String).includes(id)) {
-            $(option).prop('checked', 'checked');
-        } else {
-            $(option).prop('checked', false);
+            changeCheckBoxes(checkboxes, hidden_input);
         }
-    });
 
-    changeCheckBoxes(checkboxes, hidden_input);
-}
+        function changeCheckBoxes(checkboxes, hidden_input) {
+            var newValue = [];
+            let all_permission_titles = [];
+            let active_permission_titles = [];
+            let label;
+            checkboxes.each(function (key, element) {
+                const item = $(element);
+                if (label != item.data('title')){
+                    label = item.data('title');
+                    all_permission_titles.push(label);
+                    active_permission_titles.push(label);
+                }
+                if (item.is(':checked')) {
+                    var id = item.val();
+                    newValue.push(id);
+                }
+                if (active_permission_titles.includes(label) && !item.is(':checked')){
+                    active_permission_titles.pop(label);
+                }
+            });
+            hidden_input.val(JSON.stringify(newValue));
+            all_permission_titles.forEach(function(title) {
+                if (active_permission_titles.includes(title)) {
+                    $('input[value=' + title+'].pmsn-title').prop('checked', 'checked');
+                } else {
+                    $('input[value=' + title +'].pmsn-title').prop('checked', false);
+                }
+            });
+        }
 
-function changeCheckBoxes(checkboxes, hidden_input) {
-    var newValue = [];
-    let all_permission_titles = [];
-    let active_permission_titles = [];
-    let label;
-    checkboxes.each(function (key, element) {
-        const item = $(element);
-        if (label != item.data('title')){
-            label = item.data('title');
-            all_permission_titles.push(label);
-            active_permission_titles.push(label);
+        function bpFieldInitChecklist(element) {
+            let hidden_input = element.find('input[type=hidden]');
+            let selected_options = JSON.parse(hidden_input.val() || '[]');
+            let checkboxes = element.find('input[type=checkbox].pmsn');
+            let title_checkboxes = element.find('input[type=checkbox].pmsn-title');
+            initCheckboxes(checkboxes, hidden_input, selected_options);
+            checkboxes.click(function () {
+                changeCheckBoxes(checkboxes, hidden_input);
+            });
+            title_checkboxes.click(function () {
+                let child_class_name = $(this).val();
+                $('input[data-title=' + child_class_name +'].pmsn').prop('checked', $(this).is(':checked'));
+                changeCheckBoxes(checkboxes, hidden_input);
+            });
         }
-        if (item.is(':checked')) {
-            var id = item.val();
-            newValue.push(id);
-        }
-        if (active_permission_titles.includes(label) && !item.is(':checked')){
-            active_permission_titles.pop(label);
-        }
-    });
-    hidden_input.val(JSON.stringify(newValue));
-    all_permission_titles.forEach(function(title) {
-        if (active_permission_titles.includes(title)) {
-            $('input[value=' + title+'].pmsn-title').prop('checked', 'checked');
-        } else {
-            $('input[value=' + title +'].pmsn-title').prop('checked', false);
-        }
-    });
-}
-
-function bpFieldInitChecklist(element) {
-    let hidden_input = element.find('input[type=hidden]');
-    let selected_options = JSON.parse(hidden_input.val() || '[]');
-    let checkboxes = element.find('input[type=checkbox].pmsn');
-    let title_checkboxes = element.find('input[type=checkbox].pmsn-title');
-    initCheckboxes(checkboxes, hidden_input, selected_options);
-    checkboxes.click(function () {
-        changeCheckBoxes(checkboxes, hidden_input);
-    });
-    title_checkboxes.click(function () {
-        let child_class_name = $(this).val();
-        $('input[data-title=' + child_class_name +'].pmsn').prop('checked', $(this).is(':checked'));
-        changeCheckBoxes(checkboxes, hidden_input);
-    });
-}
-HTML;
-        }, 'footer-script')
-@endphp
+    </script>
+@endpushonce

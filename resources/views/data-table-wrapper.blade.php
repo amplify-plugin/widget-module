@@ -21,11 +21,6 @@
     @endif
 </div>
 <div class="table-responsive pb-4 pb-md-0">
-    <style>
-        div.dataTables_wrapper div.dataTables_paginate ul.pagination {
-            margin-top: 2px !important;
-        }
-    </style>
     {{ $slot }}
 </div>
 @if(isset($id))
