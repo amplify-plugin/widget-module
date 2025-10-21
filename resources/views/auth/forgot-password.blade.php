@@ -8,7 +8,7 @@
                 <i class="icon-mail"></i>
             </span>
             </div>
-            <span class="invalid-feedback d-block" id="email-error" style="position: absolute"></span>
+            <span class="invalid-feedback d-block" id="email-error"></span>
         </div>
         <div class="text-center text-sm-right">
             <button class="btn btn-primary margin-bottom-none" id="submit-btn" type="submit">
@@ -171,6 +171,7 @@
             forgotForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 email = emailInput.value;
+                clearErrors();
                 setLoading(submitBtn, submitText, true);
                 fetch('/password-reset-otp', {
                     method: 'POST',
@@ -180,14 +181,24 @@
                     },
                     body: JSON.stringify({ email: email })
                 })
-                    .then(response => response.json())
-                    .then(() => {
+                    .then(async (response) => {
+                        const data = await response.json().catch(() => ({})); // safely parse JSON
                         setLoading(submitBtn, submitText, false);
+
+                        // support both real HTTP status and a custom JSON status
+                        const statusCode = response.status || data.status;
+
+                        if (statusCode === 210) {
+                            emailError.textContent = data.message || 'Please check your input.';
+                            return; // stop here, don't show modal
+                        }
+
+                        // show modal only if OK and not 210
                         $('#otpModal').modal('show');
                     })
-                    .catch(error => {
+                    .catch(() => {
                         setLoading(submitBtn, submitText, false);
-                        emailError.textContent = 'Something Went Wrong';
+                        emailError.textContent = 'Network error. Please try again.';
                     });
             });
 
