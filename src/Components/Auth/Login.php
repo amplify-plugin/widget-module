@@ -24,8 +24,7 @@ class Login extends BaseComponent
         public bool $togglePassword = false,
         public string $registerLinkText = 'Existing customer request online access?',
         public bool $honeyPotProtection = false
-    )
-    {
+    ) {
         parent::__construct();
     }
 
