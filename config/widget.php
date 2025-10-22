@@ -1912,16 +1912,16 @@ return [
         '@attributes' => [
             [
                 'name' => 'title',
-                'value' => '',
+                'value' => 'Page Title',
                 'type' => 'text',
             ],
             [
-                'name' => 'error',
+                'name' => ':error',
                 'value' => false,
                 'type' => 'boolean',
             ],
             [
-                'name' => 'hide-title',
+                'name' => ':hide-title',
                 'value' => false,
                 'type' => 'boolean',
             ],

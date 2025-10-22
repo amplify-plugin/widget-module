@@ -23,27 +23,18 @@ class Breadcrumb extends BaseComponent
 
     public Collection $breadcrumbs;
 
-    private bool $errorView = false;
-
     private ?Page $page;
 
     private mixed $navigateNode;
-
-    public bool $dontShowTitle = false;
 
     /**
      * Create a new component instance.
      *
      * @throws ErrorException
      */
-    public function __construct(public string $title = '', string $error = 'false', string $hideTitle = 'false')
+    public function __construct(public string $title = '', public bool $error = false, public bool $hideTitle = false)
     {
         parent::__construct();
-
-        $error = $error === '' ? 'false' : $error;
-
-        $this->errorView = UtilityHelper::typeCast($error, 'boolean');
-        $this->dontShowTitle = UtilityHelper::typeCast($hideTitle, 'boolean');
 
         $this->breadcrumbs = new Collection;
 
@@ -57,7 +48,7 @@ class Breadcrumb extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        if ($this->errorView) {
+        if ($this->error) {
             return true;
         }
 
@@ -76,7 +67,7 @@ class Breadcrumb extends BaseComponent
     public function render(): View|Closure|string
     {
 
-        if ($this->errorView) {
+        if ($this->error) {
             $this->push('Error '.$this->title, url()->current());
             $this->push('Home', $this->homeUrl());
         } else {
@@ -132,7 +123,7 @@ class Breadcrumb extends BaseComponent
      */
     public function displayPageTitle()
     {
-        if ($this->errorView) {
+        if ($this->error) {
             return $this->errorTitle();
         }
 
