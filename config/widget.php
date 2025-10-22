@@ -44,6 +44,12 @@ return [
                 'value' => 'Existing customer request online access?',
                 'hint' => 'Value that will be display on link',
             ],
+            [
+                'name' => ':honey-pot-protection',
+                'type' => 'boolean',
+                'value' => true,
+                'hint' => 'Bot Protection from Spam',
+            ],
         ],
         '@nestedItems' => [],
         'description' => 'Login widget',
