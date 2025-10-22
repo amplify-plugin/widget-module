@@ -3,7 +3,6 @@
 namespace Amplify\Widget\Components;
 
 use Amplify\System\Cms\Models\Page;
-use Amplify\System\Helpers\UtilityHelper;
 use Amplify\System\Sayt\Classes\BreadCrumbTrail;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
