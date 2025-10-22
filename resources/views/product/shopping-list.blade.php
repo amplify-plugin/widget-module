@@ -59,7 +59,7 @@
                                 <div class="form-group">
                                     <label for="shopping_list_name">Name<span class="text-danger">*</span></label>
                                     <input name="list_name" class="form-control" type="text" id="shopping_list_name"
-                                           required autofocus>
+                                           required>
                                 </div>
                                 <div class="form-group">
                                     <label for="shopping_list_type">List Type<span class="text-danger">*</span></label>
@@ -216,6 +216,10 @@
                         .find('.dropdown-menu.show')
                         .removeClass('show');
                 });
+
+                $('#shopping-list-modal').on('shown.bs.modal', function (event) {
+                    $("#shopping_list_name").trigger('focus');
+                })
 
                 // 5) Global form-submit helper
                 window.addItemToShoppingList = function (form, ev) {
