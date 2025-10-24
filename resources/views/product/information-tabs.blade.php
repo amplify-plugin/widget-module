@@ -30,6 +30,13 @@
             @endforeach
         @endif
 
+        @if ($product->related_product && $displayTab(\Amplify\System\Backend\Models\Product::TAB_RELATED_ITEM))
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#related-products" role="tab">Related Products</a>
+            </li>
+        @endif
+
+
         @stack('product-information-tab')
     </ul>
 
@@ -66,6 +73,29 @@
             @endforeach
         @endif
 
+        @if ($product->related_product && $displayTab(\Amplify\System\Backend\Models\Product::TAB_RELATED_ITEM))
+            @php
+                $relatedUrl = '';
+                try {
+                    $dbProduct = store()->productModel ?? null;
+                    if ($dbProduct) {
+                        $relatedUrl = route('frontend.shop.relatedProducts', $dbProduct);
+                    }
+                } catch (\Exception $e) {
+                    $relatedUrl = '';
+                }
+            @endphp
+            <div class="tab-pane fade" id="related-products" role="tabpanel">
+                <div id="related-products-content"
+                    data-url="{{ $relatedUrl }}">
+                    <div class="text-center w-100 py-4">
+                        <button class="btn btn-outline-secondary" disabled>
+                            Click the tab to load related products
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @endif
         {!! $slot ?? '' !!}
     </div>
 
@@ -87,3 +117,44 @@
     //     tabs.forEach(tab => console.log({width: tab.width, offsetWidth: tab.offsetWidth}));
     // });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    $('a[data-toggle="tab"][href="#related-products"]').on('shown.bs.tab', function () {
+        const content = document.getElementById('related-products-content');
+        
+        if (!content || content.dataset.loaded === '1') return;
+
+        const url = content.dataset.url;
+        if (!url) return;
+
+        // Show loader
+        content.innerHTML = `
+            <div class="text-center w-100 py-4">
+                <div class="spinner-border text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <p class="mt-2">Loading related products...</p>
+            </div>
+        `;
+
+        // Fetch and load content
+        fetch(url, { credentials: 'same-origin' })
+            .then(r => r.ok ? r.text() : Promise.reject('Network error'))
+            .then(html => {
+                content.innerHTML = html;
+                content.dataset.loaded = '1';
+            })
+            .catch(err => {
+                console.error('Error loading related products:', err);
+                content.innerHTML = `
+                    <div class="text-center text-danger py-4">
+                        Unable to load related products.
+                    </div>
+                `;
+            });
+    });
+});
+</script>
+
