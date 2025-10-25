@@ -1,15 +1,29 @@
-<div class="product-sku-table">
-    {{-- <div class="d-flex justify-content-end align-items-center gap-2 mb-3">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
-            <label class="form-check-label fs-16 text-black" for="inlineRadio1">Accessories</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-            <label class="form-check-label fs-16 text-black" for="inlineRadio2">Alternative</label>
-        </div>
-    </div> --}}
+<div class="product-sku-table" id="related-products-content">
     @if (!empty($relatedProducts) && $relatedProducts->isNotEmpty())
+        {{-- Relation type selector --}}
+        @if (!empty($relationTypes) && $relationTypes->isNotEmpty())
+            <div class="d-flex justify-content-end align-items-center gap-2 mb-3 relation-type-group">
+                @foreach ($relationTypes as $rt)
+                    @php
+                        $active = (int) ($selectedRelationType ?? $relationTypes->first()->id) === (int) $rt->id;
+                    @endphp
+                    <div class="form-check form-check-inline">
+                        <input
+                            class="form-check-input relation-type-radio"
+                            type="radio"
+                            name="relation_type"
+                            id="relation_type_{{ $rt->id }}"
+                            value="{{ $rt->id }}"
+                            data-url="{{ route('frontend.shop.relatedProducts', ['product' => $product->id]) }}?relation_type={{ $rt->id }}"
+                            {{ $active ? 'checked' : '' }}
+                        >
+                        <label class="form-check-label fs-16 text-black" for="relation_type_{{ $rt->id }}">
+                            {{ $rt->name }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        @endif
         @foreach ($relatedProducts as $rp)
             @php $idx = $loop->index; @endphp
             <div class="product-sku-item text-black">
@@ -126,3 +140,7 @@
         @endforeach
     @endif
 </div>
+
+
+
+

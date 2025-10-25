@@ -156,5 +156,42 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 });
+
+
+//when change the related proucts type
+(function() {
+    document.addEventListener('change', function (e) {
+        const input = e.target.closest('.relation-type-radio');
+        if (!input) return;
+
+        const url = input.dataset.url;
+        const container = document.getElementById('related-products-content');
+        if (!url || !container) return;
+
+        container.innerHTML = `
+            <div class="text-center w-100 py-4">
+                <div class="spinner-border text-secondary" role="status"></div>
+                <p class="mt-2">Loading related products...</p>
+            </div>
+        `;
+
+        fetch(url, { credentials: 'same-origin' })
+            .then(res => {
+                if (!res.ok) throw new Error('Network error');
+                return res.text();
+            })
+            .then(html => {
+                const temp = document.createElement('div');
+                temp.innerHTML = html.trim();
+                const newContent = temp.querySelector('#related-products-content');
+                if (newContent) {
+                    container.replaceWith(newContent);
+                }
+            })
+            .catch(err => {
+                console.error('Error loading related products:', err);
+            });
+    });
+})();
 </script>
 
