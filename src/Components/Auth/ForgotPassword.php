@@ -2,6 +2,7 @@
 
 namespace Amplify\Widget\Components\Auth;
 
+use Amplify\System\Helpers\SecurityHelper;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -32,7 +33,9 @@ class ForgotPassword extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('widget::auth.forgot-password');
+        $minPassLength = SecurityHelper::passwordLength();
+
+        return view('widget::auth.forgot-password', compact('minPassLength'));
     }
 
     public function displayableTitle()

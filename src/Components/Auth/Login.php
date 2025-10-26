@@ -45,7 +45,7 @@ class Login extends BaseComponent
 
         $minPassLength = SecurityHelper::passwordLength();
 
-        return view('widget::auth.login', ['minPassLen' => $minPassLength]);
+        return view('widget::auth.login', compact('minPassLength'));
     }
 
     public function displayableTitle()
