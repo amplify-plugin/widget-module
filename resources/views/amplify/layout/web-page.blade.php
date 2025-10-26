@@ -3,11 +3,11 @@
 <head>
     <x-amplify.head/>
     <title>{{ $pageTitle }}</title>
-    @livewireStyles
+{{--    @livewireStyles--}}
 </head>
 <body {!! $htmlAttributes !!}>
     @stack('off-canvas-menu')
     {!! $slot !!}
-    @livewireScripts
+{{--    @livewireScripts--}}
 </body>
 </html>
