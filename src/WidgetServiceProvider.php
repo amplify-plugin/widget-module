@@ -45,6 +45,5 @@ class WidgetServiceProvider extends ServiceProvider
                 }
             }
         });
-
     }
 }
