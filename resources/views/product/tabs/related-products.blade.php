@@ -27,7 +27,7 @@
         @foreach ($relatedProducts as $rp)
             @php $idx = $loop->index + 2; @endphp
             <div class="product-sku-item text-black">
-                <div class="w-100 d-flex justify-content-between align-items-sm-center gap-4 flex-column flex-sm-row">
+                <div class="w-100 d-flex  align-items-sm-center gap-4 flex-column flex-sm-row">
                     <div class="product-img" style="height: 105px; width: 120px; border-radius: 8px; padding: 8px;">
                         <img src="{{ $rp?->productImage?->main ?? '' }}" alt="Product"
                             style="height: 100%; width: 100%; object-fit: contain;">
@@ -76,7 +76,7 @@
                         </div>
 
                     </div>
-                    <div class="d-flex gap-3 align-self-sm-end flex-wrap">
+                    <div class="d-flex gap-3 align-self-sm-end flex-wrap ml-auto">
                         <div class="d-flex gap-2 flex-column m-0">
                             <x-wishlist-button :product="$rp"
                                 class="flex-center gap-2 btn btn-block btn-outline-primary btn-sm m-0">
@@ -131,7 +131,10 @@
                         {!! $rp->ship_restriction ?? null !!}
                     </div>
 
-                    <x-product.ncnr-item-flag :product="$rp" :show-full-form="true" />
+                    <div>
+                        <x-product.ncnr-item-flag :product="$rp" :show-full-form="true" />
+                    </div>
+
                     <div class="d-flex gap-2">
                         <x-product.default-document-link :document="$rp->default_document" class="list_shop_datasheet_product" />
                     </div>
