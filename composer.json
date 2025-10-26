@@ -13,7 +13,7 @@
     "minimum-stability": "dev",
     "require": {
         "ext-gd": "*",
-        "amplify/sayt" : "*"
+        "livewire/livewire": "*"
     },
     "autoload": {
         "psr-4": {
@@ -28,5 +28,6 @@
                 "Amplify\\Widget\\WidgetServiceProvider"
             ]
         }
-    }
+    },
+    "prefer-stable": true
 }
