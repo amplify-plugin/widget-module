@@ -25,7 +25,7 @@
             </div>
         @endif
         @foreach ($relatedProducts as $rp)
-            @php $idx = $loop->index; @endphp
+            @php $idx = $loop->index + 2; @endphp
             <div class="product-sku-item text-black">
                 <div class="w-100 d-flex justify-content-between align-items-sm-center gap-4 flex-column flex-sm-row">
                     <div class="product-img" style="height: 105px; width: 120px; border-radius: 8px; padding: 8px;">
@@ -108,7 +108,7 @@
                                         oninput="this.value = this.value.replace(/[^0-9]/g, '');">
 
                                     <input type="hidden" id="product_code_{{ $idx }}"
-                                        value="{{ $rp->product_code ?? $rp->Product_Code }}" />
+                                        value="{{ $rp->product_code }}" />
                                     <input id="product_warehouse_{{ $idx }}" type="hidden"
                                         value="{{ $rp?->ERP?->WarehouseID ?? (optional(optional(customer(true))->warehouse)->code ?? '') }}" />
 
