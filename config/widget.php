@@ -441,7 +441,26 @@ return [
         '@inside' => null,
         '@client' => null,
         'model' => ['forgot_password'],
-        '@attributes' => [],
+        '@attributes' => [
+            [
+                'name' => 'title',
+                'type' => 'text',
+                'value' => 'Login to your account.',
+                'hint' => 'Display message on login widget',
+            ],
+            [
+                'name' => 'button-title',
+                'type' => 'text',
+                'value' => 'Login',
+                'hint' => 'Display label of login button',
+            ],
+            [
+                'name' => ':toggle-password',
+                'type' => 'boolean',
+                'value' => true,
+                'hint' => 'Show Eye icon to toggle password visibility',
+            ],
+        ],
         '@nestedItems' => [],
         'description' => '',
     ],

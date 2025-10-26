@@ -10,6 +10,8 @@
 
         <h4 class="padding-bottom-1x login-box-title">{{ $displayableTitle() }}</h4>
 
+        {!! $subtitle ?? '' !!}
+
         <x-auth.login.input-login/>
 
         <x-auth.login.input-password toggle-password="{{ $togglePassword }}"/>

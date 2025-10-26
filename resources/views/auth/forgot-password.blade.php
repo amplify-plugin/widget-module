@@ -1,6 +1,7 @@
 <div {!! $htmlAttributes !!}>
     <form id="forgot-password-form" class="login-box">
-        <h4 class="margin-bottom-1x">Forgot Your Password?</h4>
+        <h4 class="padding-bottom-1x login-box-title">{{ $displayableTitle() }}</h4>
+        {!! $subtitle ?? '' !!}
         <div class="form-group">
             <div class="input-group">
                 <input class="form-control" type="email" id="email" placeholder="Email" required />
@@ -12,10 +13,11 @@
         </div>
         <div class="text-center text-sm-right">
             <button class="btn btn-primary margin-bottom-none" id="submit-btn" type="submit">
-                <span id="submit-text">Submit</span>
+                <span id="submit-text">{{ $submitButtonTitle() }}</span>
             </button>
         </div>
     </form>
+    {!!  $slot ?? '' !!}
 </div>
 @pushonce("html-default")
     <!-- OTP Modal -->
@@ -111,10 +113,9 @@
         </div>
     </div>
 @endpushonce
+
 @pushOnce("footer-script")
     <script>
-        window.csrfToken = '{{ csrf_token() }}';
-
         document.addEventListener('DOMContentLoaded', function() {
             const forgotForm = document.getElementById('forgot-password-form');
             const otpForm = document.getElementById('otp-form');
@@ -177,7 +178,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': window.csrfToken
+                        'X-CSRF-TOKEN':  $('meta[name="csrf-token"]').attr('content')
                     },
                     body: JSON.stringify({ email: email })
                 })
@@ -208,7 +209,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': window.csrfToken
+                        'X-CSRF-TOKEN':  $('meta[name="csrf-token"]').attr('content')
                     },
                     body: JSON.stringify({ email: email })
                 })
@@ -248,7 +249,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': window.csrfToken
+                        'X-CSRF-TOKEN':  $('meta[name="csrf-token"]').attr('content')
                     },
                     body: JSON.stringify({ email: email, otp: otp })
                 })
@@ -290,7 +291,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': window.csrfToken
+                        'X-CSRF-TOKEN':  $('meta[name="csrf-token"]').attr('content')
                     },
                     body: JSON.stringify({ email: email, password: password, otp: otp })
                 })
