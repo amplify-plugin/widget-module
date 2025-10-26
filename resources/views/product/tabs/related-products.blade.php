@@ -1,4 +1,4 @@
-<div class="product-sku-table" id="related-products-content">
+<div class="product-sku-table" id="related-products-content" style="max-height: 500px; overflow-y: auto; padding-right: 10px;">
     @if (!empty($relatedProducts) && $relatedProducts->isNotEmpty())
         {{-- Relation type selector --}}
         @if (!empty($relationTypes) && $relationTypes->isNotEmpty())
@@ -141,6 +141,11 @@
                 </div>
             </div>
         @endforeach
+
+        <div class="mt-3 d-flex justify-content-center">
+            {{-- Laravel pagination --}}
+            {{ $relatedProducts->withQueryString()->links() }}
+        </div>
     @endif
 </div>
 
