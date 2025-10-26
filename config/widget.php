@@ -445,13 +445,13 @@ return [
             [
                 'name' => 'title',
                 'type' => 'text',
-                'value' => 'Login to your account.',
+                'value' => 'Forgot Your Password?',
                 'hint' => 'Display message on login widget',
             ],
             [
                 'name' => 'button-title',
                 'type' => 'text',
-                'value' => 'Login',
+                'value' => 'Submit',
                 'hint' => 'Display label of login button',
             ],
             [
