@@ -11,9 +11,9 @@
             </div>
             <span class="invalid-feedback d-block" id="email-error"></span>
         </div>
-        <div class="text-center text-sm-right">
+        <div class="d-flex justify-content-center justify-content-sm-end">
             <button class="btn btn-primary margin-bottom-none" id="submit-btn" type="submit">
-                <span id="submit-text">{{ $submitButtonTitle() }}</span>
+                <span id="submit-text"><i class="icon-location font-weight-bold mr-2"></i>{{ $submitButtonTitle() }}</span>
             </button>
         </div>
     </form>
@@ -49,7 +49,7 @@
 
                         <div class="text-center text-sm-right">
                             <button class="btn btn-primary margin-bottom-none" id="otp-submit-btn" type="submit">
-                                <span id="otp-submit-text">Submit</span>
+                                <span id="otp-submit-text"><i class="icon-location font-weight-bold mr-2"></i>{{ $submitButtonTitle() }}</span>
                             </button>
                         </div>
                     </form>
@@ -104,7 +104,7 @@
 
                         <div class="d-flex justify-content-center justify-content-sm-end">
                             <button class="btn btn-primary margin-bottom-none" id="password-submit-btn" type="submit">
-                                <span id="password-submit-text">Submit</span>
+                                <span id="password-submit-text"><i class="icon-location font-weight-bold mr-2"></i>{{ $submitButtonTitle() }}</span>
                             </button>
                         </div>
                     </form>
@@ -144,14 +144,14 @@
 
             function setLoading(button, textElement, loading) {
                 button.disabled = loading;
-                textElement.textContent = loading ? 'Loading...' : 'Submit';
+                textElement.innerHTML = loading ? "<i class='icon-loader font-weight-bold'></i> Loading..." : "<i class='icon-location font-weight-bold mr-2'></i> {{ $submitButtonTitle() }}";
             }
 
             function clearErrors() {
-                emailError.textContent = '';
-                otpError.textContent = '';
-                passwordError.textContent = '';
-                confirmPasswordError.textContent = '';
+                emailError.innerHTML = '';
+                otpError.innerHTML = '';
+                passwordError.innerHTML = '';
+                confirmPasswordError.innerHTML = '';
             }
 
             function closeModal() {
@@ -159,7 +159,7 @@
                 passwordInput.value = '';
                 confirmPasswordInput.value = '';
                 codeSend = false;
-                otpResend.textContent = '';
+                otpResend.innerHTML = '';
                 resendLink.style.display = 'inline';
                 clearErrors();
 
@@ -190,7 +190,7 @@
                         const statusCode = response.status || data.status;
 
                         if (statusCode === 210) {
-                            emailError.textContent = data.message || 'Please check your input.';
+                            emailError.innerHTML = data.message || 'Please check your input.';
                             return; // stop here, don't show modal
                         }
 
@@ -199,7 +199,7 @@
                     })
                     .catch(() => {
                         setLoading(submitBtn, submitText, false);
-                        emailError.textContent = 'Network error. Please try again.';
+                        emailError.innerHTML = 'Network error. Please try again.';
                     });
             });
 
@@ -216,7 +216,7 @@
                     .then(response => response.json())
                     .then(() => {
                         codeSend = true;
-                        otpResend.textContent = 'OTP Resent To Your Email';
+                        otpResend.innerHTML = 'OTP Resent To Your Email';
 
                         // Hide resend link and start timer
                         resendLink.style.display = 'none';
@@ -226,18 +226,18 @@
                             timeLeft--;
                             const minutes = Math.floor(timeLeft / 60);
                             const seconds = timeLeft % 60;
-                            otpResend.textContent = `You can resend OTP in ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                            otpResend.innerHTML = `You can resend OTP in ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
 
                             if (timeLeft <= 0) {
                                 clearInterval(resendTimer);
                                 resendTimer = null;
-                                otpResend.textContent = '';
+                                otpResend.innerHTML = '';
                                 resendLink.style.display = 'inline';
                             }
                         }, 1000);
                     })
                     .catch(() => {
-                        emailError.textContent = 'Something Went Wrong';
+                        emailError.innerHTML = 'Something Went Wrong';
                     });
             });
 
@@ -261,7 +261,7 @@
                     })
                     .catch(() => {
                         setLoading(otpSubmitBtn, otpSubmitText, false);
-                        otpError.textContent = 'Something Went Wrong';
+                        otpError.innerHTML = 'Something Went Wrong';
                     });
             });
 
@@ -272,19 +272,19 @@
                 setLoading(passwordSubmitBtn, passwordSubmitText, true);
 
                 if (password.length < 6) {
-                    passwordError.textContent = 'Password Minimum 6 Character';
+                    passwordError.innerHTML = 'Password Minimum 6 Character';
                     setLoading(passwordSubmitBtn, passwordSubmitText, false);
                     return;
                 } else {
-                    passwordError.textContent = '';
+                    passwordError.innerHTML = '';
                 }
 
                 if (password !== confirmPassword) {
-                    confirmPasswordError.textContent = 'Confirm Password Not Matched';
+                    confirmPasswordError.innerHTML = 'Confirm Password Not Matched';
                     setLoading(passwordSubmitBtn, passwordSubmitText, false);
                     return;
                 } else {
-                    confirmPasswordError.textContent = '';
+                    confirmPasswordError.innerHTML = '';
                 }
 
                 fetch('/reset-password', {
@@ -306,12 +306,12 @@
                         if (data.success) {
                             window.location.href = '/login';
                         } else {
-                            confirmPasswordError.textContent = data.message;
+                            confirmPasswordError.innerHTML = data.message;
                         }
                     })
                     .catch(() => {
                         setLoading(passwordSubmitBtn, passwordSubmitText, false);
-                        otpError.textContent = 'Something Went Wrong';
+                        otpError.innerHTML = 'Something Went Wrong';
                     });
             });
 
