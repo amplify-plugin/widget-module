@@ -63,6 +63,9 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form id="password-form" class="login-box">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <h4 class="padding-bottom-1x login-box-title">Enter Your New Password</h4>
                     <div class="form-group">
                         <div class="input-group">
