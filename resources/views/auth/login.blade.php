@@ -18,7 +18,7 @@
 
         <x-auth.login.input-remember-forgot-password/>
 
-        <div class="text-center text-sm-right">
+        <div class="d-flex justify-content-center justify-content-sm-end">
             <button class="btn btn-primary margin-bottom-none" type="submit" id="login-submit-btn">
                 <i class="icon-unlock font-weight-bold"></i> {{ $loginButtonTitle() }}
             </button>

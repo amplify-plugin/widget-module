@@ -102,7 +102,7 @@
                             <span class="invalid-feedback d-block" id="confirm-password-error"></span>
                         </div>
 
-                        <div class="text-center text-sm-right">
+                        <div class="d-flex justify-content-center justify-content-sm-end">
                             <button class="btn btn-primary margin-bottom-none" id="password-submit-btn" type="submit">
                                 <span id="password-submit-text">Submit</span>
                             </button>
