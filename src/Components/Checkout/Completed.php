@@ -12,18 +12,16 @@ use Illuminate\Contracts\View\View;
  */
 class Completed extends BaseComponent
 {
-    public $message;
-
-    public $order;
+    public ?CustomerOrder $order;
 
     public function __construct(
-        public $heading = 'Thank you for your order!',
-        $message = 'We have got your order! Your world is about to look a whole lot better. You have earned __reward_point__ rewards.'
-    ) {
-        $order = CustomerOrder::findOrFail(request()->order);
-        $this->order = $order;
-        $this->message = str_replace('__reward_point__', '<b>'.$order->total_amount.'</b>', $message);
-        $this->message = str_replace('__order_number__', '<b>'.$order->erp_order_id.'</b>', $message);
+        public string $heading = 'Thank you for your order!',
+        public string $message = 'We have got your order! Your world is about to look a whole lot better. You have earned __reward_point__ rewards.'
+    )
+    {
+        parent::__construct();
+
+        $this->order = CustomerOrder::findOrFail(request('order'));
     }
 
     /**
@@ -39,9 +37,8 @@ class Completed extends BaseComponent
      */
     public function render(): View|Closure|string
     {
+        $this->message = str_replace(['__reward_point__', '__order_number__'], ["<b>{$this->order->total_amount}</b>", "<b>{$this->order->erp_order_id}</b>"], $this->message);
 
-        return view('widget::checkout.completed', [
-            'order' => $this->order,
-        ]);
+        return view('widget::checkout.completed');
     }
 }

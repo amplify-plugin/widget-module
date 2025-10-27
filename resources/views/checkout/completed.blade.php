@@ -25,7 +25,7 @@
     <div class="padding-top-1x padding-bottom-1x text-center">
         <a class="btn btn-outline-secondary" href="{{ url('shop') }}">Continue Shopping</a>
         @if(customer_check())
-        <a class="btn btn-outline-primary" href="{{ route('frontend.orders.show', [$order->erp_order_id, 'suffix' => 00]) }}">
+        <a class="btn btn-outline-primary" href="{{ route('frontend.orders.show', [$order->erp_order_id ?? $order->id, 'suffix' => 00]) }}">
             <i class="icon-location"></i>&nbsp;Review Order
         </a>
         @endif
