@@ -47,7 +47,7 @@
                     <span id="resend-link" class="resend-otp"
                           style="font-size: 80%; cursor: pointer">Resend OTP ?</span>
 
-                    <div class="text-center text-sm-right">
+                    <div class="d-flex justify-content-center justify-content-sm-end">
                         <button class="btn btn-primary margin-bottom-none" id="otp-submit-btn" type="submit">
                             <span id="otp-submit-text"><i class="icon-location font-weight-bold mr-2"></i>{{ $submitButtonTitle() }}</span>
                         </button>
