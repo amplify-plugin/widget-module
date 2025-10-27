@@ -76,13 +76,13 @@
             $form.validate({
                 rules: {
                     email: {required: true, email: true},
-                    password: {required: true, minlength: {{ $minPassLen }}}
+                    password: {required: true, minlength: {{ $minPassLength }}}
                 },
                 messages: {
                     email: {required: "{{ __('Email is required') }}", email: "{{ __('Enter a valid email') }}"},
                     password: {
                         required: "{{ __('Password is required') }}",
-                        minlength: "{{ __('Password must be at least :n characters.', ['n' => $minPassLen]) }}"
+                        minlength: "{{ __('Password must be at least :n characters.', ['n' => $minPassLength]) }}"
                     }
                 },
                 highlight: function (el) {
