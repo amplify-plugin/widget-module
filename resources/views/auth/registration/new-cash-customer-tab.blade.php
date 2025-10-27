@@ -10,6 +10,7 @@
 
 <div {!! $htmlAttributes !!}>
     <form method="post" id="registration-form-cash-customer"
+          autocomplete="off"
           action="{{ route('frontend.registration.create-cash-customer') }}">
         @csrf
         {!! \Form::hidden('tab', 'cash-customer') !!}

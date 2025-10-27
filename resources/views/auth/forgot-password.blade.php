@@ -4,7 +4,7 @@
         {!! $subtitle ?? '' !!}
         <div class="form-group">
             <div class="input-group">
-                <input class="form-control" type="email" id="email" placeholder="Email" required/>
+                <input class="form-control" type="email" name="email" id="email" placeholder="Email" required/>
                 <span class="input-group-addon">
                 <i class="icon-mail"></i>
             </span>

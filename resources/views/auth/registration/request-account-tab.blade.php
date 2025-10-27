@@ -17,6 +17,7 @@
 
 <div {!! $htmlAttributes !!}>
     <form method="post" id="registration-form-request-account"
+          autocomplete="off"
           action="{{ route('frontend.registration.request-account') }}">
         @csrf
         {!! \Form::hidden('tab', 'request-account') !!}
