@@ -17,8 +17,7 @@ class Completed extends BaseComponent
     public function __construct(
         public string $heading = 'Thank you for your order!',
         public string $message = 'We have got your order! Your world is about to look a whole lot better. You have earned __reward_point__ rewards.'
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->order = CustomerOrder::findOrFail(request('order'));
