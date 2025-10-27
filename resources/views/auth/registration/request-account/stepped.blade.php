@@ -27,6 +27,7 @@
                 <div class="px-2 col-md-6">
                     {!! \Form::rText('customer_street_address', trans('Street Address'), null, false, ['placeholder' => trans('Enter Street Address')]) !!}
                     {!! \Form::rText('customer_postal_code', trans('Postal/Zip Code'), null, false, ['placeholder' => trans('Enter Postal/Zip Code')]) !!}
+                    <input type="hidden" name="required[]" value="search_account_number">
                     {!! \Form::rText('search_account_number', trans('Customer Number/Code'), null, false, ['placeholder' => trans('Enter Customer Number/Code')]) !!}
                     <button class="btn btn-primary"
                             onclick="verifyCustomerInformation(event, this);"
@@ -114,7 +115,10 @@
                     {!! \Form::rSelect('contact_account_title', trans('Account Title'), $accountTitles, null, true, ['placeholder' => 'Select Account Title/Department']) !!}
                 </div>
                 <div class="col-md-6">
-                    {!! \Form::rTel('contact_phone_number', trans('Phone'), null, true, ['placeholder' => 'Enter Contact Phone Number']) !!}
+                    {!! \Form::rTel('contact_phone_number', trans('Phone'), null, true, [
+    'placeholder' => 'Enter Contact Phone Number', 'pattern' => '^[0-9+\-\(\)\.\s]+$',
+    'title' => 'The field may only contain digits and phone symbols (+,-,(,),. & space).'
+    ]) !!}
                 </div>
                 <div class="col-md-6">
                     {!! \Form::rEmail('contact_email', trans("Email Address"), null, true, ['placeholder' => 'Email Address']) !!}
@@ -173,10 +177,12 @@
                         <div class="form-group">
                             <label for="accept_term"></label>
                             <div class="custom-control custom-checkbox">
+                                <input type="hidden" name="required[]" value="contact_accept_term"/>
                                 <input class="form-control custom-control-input"
                                        id="accept_term-checkbox-yes"
                                        name="accept_term"
                                        type="checkbox"
+                                       required
                                        @checked(old('accept_term') =='yes')
                                        value="yes">
                                 <label for="accept_term-checkbox-yes"

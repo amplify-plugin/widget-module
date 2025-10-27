@@ -28,6 +28,7 @@
                            value="{{ old('address_1', $address->address_1 ?? '') }}"
                            class="my-1 form-control @error('address_1') is-invalid @enderror"
                            maxlength="120"
+                           required
                            title="Allowed: letters, numbers, spaces, - . , # / '"
                            data-allow="address_line">
                     @error('address_1')
@@ -57,7 +58,7 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        {!! \Form::rText('city', 'City', old('city', $address->city ?? ''), false, [
+                        {!! \Form::rText('city', 'City', old('city', $address->city ?? ''), true, [
                             'maxlength' => 80,
                             'title'     => "Letters, spaces, hyphen, apostrophe, dot only",
                             'data-allow'=> "city"
@@ -81,10 +82,8 @@
                     </div>
                     <div class="col-md-6">
                         {!! \Form::rText('zip_code', 'Zip/Postal Code', old('zip_code', $address->zip_code ?? ''), false, [
-                            'inputmode' => "numeric",
                             'maxlength' => 10,
-                            'title'     => "Digits only (4–10)",
-                            'data-allow'=> "digits"
+                            'title'     => "Digits, hyphen only (4–10)",
                         ]) !!}
                     </div>
                 </div>
@@ -96,7 +95,7 @@
                             <span>Save</span>
                         </button>
                     </div>
-                    <a href="{{ route('frontend.addresses.index') }}" class="btn btn-default">Cancel</a>
+                    <a href="{{ route('frontend.addresses.index') }}" class="btn btn-outline-secondary">Cancel</a>
                 </div>
             </form>
         </div>
@@ -152,7 +151,7 @@
                 // letters + spaces + hyphen + apostrophe + dot
                 city:         /[^A-Za-z\s\-\.']/g,
                 // digits only
-                digits:       /\D/g
+                postal_code:       /[0-9\-]/g
             };
 
             document.addEventListener('input', function (e) {

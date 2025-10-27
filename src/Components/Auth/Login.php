@@ -22,8 +22,9 @@ class Login extends BaseComponent
         public string $buttonTitle = 'Login',
         public string $displayRegisterLink = 'false',
         public bool $togglePassword = false,
-        public string $registerLinkText = 'Existing customer request online access?')
-    {
+        public string $registerLinkText = 'Existing customer request online access?',
+        public bool $honeyPotProtection = false
+    ) {
         parent::__construct();
     }
 
@@ -44,7 +45,7 @@ class Login extends BaseComponent
 
         $minPassLength = SecurityHelper::passwordLength();
 
-        return view('widget::auth.login', ['minPassLen' => $minPassLength]);
+        return view('widget::auth.login', compact('minPassLength'));
     }
 
     public function displayableTitle()

@@ -7,11 +7,11 @@
                         <input class="custom-file-input form-control" type="file" id="quick_order_file" aria-label="file-label"
                                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                                onchange="readQuickOrderFile(this)" name="quick_order_file">
-                        <label class="custom-file-label" for="file-input" id="quick_order_file_label">
+                        <label class="custom-file-label" style="margin-bottom: 0;" for="file-input" id="quick_order_file_label">
                             {{ __('Load from file...') }}
                         </label>
                     </div>
-                    <div class="quick-order-upload-btn input-group-prepend mt-2">
+                    <div class="quick-order-upload-btn input-group-prepend">
                         <button type="button" id="upload_btn"
                                 class="btn btn-primary btn-sm my-0 btn-block rounded-right"
                                 onclick="UploadQuickOrderFile()">
@@ -55,7 +55,7 @@
             <div class="d-flex justify-content-between align-items-center pb-md-0">
                 <div class="text-success text-bold" id="added_product_count"></div>
                 <div class="text-center">
-                    <button id="add_to_order_btn" class="btn btn-outline-primary btn-sm"
+                    <button id="add_to_order_btn" class="btn btn-primary btn-sm"
                             onclick="addToOrder()">
                         {{ __('Add to Order') }}
                     </button>

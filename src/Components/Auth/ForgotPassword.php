@@ -2,6 +2,7 @@
 
 namespace Amplify\Widget\Components\Auth;
 
+use Amplify\System\Helpers\SecurityHelper;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -11,6 +12,14 @@ use Illuminate\Contracts\View\View;
  */
 class ForgotPassword extends BaseComponent
 {
+    public function __construct(public string $title = 'Forgot Your Password?',
+        public string $buttonTitle = 'Submit',
+        public bool $togglePassword = false)
+    {
+        parent::__construct();
+
+    }
+
     /**
      * Whether the component should be rendered
      */
@@ -24,13 +33,30 @@ class ForgotPassword extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('widget::auth.forgot-password');
+        $minPassLength = SecurityHelper::passwordLength();
+
+        return view('widget::auth.forgot-password', compact('minPassLength'));
     }
 
-    public function htmlAttributes(): string
+    public function displayableTitle()
     {
-        $this->attributes = $this->attributes->merge(['id' => 'app']);
+        if ($this->title == '') {
+            $titleAttribute = collect($this->options['@attributes'])->firstWhere('name', '=', 'title');
 
-        return parent::htmlAttributes();
+            return $titleAttribute['value'];
+        }
+
+        return trans($this->title);
+    }
+
+    public function submitButtonTitle()
+    {
+        if ($this->buttonTitle == '') {
+            $buttonTitleAttribute = collect($this->options['@attributes'])->firstWhere('name', '=', 'button-title');
+
+            return $buttonTitleAttribute['value'];
+        }
+
+        return trans($this->buttonTitle);
     }
 }

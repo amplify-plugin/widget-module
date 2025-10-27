@@ -3,7 +3,8 @@
         {!! \Form::rText('contact_name', 'Name', null, true, ['placeholder' => 'Name']) !!}
     </div>
     <div class="col-md-6">
-        {!! \Form::rText('contact_account_number', 'Account Number', null, true, ['placeholder' => 'Account Number']) !!}
+        <input type="hidden" name="required[]" value="customer_account_number">
+        {!! \Form::rText('customer_account_number', 'Account Number', null, true, ['placeholder' => 'Account Number']) !!}
     </div>
     <div class="col-md-6">
         {!! \Form::rEmail('contact_email', 'Email', null, true, ['placeholder' => 'Email Address']) !!}
@@ -29,7 +30,8 @@
     </div>
     <div class="col-md-6">
         @if($acceptTermsConfirmation)
-            {!! \Form::rCheckbox('contact_accept_term','', ['yes' => 'I accept the '.config('app.name').' Terms and Conditions.']) !!}
+            <input type="hidden" name="required[]" value="contact_accept_term"/>
+            {!! \Form::rCheckbox('contact_accept_term','', ['yes' => 'I accept the '.config('app.name').' Terms and Conditions.'], [], true) !!}
         @endif
     </div>
     @if($captchaVerification)

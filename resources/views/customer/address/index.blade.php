@@ -30,8 +30,8 @@
                     @if (customer(true)->can('ship-to-addresses.add'))
                         <div class="col-md-6 mb-2 mb-md-0">
                             <div class="d-flex justify-content-center justify-content-md-end">
-                                <a class="btn btn-sm btn-primary mr-0" href="{{ route('frontend.addresses.create') }}">
-                                    <i class="icon-plus"></i> Add Address
+                                <a class="btn btn-sm btn-success mr-0" href="{{ route('frontend.addresses.create') }}">
+                                    <i class="icon-plus"></i> Add New Address
                                 </a>
                             </div>
                         </div>

@@ -106,7 +106,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="d-flex justify-content-between align-items-center flex-wrap">
-                            <button class="btn btn-primary margin-right-none"
+                            <button class="btn btn-success margin-right-none"
                                     type="submit">
                                 <i class="pe-7s-diskette"></i>
                                 {{ __('Save') }}

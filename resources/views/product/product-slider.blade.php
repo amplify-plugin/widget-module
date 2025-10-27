@@ -41,7 +41,7 @@
                                     </a>
                                 </p>
                                 @if ($displayProductCode)
-                                    <p class="product-code"><span>Product Code:</span> {{ $product->product_code }}</p>
+                                    <p class="product-code"><span>{{ __('Product Code:') }}</span> {{ $product->product_code }}</p>
                                 @endif
                                 @if ($show_price)
                                     <h4 class="product-price">
