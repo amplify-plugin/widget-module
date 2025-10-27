@@ -24,7 +24,13 @@ class QuantityUpdate extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-
         return view('widget::cart.quantity-update');
+    }
+
+    public function htmlAttributes(): string
+    {
+        $this->attributes = $this->attributes->class('d-flex justify-content-center product-count align-items-center');
+
+        return parent::htmlAttributes();
     }
 }

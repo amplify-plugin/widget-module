@@ -8,7 +8,7 @@
  */
 
 .x-cart-summary {
-    .item-count span,button {
+    .product-count span,button {
         width: 32px;
         height: 32px;
         cursor: pointer;
@@ -22,8 +22,7 @@
     }
 
     .item-quantity {
-        height: 35px !important;
-        width: 70px !important;
+        min-width: 70px;
     }
 
     .item-increase {
@@ -31,6 +30,7 @@
     }
 
     .item-decrease {
+
     }
 
     #cart-item-summary {
