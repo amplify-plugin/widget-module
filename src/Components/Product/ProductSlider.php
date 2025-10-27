@@ -108,9 +108,6 @@ class ProductSlider extends BaseComponent
     {
         $merchandisingZone = MerchandisingZone::find($this->merchandising_zone);
 
-        $result = \Sayt::marchProducts($merchandisingZone->easyask_key, ['per_page' => $this->products_limit]);
-        dump($merchandisingZone->easyask_key, $result->getProducts());
-
         if ($merchandisingZone) {
 
             if (customer_check()) {
