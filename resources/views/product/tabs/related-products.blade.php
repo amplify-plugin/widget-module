@@ -33,8 +33,13 @@
                             style="height: 100%; width: 100%; object-fit: contain;">
                     </div>
                     <div>
-                        <div class="text-uppercase fs-16">{{ $rp->product_code ?? '' }}</div>
-                        <div class="mb-2 font-roboto">{{ $rp->product_name ?? '' }}</div>
+                        <div class="text-uppercase fs-16"><a href="{{ frontendSingleProductURL($rp ?? '#') }}" target="_blank" style="text-decoration: none" class="text-black">{{ $rp->product_code ?? '' }}</a></div>
+                       <div class="mb-2 font-roboto" style="max-width: 700px;">
+                            <a href="{{ frontendSingleProductURL($rp ?? '#') }}" target="_blank" style="text-decoration: none" class="text-black">
+                                {{ $rp->product_name ?? '' }}
+                            </a>
+                        </div>
+
                         @php
                             $specs = collect($rp->specifications ?? []);
                             $first = $specs->slice(0, 2);
@@ -77,7 +82,7 @@
 
                     </div>
                     <div class="d-flex gap-3 align-self-sm-end flex-wrap ml-auto">
-                        <div class="d-flex gap-2 flex-column m-0">
+                        {{-- <div class="d-flex gap-2 flex-column m-0">
                             <x-wishlist-button :product="$rp"
                                 class="flex-center gap-2 btn btn-block btn-outline-primary btn-sm m-0">
                                 <x-slot:add-label>
@@ -89,7 +94,7 @@
                             </x-wishlist-button>
 
                             <x-product-shopping-list :product-id="$rp->id" />
-                        </div>
+                        </div> --}}
                         <div class="d-flex flex-column align-self-end gap-2">
                             <div class="w-100">
                                 <div class="fw-500 align-self-center">Quantity:</div>
