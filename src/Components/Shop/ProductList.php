@@ -39,7 +39,7 @@ class ProductList extends BaseComponent
                 ->whereCustomerId(customer()->getKey())
                 ->get();
         } else {
-            $this->orderList = new Collection();
+            $this->orderList = new Collection;
         }
 
     }

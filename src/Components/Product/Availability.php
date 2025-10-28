@@ -33,7 +33,7 @@ class Availability extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        if ($this->product instanceof ItemRow && !isset($this->product->availability)) {
+        if ($this->product instanceof ItemRow && ! isset($this->product->availability)) {
             $this->product = Product::findOrFail($this->product->Amplify_Id);
         }
 
