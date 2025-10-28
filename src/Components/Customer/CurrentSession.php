@@ -37,7 +37,7 @@ class CurrentSession extends BaseComponent
             $sessionShipTo = $currentLogin?->customerAddress ?? null;
 
             $sessionInfo['Account Name'] = $contact->name ?? 'N/A';
-            $sessionInfo['Customer'] = $customer->customer_name ? "{$customer->customer_erp_id} - {$customer->customer_name}" : 'N/A';
+            $sessionInfo['Customer'] = $customer->customer_name ? "{$customer->erp_id} - {$customer->customer_name}" : 'N/A';
             $sessionInfo['Warehouse'] = $sessionWarehouse ? "{$sessionWarehouse?->code} - {$sessionWarehouse?->name}" : 'None';
             $sessionInfo['Pickup Location'] = 'None';
             $sessionInfo['Shipping Address'] = $sessionShipTo?->address_name ? "{$sessionShipTo?->address_code} - {$sessionShipTo?->address_name}" : 'None';
