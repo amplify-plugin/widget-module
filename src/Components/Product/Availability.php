@@ -33,14 +33,11 @@ class Availability extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $availability = 'A';
-
-        if ($this->product instanceof ItemRow && ! property_exists($this->product, 'availability')) {
-
+        if ($this->product instanceof ItemRow && !isset($this->product->availability)) {
             $this->product = Product::findOrFail($this->product->Amplify_Id);
-
-            $availability = $this->product->availability?->value ?? 'A';
         }
+
+        $availability = $this->product->availability?->value ?? 'A';
 
         return view('widget::product.availability', compact('availability'));
     }

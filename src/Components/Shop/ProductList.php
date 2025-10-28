@@ -2,15 +2,23 @@
 
 namespace Amplify\Widget\Components\Shop;
 
+use Amplify\System\Backend\Models\OrderList;
+use Amplify\System\Backend\Models\OrderListItem;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @class ProductList
  */
 class ProductList extends BaseComponent
 {
+    /**
+     * @var Collection
+     */
+    public $orderList;
+
     public function __construct(
         public bool $showDiscountBadge = false,
         public bool $showFavourite = false,
@@ -25,6 +33,15 @@ class ProductList extends BaseComponent
         public string $alertMessageUnauthenticated = '',
     ) {
         parent::__construct();
+
+        if (customer_check() & $this->showFavourite) {
+            $this->orderList = OrderList::with('orderListItems')
+                ->whereCustomerId(customer()->getKey())
+                ->get();
+        } else {
+            $this->orderList = new Collection();
+        }
+
     }
 
     /**
@@ -109,5 +126,18 @@ class ProductList extends BaseComponent
     public function isShowMultipleWarehouse($product): bool
     {
         return ! $this->isMasterProduct($product) && erp()->allowMultiWarehouse() && havePermissions(['checkout.choose-warehouse']);
+    }
+
+    protected function productExistOnFavorite($id, &$product): ?OrderListItem
+    {
+        if ($this->orderList && $this->showFavourite) {
+            foreach ($this->orderList as $orderList) {
+                if ($item = $orderList->orderListItems->firstWhere('product_id', $id)) {
+                    return $item;
+                }
+            }
+        }
+
+        return null;
     }
 }
