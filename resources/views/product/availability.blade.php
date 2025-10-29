@@ -31,4 +31,5 @@
 {{--    @else--}}
 {{--        {{ product_out_stock_message() }}--}}
 {{--    @endif--}}
+    
 </span>
