@@ -41,7 +41,6 @@ class Index extends BaseComponent
     public function render(): View|Closure|string
     {
         $class = match (config('amplify.client_code')) {
-            'NUX' => \Amplify\Widget\Components\Client\Nudraulix\Order\Index::class,
             default => \Amplify\Widget\Components\Client\Demo\Order\Index::class,
         };
         $this->component = new $class;

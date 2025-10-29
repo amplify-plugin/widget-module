@@ -45,10 +45,8 @@ class ProductSkuTable extends BaseComponent
     {
         $class = match (config('amplify.client_code')) {
             'MW' => \Amplify\Widget\Components\Client\MountainWest\Product\ProductSkuTable::class,
-            'SPI' => \Amplify\Widget\Components\Client\SpiSafety\Product\ProductSkuTable::class,
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Product\ProductSkuTable::class,
             'ACT' => \Amplify\Widget\Components\Client\CalTool\Product\ProductSkuTable::class,
-            'DKL' => \Amplify\Widget\Components\Client\DKLOK\Product\ProductSkuTable::class,
             default => \Amplify\Widget\Components\Client\Demo\Product\ProductSkuTable::class,
         };
 

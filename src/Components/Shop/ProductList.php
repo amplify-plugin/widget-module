@@ -59,11 +59,8 @@ class ProductList extends BaseComponent
     {
         $class = match (config('amplify.client_code')) {
             'MW' => \Amplify\Widget\Components\Client\MountainWest\Product\ProductList::class,
-            'SPI' => \Amplify\Widget\Components\Client\SpiSafety\Product\ProductList::class,
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Product\ProductList::class,
             'ACT' => \Amplify\Widget\Components\Client\CalTool\Product\ProductList::class,
-            'NUX' => \Amplify\Widget\Components\Client\Nudraulix\Product\ProductList::class,
-            'HAN' => \Amplify\Widget\Components\Client\Hanco\Product\ProductList::class,
             default => \Amplify\Widget\Components\Client\Demo\Product\ProductList::class,
         };
 

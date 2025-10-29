@@ -28,9 +28,7 @@ class CartSummary extends BaseComponent
     {
         $class = match (config('amplify.client_code')) {
             'MW' => \Amplify\Widget\Components\Client\MountainWest\CartSummary::class,
-            'SPI' => \Amplify\Widget\Components\Client\SpiSafety\CartSummary::class,
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\CartSummary::class,
-            'HAN' => \Amplify\Widget\Components\Client\Hanco\CartSummary::class,
             default => \Amplify\Widget\Components\Client\Demo\CartSummary::class,
         };
 

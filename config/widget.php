@@ -3393,7 +3393,7 @@ return [
         'reserved' => true,
         'internal' => false,
         '@inside' => null,
-        '@client' => 'SPI',
+        '@client' => null,
         'model' => ['static_page'],
         '@attributes' => [],
         '@nestedItems' => [],

@@ -29,9 +29,7 @@ class Checkout extends BaseComponent
         $class = match (config('amplify.client_code')) {
             'ACT' => \Amplify\Widget\Components\Client\CalTool\Checkout::class,
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Checkout::class,
-            'DKL' => \Amplify\Widget\Components\Client\DKLOK\Checkout::class,
-            'NUX' => \Amplify\Widget\Components\Client\Nudraulix\Checkout::class,
-            default => \Amplify\Widget\Components\Client\SpiSafety\Checkout::class,
+            default => \Amplify\Widget\Components\Checkout::class,
         };
 
         $this->component = new $class;

@@ -89,7 +89,6 @@ class CategorySlider extends BaseComponent
     {
         $view = match (config('amplify.client_code')) {
             'ACT' => 'widget::client.cal-tool.widget.category-slider',
-            'HAN' => 'widget::client.hanco.widget.category-slider',
             default => 'widget::category-slider',
         };
 
