@@ -1,5 +1,5 @@
 <span {!! $htmlAttributes !!}>
-    @if($value != null)
+{{--    @if($value > 0)--}}
         @switch($availability)
             @case('I')
                 @if($value > 500)
@@ -26,9 +26,9 @@
                 @break
 
             @default {{-- A --}}
-            {{ number_format($value) }}
+            {{ number_format($value ?? 0) }}
         @endswitch
-    @else
-        {{ product_out_stock_message() }}
-    @endif
+{{--    @else--}}
+{{--        {{ product_out_stock_message() }}--}}
+{{--    @endif--}}
 </span>
