@@ -175,30 +175,13 @@ class Breadcrumb extends BaseComponent
 
     protected function processEANodes(array $navigateNodes = []): void
     {
-        $navigateNodes = array_reverse($navigateNodes);
-
-        foreach ($navigateNodes as $breadcrumb) {
-
-            switch ($breadcrumb->getType()) {
-                case 3:
-                    $this->navigateNode = $breadcrumb;
-                    $title = ($this->page->page_type == 'shop') ? ucwords($breadcrumb->getValue()) : $this->page->name;
-                    break;
-                case 2:
-                    $title = collect(explode(' = ', $breadcrumb->getLabel()))->map(fn($item) => trim($item, '\''))->join('=');
-                    break;
-                default;
-                    $title = $breadcrumb->getValue();
-            }
-
-            $url = frontendShopURL([
+        foreach (array_reverse($navigateNodes) as $breadcrumb) {
+            $this->push($breadcrumb->getLabel(), frontendShopURL([
                 $breadcrumb->getSEOPath(),
                 'view' => active_shop_view(),
                 'per_page' => request('per_page', getPaginationLengths()[0]),
                 'sort_by' => request('sort_by', ''),
-            ]);
-
-            $this->push($title, $url);
+            ]));
         }
 
         $this->push('Home', $this->homeUrl());
