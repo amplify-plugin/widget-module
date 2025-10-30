@@ -27,7 +27,6 @@ class CartSummary extends BaseComponent
     public function render(): View|Closure|string
     {
         $class = match (config('amplify.client_code')) {
-            'MW' => \Amplify\Widget\Components\Client\MountainWest\CartSummary::class,
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\CartSummary::class,
             default => \Amplify\Widget\Components\Client\Demo\CartSummary::class,
         };
