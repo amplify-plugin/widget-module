@@ -60,7 +60,6 @@ class ProductDetails extends BaseComponent
     public function render(): View|Closure|string
     {
         $class = match (config('amplify.client_code')) {
-            'MW' => \Amplify\Widget\Components\Client\MountainWest\Product\ProductDetail::class,
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Product\ProductDetail::class,
             'ACT' => \Amplify\Widget\Components\Client\CalTool\Product\ProductDetail::class,
             default => \Amplify\Widget\Components\Client\Demo\Product\ProductDetails::class,
