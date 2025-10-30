@@ -52,7 +52,7 @@ class Breadcrumb extends BaseComponent
         }
 
         if ($this->page instanceof Page) {
-            return (bool)$this->page->has_breadcrumb;
+            return (bool) $this->page->has_breadcrumb;
         }
 
         return true;
@@ -67,7 +67,7 @@ class Breadcrumb extends BaseComponent
     {
 
         if ($this->error) {
-            $this->push('Error ' . $this->title, url()->current());
+            $this->push('Error '.$this->title, url()->current());
             $this->push('Home', $this->homeUrl());
         } else {
             if (in_array($this->page->page_type, ['shop', 'single_product'])) {
@@ -100,7 +100,7 @@ class Breadcrumb extends BaseComponent
     public function homeUrl()
     {
         return getIsDynamicSiteFromCache()
-            ? request()->getSchemeAndHttpHost() . '/' . getDynamicSiteSlugFromCache()
+            ? request()->getSchemeAndHttpHost().'/'.getDynamicSiteSlugFromCache()
             : route('frontend.index');
     }
 
@@ -108,7 +108,7 @@ class Breadcrumb extends BaseComponent
     {
         $this->push(($page->breadcrumb_title != null ? $page->breadcrumb_title : $page->name), url($page->slug));
 
-        if (!empty($page->parent)) {
+        if (! empty($page->parent)) {
             $this->loadDynamicPageBreadcrumbs($page->parent);
         }
     }
@@ -132,7 +132,7 @@ class Breadcrumb extends BaseComponent
 
         if ($this->navigateNode != null) {
             if ($this->page->page_type == 'shop') {
-                return $this->navigateNode->getLabel() . ' <strong><em>\'' . ucwords($this->navigateNode->getEnglishName()) . '\'</em></strong>';
+                return $this->navigateNode->getLabel().' <strong><em>\''.ucwords($this->navigateNode->getEnglishName()).'\'</em></strong>';
             } else {
                 return store('pageTitle', 'Product Detail');
             }
@@ -185,9 +185,9 @@ class Breadcrumb extends BaseComponent
                     $title = ($this->page->page_type == 'shop') ? ucwords($breadcrumb->getValue()) : $this->page->name;
                     break;
                 case 2:
-                    $title = collect(explode(' = ', $breadcrumb->getLabel()))->map(fn($item) => trim($item, '\''))->join('=');
+                    $title = collect(explode(' = ', $breadcrumb->getLabel()))->map(fn ($item) => trim($item, '\''))->join('=');
                     break;
-                default;
+                default:
                     $title = $breadcrumb->getValue();
             }
 
