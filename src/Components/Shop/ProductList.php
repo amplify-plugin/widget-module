@@ -20,17 +20,17 @@ class ProductList extends BaseComponent
     public $orderList;
 
     public function __construct(
-        public bool $showDiscountBadge = false,
-        public bool $showFavourite = false,
-        public bool $showPublicPrice = false,
-        public bool $showCartButton = false,
-        public bool $displayProductCode = false,
-        public bool $displayProductBrand = false,
-        public bool $skuQuickOrderOption = false,
+        public bool   $showDiscountBadge = false,
+        public bool   $showFavourite = false,
+        public bool   $showPublicPrice = false,
+        public bool   $showCartButton = false,
+        public bool   $showProductCode = false,
+        public bool   $showProductBrand = false,
+        public bool   $skuQuickOrderOption = false,
         public string $cartButtonLabel = 'Add To Cart',
         public string $detailButtonLabel = 'View Details',
-        public bool $humanizeProductName = true,
         public string $alertMessageUnauthenticated = '',
+        public int    $gridItemsPerLine = 5,
     ) {
         parent::__construct();
 
@@ -72,12 +72,12 @@ class ProductList extends BaseComponent
 
     public function allowDisplayProductCode(): bool
     {
-        return $this->displayProductCode;
+        return $this->showProductCode;
     }
 
     public function allowDisplayProductBrand(): bool
     {
-        return $this->displayProductBrand;
+        return $this->showProductBrand;
     }
 
     public function allowFavourites(): bool
@@ -97,10 +97,6 @@ class ProductList extends BaseComponent
 
     public function humanizeProductName(string $productName = ''): ?string
     {
-        if ($this->humanizeProductName) {
-            return ucwords(str_replace(['_', '-'], ' ', $productName));
-        }
-
         return $productName;
     }
 

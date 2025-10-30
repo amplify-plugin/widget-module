@@ -2640,6 +2640,42 @@ return [
         '@inside' => null,
         '@attributes' => [
             [
+                'name' => ':show-discount-badge',
+                'type' => 'boolean',
+                'value' => false,
+            ],
+            [
+                'name' => ':show-favourite',
+                'type' => 'boolean',
+                'value' => false,
+            ],
+            [
+                'name' => ':show-public-price',
+                'type' => 'boolean',
+                'value' => false,
+            ],
+            [
+                'name' => ':show-cart-button',
+                'type' => 'boolean',
+                'value' => false,
+            ],
+            [
+                'name' => ':show-product-code',
+                'type' => 'boolean',
+                'value' => false,
+            ],
+            [
+                'name' => 'show-product-brand',
+                'type' => 'boolean',
+                'value' => false,
+            ],
+            [
+                'name' => ':sku-quick-order-option',
+                'type' => 'boolean',
+                'value' => false,
+                'hint' => 'Only for master product',
+            ],
+            [
                 'name' => 'cart-button-label',
                 'type' => 'text',
                 'value' => 'Add To Cart',
@@ -2650,46 +2686,10 @@ return [
                 'value' => 'View Details',
             ],
             [
-                'name' => 'show-discount-badge',
-                'type' => 'boolean',
-                'value' => false,
-            ],
-            [
-                'name' => 'show-favourite',
-                'type' => 'boolean',
-                'value' => false,
-            ],
-            [
-                'name' => 'show-public-price',
-                'type' => 'boolean',
-                'value' => false,
-            ],
-            [
-                'name' => 'show-cart-button',
-                'type' => 'boolean',
-                'value' => false,
-            ],
-            [
-                'name' => 'display-product-code',
-                'type' => 'boolean',
-                'value' => false,
-            ],
-            [
-                'name' => 'display-product-brand',
-                'type' => 'boolean',
-                'value' => false,
-            ],
-            [
-                'name' => 'sku-quick-order-option',
-                'type' => 'boolean',
-                'value' => false,
-                'hint' => 'Only for master product',
-            ],
-            [
-                'name' => 'humanize-product-name',
-                'type' => 'boolean',
-                'value' => true,
-                'hint' => 'System will apply styles to product name human readable.',
+                'name' => 'grid-item-per-line',
+                'type' => 'number',
+                'value' => '5',
+                'hint' => 'On grid view number of the cards display in one line'
             ],
         ],
         '@nestedItems' => [],
@@ -3542,7 +3542,7 @@ return [
             [
                 'name' => 'id',
                 'type' => 'text',
-                'value' => 'drawer_'.mt_rand(1000, 9000),
+                'value' => 'drawer_' . mt_rand(1000, 9000),
                 'hint' => 'Unique ID the control drawer behavior.',
             ],
             [
