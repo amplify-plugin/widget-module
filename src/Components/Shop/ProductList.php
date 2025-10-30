@@ -20,17 +20,17 @@ class ProductList extends BaseComponent
     public $orderList;
 
     public function __construct(
-        public bool   $showDiscountBadge = false,
-        public bool   $showFavourite = false,
-        public bool   $showPublicPrice = false,
-        public bool   $showCartButton = false,
-        public bool   $showProductCode = false,
-        public bool   $showProductBrand = false,
-        public bool   $skuQuickOrderOption = false,
+        public bool $showDiscountBadge = false,
+        public bool $showFavourite = false,
+        public bool $showPublicPrice = false,
+        public bool $showCartButton = false,
+        public bool $showProductCode = false,
+        public bool $showProductBrand = false,
+        public bool $skuQuickOrderOption = false,
         public string $cartButtonLabel = 'Add To Cart',
         public string $detailButtonLabel = 'View Details',
         public string $alertMessageUnauthenticated = '',
-        public int    $gridItemsPerLine = 5,
+        public int $gridItemsPerLine = 5,
     ) {
         parent::__construct();
 

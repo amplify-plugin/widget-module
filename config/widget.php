@@ -2689,7 +2689,7 @@ return [
                 'name' => 'grid-item-per-line',
                 'type' => 'number',
                 'value' => '5',
-                'hint' => 'On grid view number of the cards display in one line'
+                'hint' => 'On grid view number of the cards display in one line',
             ],
         ],
         '@nestedItems' => [],
@@ -3542,7 +3542,7 @@ return [
             [
                 'name' => 'id',
                 'type' => 'text',
-                'value' => 'drawer_' . mt_rand(1000, 9000),
+                'value' => 'drawer_'.mt_rand(1000, 9000),
                 'hint' => 'Unique ID the control drawer behavior.',
             ],
             [
