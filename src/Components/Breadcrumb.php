@@ -22,9 +22,9 @@ class Breadcrumb extends BaseComponent
 
     public Collection $breadcrumbs;
 
-    private ?Page $page;
+    protected ?Page $page;
 
-    private mixed $navigateNode;
+    protected mixed $navigateNode;
 
     /**
      * Create a new component instance.
@@ -52,7 +52,7 @@ class Breadcrumb extends BaseComponent
         }
 
         if ($this->page instanceof Page) {
-            return (bool) $this->page->has_breadcrumb;
+            return (bool)$this->page->has_breadcrumb;
         }
 
         return true;
@@ -67,7 +67,7 @@ class Breadcrumb extends BaseComponent
     {
 
         if ($this->error) {
-            $this->push('Error '.$this->title, url()->current());
+            $this->push('Error ' . $this->title, url()->current());
             $this->push('Home', $this->homeUrl());
         } else {
             if (in_array($this->page->page_type, ['shop', 'single_product'])) {
@@ -84,7 +84,7 @@ class Breadcrumb extends BaseComponent
         ]);
     }
 
-    private function push(string $title, string $url): void
+    protected function push(string $title, string $url): void
     {
         $node = new \stdClass;
 
@@ -100,15 +100,15 @@ class Breadcrumb extends BaseComponent
     public function homeUrl()
     {
         return getIsDynamicSiteFromCache()
-            ? request()->getSchemeAndHttpHost().'/'.getDynamicSiteSlugFromCache()
+            ? request()->getSchemeAndHttpHost() . '/' . getDynamicSiteSlugFromCache()
             : route('frontend.index');
     }
 
-    private function loadDynamicPageBreadcrumbs(?Page $page = null): void
+    protected function loadDynamicPageBreadcrumbs(?Page $page = null): void
     {
         $this->push(($page->breadcrumb_title != null ? $page->breadcrumb_title : $page->name), url($page->slug));
 
-        if (! empty($page->parent)) {
+        if (!empty($page->parent)) {
             $this->loadDynamicPageBreadcrumbs($page->parent);
         }
     }
@@ -132,7 +132,7 @@ class Breadcrumb extends BaseComponent
 
         if ($this->navigateNode != null) {
             if ($this->page->page_type == 'shop') {
-                return $this->navigateNode->getLabel().' <strong><em>\''.ucwords($this->navigateNode->getEnglishName()).'\'</em></strong>';
+                return $this->navigateNode->getLabel() . ' <strong><em>\'' . ucwords($this->navigateNode->getEnglishName()) . '\'</em></strong>';
             } else {
                 return store('pageTitle', 'Product Detail');
             }
@@ -141,7 +141,7 @@ class Breadcrumb extends BaseComponent
         return $this->breadcrumbs->first()?->title ?? 'No Name';
     }
 
-    private function errorTitle(): string
+    protected function errorTitle(): string
     {
         return match ($this->title) {
             '400' => 'Bad Request',
@@ -162,7 +162,7 @@ class Breadcrumb extends BaseComponent
     /**
      * @throws ErrorException
      */
-    private function loadEasyAskBreadcrumbs(?Page $page): void
+    protected function loadEasyAskBreadcrumbs(?Page $page): void
     {
         $easyAskResult = ($page->page_type == 'shop') ? store()->eaProductsData : store()->eaProductDetail;
 
@@ -170,26 +170,30 @@ class Breadcrumb extends BaseComponent
 
         $navigateNodes = $breadcrumbTrails->getSearchPath();
 
+        $this->processEANodes($navigateNodes);
+    }
+
+    protected function processEANodes(array $navigateNodes = []): void
+    {
         $navigateNodes = array_reverse($navigateNodes);
 
         foreach ($navigateNodes as $breadcrumb) {
 
-            if ($breadcrumb->getType() == 3) {
-                $this->navigateNode = $breadcrumb;
-                $title = ($page->page_type == 'shop') ? ucwords($breadcrumb->getValue()) : $page->name;
+            switch ($breadcrumb->getType()) {
+                case 3:
+                    $this->navigateNode = $breadcrumb;
+                    $title = ($this->page->page_type == 'shop') ? ucwords($breadcrumb->getValue()) : $this->page->name;
+                    break;
+                case 2:
+                    $title = collect(explode(' = ', $breadcrumb->getLabel()))->map(fn($item) => trim($item, '\''))->join('=');
+                    break;
+                default;
+                    $title = $breadcrumb->getValue();
             }
 
-            if ($breadcrumb->getType() == 2) {
-                $title = collect(explode(' = ', $breadcrumb->getLabel()))->map(fn ($item) => trim($item, '\''))->join('=');
-            }
-
-            if ($breadcrumb->getType() == 1) {
-                $title = $breadcrumb->getValue();
-            }
-
-            $url = route('frontend.shop.index', [
+            $url = frontendShopURL([
                 $breadcrumb->getSEOPath(),
-                'view' => request('view', config('amplify.frontend.shop_page_default_view')),
+                'view' => active_shop_view(),
                 'per_page' => request('per_page', getPaginationLengths()[0]),
                 'sort_by' => request('sort_by', ''),
             ]);
