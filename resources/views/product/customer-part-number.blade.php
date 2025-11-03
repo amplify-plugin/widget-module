@@ -35,10 +35,15 @@
 @pushonce('footer-script')
     <script>
         function syncCustomerPartNumber(input, productId) {
-            let current = input.attr('data-current');
-            let value = input.val();
+            let current = input.attr('data-current').toString();
+            let value = input.val().toString();
 
             if (!value) {
+                ShowNotification('error', 'Customer Part Number', '{{ $label }} field is required.');
+                return;
+            }
+
+            if(current.length > 0 && value.length === 0) {
                 ShowNotification('error', 'Customer Part Number', '{{ $label }} field is required.');
                 return;
             }
@@ -59,6 +64,7 @@
                 },
                 success: function(res) {
                     ShowNotification('success', 'Customer Part Number', res.message);
+                    input.attr('data-current', value);
                 },
                 error: function(xhr, status, err) {
                     ShowNotification('error', 'Customer Part Number', JSON.parse(xhr.responseText)?.message ?? '{{ __('SSomething went wrong. Please try again later!') }}');
