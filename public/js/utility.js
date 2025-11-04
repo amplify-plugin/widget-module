@@ -4,66 +4,7 @@
     * This function is used to show notification toaster with title and message based on the type of notification.
     */
 function ShowNotification(type = 'info', title = 'Title', message = 'Your message here') {
-    let icon = '';
-    if (type === 'error') {
-        type = 'danger';
-    }
-
-    switch (type) {
-        case 'success':
-            icon = 'icon-circle-check';
-            break;
-        case 'danger':
-            icon = 'icon-ban';
-            break;
-        case 'warning':
-            icon = 'icon-flag';
-            break;
-        case 'info':
-            icon = 'icon-bell';
-            break;
-    }
-
-    let toast = {
-        class: "iziToast-" + type || "",
-        message: message || "toast message",
-        animateInside: !1,
-        position: "topRight",
-        progressBar: !1,
-        icon: icon,
-        timeout: 3200,
-        transitionIn: "fadeInLeft",
-        transitionOut: "fadeOut",
-        transitionInMobile: "fadeIn",
-        transitionOutMobile: "fadeOut",
-    };
-
-    iziToast.show(toast);
-}
-
-function accountLogout(event, element) {
-
-    event.preventDefault();
-
-    if (!element.dataset.route) {
-        ShowNotification('warning', 'Authentication', 'Logout Route is missing');
-        return;
-    }
-
-    $.ajax({
-        type: 'POST',
-        data: {},
-        url: element.dataset.route,
-        success: function (result) {
-            ShowNotification('success', 'Authentication', result.message);
-            setTimeout(function () {
-                window.location.replace(window.location.origin);
-            }, 500);
-        }, error: function (xhr, response, error) {
-            let result = JSON.parse(response.responseText);
-            ShowNotification('warning', 'Authentication', result.message);
-        }
-    });
+    Amplify.notify(type, message, title);
 }
 
 function setPositionOffCanvas(isClosed = true) {
