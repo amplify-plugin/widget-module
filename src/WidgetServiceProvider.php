@@ -11,7 +11,7 @@ class WidgetServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/widget.php',
+            __DIR__.'/../config/widget.php',
             'amplify.widget'
         );
     }
@@ -21,26 +21,26 @@ class WidgetServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'widget');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'widget');
 
-        $this->loadRoutesFrom(__DIR__ . '/../routes/widget.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/widget.php');
 
         $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/widget'),
+            __DIR__.'/../public' => public_path('vendor/widget'),
         ], 'widget-asset');
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/amplify/widget'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/amplify/widget'),
         ]);
 
         if ($this->app->runningInConsole()) {
             $this->commands([WidgetMakeCommand::class]);
         }
 
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             $this->app->booted(function ($app) {
                 $request = $this->app->make(\Illuminate\Http\Request::class);
-                if (!$request?->is('admin/*')) {
+                if (! $request?->is('admin/*')) {
                     push_js(mix('js/modernizr.min.js', 'vendor/widget'), 'head-script');
                     push_js(mix('js/utility.js', 'vendor/widget'), 'custom-script');
                     push_js(mix('js/widgets.js', 'vendor/widget'), 'plugin-script');
