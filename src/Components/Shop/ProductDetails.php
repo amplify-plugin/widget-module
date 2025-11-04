@@ -5,45 +5,35 @@ namespace Amplify\Widget\Components\Shop;
 use Amplify\Frontend\Http\Controllers\DynamicPageLoadController;
 use Amplify\System\Backend\Models\CategoryProduct;
 use Amplify\System\Backend\Models\DocumentTypeProduct;
+use Amplify\System\Backend\Models\OrderList;
+use Amplify\System\Backend\Models\OrderListItem;
 use Amplify\System\Helpers\UtilityHelper;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 
 /**
  * @class ProductDetails
  */
 class ProductDetails extends BaseComponent
 {
-    public ?bool $showDiscountBadge;
-
-    public ?bool $showFavourite;
-
-    public ?bool $displayProductCode;
-
-    /**
-     * @var array
-     */
-    public $options;
+    protected Collection $orderList;
 
     public $component;
-
-    public string $cartButtonLabel;
 
     /**
      * Create a new component instance.
      */
-    public function __construct(string $showDiscountBadge = 'false',
-        string $showFavourite = 'false',
-        string $displayProductCode = 'false',
-        string $cartButtonLabel = 'Add To Cart'
+    public function __construct(
+        public bool  $showDiscountBadge = false,
+        public bool $showFavourite = false,
+        public bool $displayProductCode = false,
+        public string $cartButtonLabel = 'Add To Cart'
     ) {
         parent::__construct();
-        $this->showDiscountBadge = UtilityHelper::typeCast($showDiscountBadge, 'bool');
-        $this->showFavourite = UtilityHelper::typeCast($showFavourite, 'bool');
-        $this->displayProductCode = UtilityHelper::typeCast($displayProductCode, 'bool');
-        $this->cartButtonLabel = $cartButtonLabel;
 
+        $this->getOrderList();
     }
 
     /**
@@ -176,5 +166,29 @@ class ProductDetails extends BaseComponent
                 'name' => 'url',
             ],
         ];
+    }
+
+    protected function productExistOnFavorite($id): ?OrderListItem
+    {
+        if (! empty($this->orderList) && $this->showFavourite) {
+            foreach ($this->orderList as $orderList) {
+                if ($item = $orderList->orderListItems->firstWhere('product_id', $id)) {
+                    return $item;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get Customer OrderList
+     */
+    protected function getOrderList(): void
+    {
+        if (customer_check() && $this->showFavourite) {
+            $this->orderList = OrderList::with('orderListItems')
+                ->whereCustomerId(customer()->getKey())->get();
+        }
     }
 }
