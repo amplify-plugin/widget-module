@@ -37,19 +37,19 @@ class WidgetServiceProvider extends ServiceProvider
             $this->commands([WidgetMakeCommand::class]);
         }
 
-        $this->app->booted(function ($app) {
+        if (!$this->app->runningInConsole()) {
+            $this->app->booted(function ($app) {
+                $request = $this->app->make(\Illuminate\Http\Request::class);
+                if (!$request?->is('admin/*')) {
+                    push_js(mix('js/modernizr.min.js', 'vendor/widget'), 'head-script');
+                    push_js(mix('js/utility.js', 'vendor/widget'), 'custom-script');
+                    push_js(mix('js/widgets.js', 'vendor/widget'), 'plugin-script');
 
-            $request = $this->app->make(\Illuminate\Http\Request::class);
-
-            if (!$request?->is('admin/*')) {
-
-                push_js(mix('js/modernizr.min.js', 'vendor/widget'), 'head-script');
-                push_js(mix('js/utility.js', 'vendor/widget'), 'custom-script');
-
-                foreach (config('amplify.widget', []) as $classNameSpace => $options) {
-                    Widget::process($classNameSpace, $options['name']);
+                    foreach (config('amplify.widget', []) as $classNameSpace => $options) {
+                        Widget::process($classNameSpace, $options['name']);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }
