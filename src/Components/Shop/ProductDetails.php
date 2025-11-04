@@ -7,7 +7,6 @@ use Amplify\System\Backend\Models\CategoryProduct;
 use Amplify\System\Backend\Models\DocumentTypeProduct;
 use Amplify\System\Backend\Models\OrderList;
 use Amplify\System\Backend\Models\OrderListItem;
-use Amplify\System\Helpers\UtilityHelper;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -26,7 +25,7 @@ class ProductDetails extends BaseComponent
      * Create a new component instance.
      */
     public function __construct(
-        public bool  $showDiscountBadge = false,
+        public bool $showDiscountBadge = false,
         public bool $showFavourite = false,
         public bool $displayProductCode = false,
         public string $cartButtonLabel = 'Add To Cart'
