@@ -35,7 +35,7 @@ class CustomerPartNumber extends BaseComponent
     public function render(): View|Closure|string
     {
         $this->customerPartNumber = new CustomPartNumber([
-            'company_id' => null,
+            'company_id' => 1,
             'product_id' => $this->productId,
             'customer_id' => null,
             'customer_product_code' => null,
