@@ -23,9 +23,6 @@
     @case('RHS')
         src="{{ theme_asset('rhsparts/js/rhs-cart.js') }}"
         @break
-    @case('NUX')
-        src="{{ asset('themes/nudraulix/assets/js/cart.js') }}"
-        @break
     @default
         src="{{ asset('assets/js/cart.js') }}"
 @endswitch
