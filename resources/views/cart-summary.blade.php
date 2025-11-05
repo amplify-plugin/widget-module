@@ -33,7 +33,7 @@
 
     <div class="shopping-cart-footer">
         <div class="column">
-            <a class="btn btn-outline-secondary btn-sm" href="{{ route('frontend.shop.index') }}">
+            <a class="btn btn-outline-secondary btn-sm" href="{{ $backToShoppingUrl() }}">
                 <i class="icon-arrow-left"></i>&nbsp;Back to Shopping
             </a>
         </div>

@@ -523,7 +523,17 @@ return [
         '@client' => null,
         'model' => ['cart'],
         'description' => 'cart detail handle products',
-        '@attributes' => [],
+        '@attributes' => [
+            [
+                'name' => 'back-to-url',
+                'type' => 'select',
+                'value' => 'shop',
+                'options' => [
+                    'home' => 'Home',
+                    'shop' => 'Shop (All Products)'
+                ]
+            ]
+        ],
         '@nestedItems' => [
             [
                 'name' => 'x-slot:item-row',
