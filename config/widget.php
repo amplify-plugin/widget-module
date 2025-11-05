@@ -530,9 +530,9 @@ return [
                 'value' => 'shop',
                 'options' => [
                     'home' => 'Home',
-                    'shop' => 'Shop (All Products)'
-                ]
-            ]
+                    'shop' => 'Shop (All Products)',
+                ],
+            ],
         ],
         '@nestedItems' => [
             [
