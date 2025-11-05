@@ -2,7 +2,6 @@
 
 namespace Amplify\Widget\Components\Client\Demo;
 
-use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
