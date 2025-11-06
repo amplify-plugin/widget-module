@@ -15,7 +15,7 @@ class CustomerPartNumber extends BaseComponent
 {
     public CustomPartNumber $customerPartNumber;
 
-    public function __construct(public int $productId, public string $label = 'Customer Part Number')
+    public function __construct(public int $productId, public string $label = 'Customer Part Number', public string $uom = 'EA')
     {
         parent::__construct();
 
@@ -39,13 +39,17 @@ class CustomerPartNumber extends BaseComponent
             'product_id' => $this->productId,
             'customer_id' => null,
             'customer_product_code' => null,
-            'customer_product_uom' => 'EA',
+            'customer_product_uom' => $this->uom,
             'customer_address_id' => null,
 
         ]);
 
         if (customer_check()) {
             if ($customerPartNumber = CustomPartNumber::where(['customer_id' => customer()->getKey(), 'product_id' => $this->productId])->first()) {
+                if (empty($customerPartNumber->customer_product_uom)) {
+                    $customerPartNumber->customer_product_uom = $this->uom;
+                    $customerPartNumber->save();
+                }
                 $this->customerPartNumber = $customerPartNumber;
             }
         }

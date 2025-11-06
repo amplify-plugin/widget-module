@@ -87,6 +87,7 @@ window.Amplify = {
         const actionLink = button.dataset.route;
         const productId = button.dataset.productId;
         const oldValue = input.dataset.current.toString();
+        const uom = input.dataset.uom.toString();
         const newValue = input.value.toString();
 
         if (!this.authenticated()) {
@@ -118,7 +119,7 @@ window.Amplify = {
                                 type: 'DELETE',
                                 data: {
                                     product_id: productId,
-                                    customer_product_uom: 'EA',
+                                    customer_product_uom: uom,
                                     customer_product_code: oldValue,
                                 },
                                 success: function (result) {
@@ -146,7 +147,7 @@ window.Amplify = {
                 type: 'POST',
                 data: {
                     product_id: productId,
-                    customer_product_uom: 'EA',
+                    customer_product_uom: uom,
                     customer_product_code: newValue,
                 },
                 success: function (response) {
