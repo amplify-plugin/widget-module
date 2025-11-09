@@ -31,6 +31,7 @@ class ProductList extends BaseComponent
         public string $detailButtonLabel = 'View Details',
         public string $alertMessageUnauthenticated = '',
         public int $gridItemsPerLine = 5,
+        public bool $showPaginationOnTop = false
     ) {
         parent::__construct();
 
@@ -57,6 +58,16 @@ class ProductList extends BaseComponent
      */
     public function render(): View|Closure|string
     {
+        $productView = active_shop_view();
+
+        $easyAskResult = store()->eaProductsData;
+
+        $products = $easyAskResult->getProducts();
+
+        $seoPath = $easyAskResult->getCurrentSeoPath();
+
+        $message = $easyAskResult->getMessage();
+
         $class = match (config('amplify.client_code')) {
             'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Product\ProductList::class,
             'ACT' => \Amplify\Widget\Components\Client\CalTool\Product\ProductList::class,
@@ -67,7 +78,7 @@ class ProductList extends BaseComponent
 
         $this->component->attributes = $this->attributes;
 
-        return $this->component->render();
+        return \view('widgets::shop.product-list', compact('productView', 'products', 'message', 'seoPath'));
     }
 
     public function allowDisplayProductCode(): bool
