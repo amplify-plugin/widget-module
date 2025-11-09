@@ -4,14 +4,12 @@ namespace Amplify\Widget\Components\Product;
 
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Sayt\Classes\ItemRow;
+use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Amplify\Widget\Abstracts\BaseComponent;
 
 /**
  * @class MainImage
- * @package Amplify\Widget\Components\Product
- *
  */
 class MainImage extends BaseComponent
 {

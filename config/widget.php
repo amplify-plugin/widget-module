@@ -2503,7 +2503,7 @@ return [
                 'name' => 'header-pagination',
                 'type' => 'boolean',
                 'value' => false,
-                'hint' => 'Show result pagination options in header also.'
+                'hint' => 'Show result pagination options in header also.',
             ],
         ],
         '@nestedItems' => [
@@ -2513,7 +2513,7 @@ return [
             ['name' => 'x-slot:list', '@attributes' => [], '@nestedItems' => []],
             ['name' => 'x-slot:after', '@attributes' => [], '@nestedItems' => []],
         ],
-        'description' => "Display all the products in a grid or list view.",
+        'description' => 'Display all the products in a grid or list view.',
         '@client' => null,
     ],
     Amplify\Widget\Components\Shop\ProductDetails::class => [
@@ -3362,7 +3362,7 @@ return [
             [
                 'name' => 'id',
                 'type' => 'text',
-                'value' => 'drawer_' . mt_rand(1000, 9000),
+                'value' => 'drawer_'.mt_rand(1000, 9000),
                 'hint' => 'Unique ID the control drawer behavior.',
             ],
             [

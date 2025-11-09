@@ -4,15 +4,12 @@ namespace Amplify\Widget\Components\Product;
 
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Sayt\Classes\ItemRow;
-use Closure;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Contracts\View\View;
 use Amplify\Widget\Abstracts\BaseComponent;
+use Closure;
+use Illuminate\Contracts\View\View;
 
 /**
  * @class Name
- * @package Amplify\Widget\Components\Product
- *
  */
 class Name extends BaseComponent
 {
