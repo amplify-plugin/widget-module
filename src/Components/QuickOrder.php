@@ -11,6 +11,14 @@ use Illuminate\Contracts\View\View;
  */
 class QuickOrder extends BaseComponent
 {
+    public $checkWarehouseQtyAvailability;
+
+    public function __construct($checkWarehouseQtyAvailability = true)
+    {
+        parent::__construct();
+        $this->checkWarehouseQtyAvailability = $checkWarehouseQtyAvailability;
+    }
+
     /**
      * Whether the component should be rendered
      */

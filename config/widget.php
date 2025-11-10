@@ -1471,7 +1471,14 @@ return [
         '@inside' => null,
         '@client' => null,
         'model' => ['quick_order'],
-        '@attributes' => [],
+        '@attributes' => [
+            [
+                'name' => ':check-warehouse-qty-availability',
+                'type' => 'boolean',
+                'value' => true,
+                'hint' => 'During placing order should it check quantity availability in warehouse',
+            ],
+        ],
         '@nestedItems' => [],
         'description' => '',
     ],

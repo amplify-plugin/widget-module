@@ -77,6 +77,7 @@
     const isMultiWarehouse = "{{ erp()->allowMultiWarehouse() }}";
     var user_active_warehouse_name = null;
     var user_active_warehouse = null;
+    const WAREHOUSE_QUANTITY_AVAILABILITY_CHECK = parseInt("{{ $checkWarehouseQtyAvailability }}")
 
     document.addEventListener('DOMContentLoaded', function(event) {
         addProduct();
@@ -229,7 +230,7 @@
                 }
             }
 
-            if (selectedWarehouse) {
+            if (WAREHOUSE_QUANTITY_AVAILABILITY_CHECK && selectedWarehouse) {
                 const quantity = parseInt(selectedWarehouse.QuantityAvailable) >= parseInt(products[index].qty) ?
                     parseInt(products[index].qty) : parseInt(selectedWarehouse.QuantityAvailable);
                 changeUserInputsERP(selectedWarehouse.WarehouseID, quantity, index);
@@ -274,9 +275,11 @@
                 if (warehouse.WarehouseID == USER_ACTIVE_WAREHOUSE_CODE) {
                     $('#qty_' + index).attr('max', warehouse.QuantityAvailable);
                 }
+                const isDisabled = (WAREHOUSE_QUANTITY_AVAILABILITY_CHECK && parseInt(warehouse.QuantityAvailable) <= 0);
+
                 html += `<option value="${warehouse.WarehouseID}" data-quantity="${warehouse.QuantityAvailable}"
                     ${(warehouse.WarehouseID == USER_ACTIVE_WAREHOUSE_CODE) ? 'selected' : ''}
-                    ${(parseInt(warehouse.QuantityAvailable) > 0) ? '' : 'disabled'} >
+                    ${isDisabled ? 'disabled' : ''} >
                                     ${warehouse.WarehouseName}
                                 </option>`;
 
@@ -377,7 +380,6 @@
                 success: function(response) {
                     if (response.success == true) {
 
-                        console.log(response.data);
                         $('#product_id_' + index).val(response.data.product_id);
                         $('#product_back_order_' + index).val(response.data.product_back_order);
                         $('#product_name_' + index).text(response.data.product_name);
@@ -487,7 +489,7 @@
                         qty: qty,
                         product_warehouse_code: warehouse,
                     });
-                    if (qty > maxQty) {
+                    if (WAREHOUSE_QUANTITY_AVAILABILITY_CHECK && (qty > maxQty)) {
                         $('#qty_error_' + id).text('Check quantity limit');
                         validation_error = true;
                     }
