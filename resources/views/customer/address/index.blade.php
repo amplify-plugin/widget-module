@@ -5,6 +5,7 @@
         if (!empty($keep)) {
             $clearUrl .= '?' . http_build_query($keep);
         }
+        $useAddress = session('ship_to_address');
     @endphp
 
     <div class="card">
@@ -80,6 +81,9 @@
 
                                         <tbody>
                                         @forelse($addresses as $key => $address)
+                                            @php
+                                                $isSelected = $useAddress && $useAddress['ShipToNumber'] === $address->address_code;
+                                            @endphp
                                             <tr>
                                                 <th scope="row">{{ $addresses->firstItem() + $key }}</th>
                                                 @if ($columns['address_code'])
@@ -129,6 +133,12 @@
                                                                 Actions
                                                             </button>
                                                             <div class="dropdown-menu dropdown-menu-right">
+                                                                @if (!$isSelected)
+                                                                    <a class="dropdown-item"
+                                                                       href="{{ route('frontend.session.shipping-address.store', $address->address_code) }}">
+                                                                        <i class="icon-location-pin mr-1"></i> Use this address
+                                                                    </a>
+                                                                @endif
                                                                 @if (!$address->isDefaultAddress())
                                                                     <a class="dropdown-item"
                                                                        href="{{ route('frontend.addresses.default-address', $address->id) }}">
@@ -160,6 +170,12 @@
                                                                 @endif
                                                             </div>
                                                         </div>
+                                                        {{-- Show badge in the row if selected --}}
+                                                        @if($isSelected)
+                                                            <span class="badge badge-success mt-1 d-block">
+                                                                <i class="icon-check mr-1"></i> Selected shipping address
+                                                            </span>
+                                                        @endif
                                                     </td>
                                                 @else
                                                     @if (!$address->isDefaultAddress())
