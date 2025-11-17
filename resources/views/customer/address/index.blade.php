@@ -133,7 +133,7 @@
                                                                 Actions
                                                             </button>
                                                             <div class="dropdown-menu dropdown-menu-right">
-                                                                @if (!$isSelected)
+                                                                @if (!$isSelected && ! empty($address->address_code))
                                                                     <a class="dropdown-item"
                                                                        href="{{ route('frontend.session.shipping-address.store', $address->address_code) }}">
                                                                         <i class="icon-location-pin mr-1"></i> Use this address
@@ -236,8 +236,8 @@
                             <div class="row mt-2">
                                 <div class="col-sm-12 col-md-5">
                                     <label
-                                        class="d-flex justify-content-center justify-content-md-start align-items-center"
-                                        style="font-weight: 200;">
+                                            class="d-flex justify-content-center justify-content-md-start align-items-center"
+                                            style="font-weight: 200;">
                                         Show
                                         <select name="per_page"
                                                 onchange="$('#customer-item-list-search-form').submit();"
