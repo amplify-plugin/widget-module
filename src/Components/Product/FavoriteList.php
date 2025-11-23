@@ -18,9 +18,9 @@ class FavoriteList extends BaseComponent
 
     /**
      * Summary of title
-     * @var string
      */
     public string $title;
+
     public function __construct($title = 'Favorites List')
     {
         $this->title = $title;
@@ -53,7 +53,7 @@ class FavoriteList extends BaseComponent
         $html = '';
 
         foreach ($listTypes as $key => $item) {
-            $html .= "<option value='{$key}'>{$item}</option>" . PHP_EOL;
+            $html .= "<option value='{$key}'>{$item}</option>".PHP_EOL;
         }
 
         return $html;
