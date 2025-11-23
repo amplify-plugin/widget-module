@@ -15,7 +15,7 @@
                     <label class="text-nowrap d-none d-sm-block mb-0" for="sortby">Sort By:</label>
                     <select class="form-control text-dark fw-500" id="sortby" onchange="onSortPage(event)">
                         <option value="" disabled>Sort By ---</option>
-                        @foreach (getPaginationSortBy() as $key => $value)
+                        @foreach (eaResultSortBy() as $key => $value)
                             <option value="{{ $key }}" @if (request('sort_by') == $key) selected @endif>
                                 {{ $value }}
                             </option>
@@ -43,7 +43,7 @@
                     <label class="text-nowrap mb-0">View:</label>
                     <div class="d-flex justify-content-md-end justify-content-center shop-view">
                         <a class="grid-view {{ $productView() === 'grid' ? 'active' : '' }}"
-                           href="{{ request()->fullUrlWithQuery(['currentPage' => $currentPage, 'view' => 'grid']) }}" 
+                           href="{{ request()->fullUrlWithQuery(['currentPage' => $currentPage, 'view' => 'grid']) }}"
                            aria-label="Grid view">
                             <svg width="18" height="18" viewBox="0 0 18 18" fill="current"
                                  xmlns="http://www.w3.org/2000/svg">

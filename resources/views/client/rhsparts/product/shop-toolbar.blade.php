@@ -8,7 +8,7 @@
             @if ($showSortingOption)
             <select class="form-control text-dark fw-500" id="sortby" onchange="onSortPage(event)">
                 <option value="" disabled>Sort By ---</option>
-                @foreach (getPaginationSortBy() as $key => $value)
+                @foreach (eaResultSortBy() as $key => $value)
                     <option value="{{ $key }}" @if (request('sort_by') == $key) selected @endif>
                         {{ $value }}
                     </option>
