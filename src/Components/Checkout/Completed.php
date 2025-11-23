@@ -52,7 +52,7 @@ class Completed extends BaseComponent
                 ['__reward_point__', '__quote_number__'],
                 [
                     "<b>{$this->order->total_amount}</b>",
-                    "<b>{$this->order->erp_order_id}</b>"
+                    "<b>{$this->order->erp_order_id}</b>",
                 ],
                 $this->message
             );
@@ -62,7 +62,7 @@ class Completed extends BaseComponent
                 ['__reward_point__', '__order_number__'],
                 [
                     "<b>{$this->order->total_amount}</b>",
-                    "<b>{$this->order->erp_order_id}</b>"
+                    "<b>{$this->order->erp_order_id}</b>",
                 ],
                 $this->message
             );
@@ -70,6 +70,6 @@ class Completed extends BaseComponent
 
         return view('widget::checkout.completed', [
             'isQuote' => $isQuote,
-            ]);
+        ]);
     }
 }
