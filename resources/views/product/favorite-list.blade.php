@@ -7,7 +7,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Favorites</h4>
+                    <h4 class="modal-title">{{ $title }}</h4>
                     <button class="close close-button" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -22,7 +22,7 @@
                                     Choose from Lists<span class="text-danger ">*</span>
                                 </label>
                                 <select class="form-control custom-select"
-                                        name="list_id" id="list_id">
+                                        name="list_id" id="list_id" required>
                                     <option value="">-- Select an item --</option>
                                 </select>
                             </div>

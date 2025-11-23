@@ -17,6 +17,16 @@ class FavoriteList extends BaseComponent
     public $options;
 
     /**
+     * Summary of title
+     */
+    public string $title;
+
+    public function __construct($title = 'Favorites List')
+    {
+        $this->title = $title;
+    }
+
+    /**
      * Whether the component should be rendered
      */
     public function shouldRender(): bool
