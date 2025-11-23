@@ -26,7 +26,8 @@
         <a class="btn btn-outline-secondary" href="{{ url('shop') }}">Continue Shopping</a>
         @if(customer_check())
         <a class="btn btn-outline-primary" href="{{ route('frontend.orders.show', [$order->erp_order_id ?? $order->id, 'suffix' => 00]) }}">
-            <i class="icon-location"></i>&nbsp;Review Order
+            <i class="icon-location"></i>&nbsp;
+            {{ $isQuote ? 'Review Quote' : 'Review Order' }}
         </a>
         @endif
     </div>
