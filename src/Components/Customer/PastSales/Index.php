@@ -64,7 +64,7 @@ class Index extends BaseComponent
 
         $productsCodes = array_keys($products);
         $productsWithItemKey = array_map(function ($item) {
-            return ['item' => $item];
+            return ['item' => $item, 'qty' => 1];
         }, $productsCodes);
 
         if (! empty($productsWithItemKey)) {
