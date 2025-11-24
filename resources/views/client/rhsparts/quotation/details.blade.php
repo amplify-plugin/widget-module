@@ -63,7 +63,7 @@
                                 @endif
 
                                 @if (customer(true)->can('order.add-to-cart') && $showCartButton)
-                                    <button type="button" class="btn btn-sm btn-primary btn-right my-2 ml-2 mr-0"
+                                    <button type="button" class="btn btn-sm btn-primary btn-right my-2 ml-2 mr-0 text-capitalize"
                                             onclick="addToCart(processedQuoteData())"
                                             @if ($quotation->ExpirationDate < date('Y-m-d')) disabled @endif>
                                         {{ __('add all items to the cart') }}

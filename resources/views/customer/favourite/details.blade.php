@@ -19,7 +19,7 @@
                                 {{__('Create Order')}}
                             </button> -->
 
-                            <button type="button" class="btn btn-sm btn-success btn-right my-2 ml-2 mr-0"
+                            <button type="button" class="btn btn-sm btn-success btn-right my-2 ml-2 mr-0 text-capitalize"
                                     onclick="addToCart()">
                                 {{__('Add all items to the cart')}}
                             </button>

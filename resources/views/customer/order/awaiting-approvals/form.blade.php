@@ -38,7 +38,7 @@
                             <div class="d-flex justify-content-center justify-content-md-end">
                                 <button
                                     type="button"
-                                    class="btn btn-sm btn-primary btn-right my-2 ml-2 mr-0"
+                                    class="btn btn-sm btn-primary btn-right my-2 ml-2 mr-0 text-capitalize"
                                     onclick="addToCart()">
                                     {{__('add all items to the cart')}}
                                 </button>
