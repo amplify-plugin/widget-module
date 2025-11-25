@@ -68,7 +68,7 @@
                         @foreach ($orders as $order)
                             <tr>
                                 <td>
-                                    <a class="text-medium navi-link"
+                                    <a class="text-medium text-decoration-none"
                                         href="{{ route('frontend.orders.show', [$order['OrderNumber'], 'suffix' => $order['OrderSuffix']]) }}">
                                         {{ $order['OrderNumber'] }} @if(isset($order['OrderSuffix']) && $order['OrderSuffix'] !== '')-{{ $order['OrderSuffix'] }}@endif
                                     </a>
