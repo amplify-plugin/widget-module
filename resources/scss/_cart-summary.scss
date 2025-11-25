@@ -8,34 +8,35 @@
  */
 
 .x-cart-summary {
-    .product-count span,button {
-        width: 32px;
-        height: 32px;
-        cursor: pointer;
-        padding-inline: 1rem;
-        border: 1px solid #eee;
-        border-radius: 3px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-    }
-
-    .item-quantity {
-        min-width: 70px;
-    }
-
-    .item-increase {
-
-    }
-
-    .item-decrease {
-
-    }
-
     #cart-item-summary {
-        td {
-            vertical-align: top !important;
+        table > tbody {
+            .product-count span, button {
+                height: 32px;
+                cursor: pointer;
+                padding-inline: 1rem;
+                border: 1px solid #eee;
+                border-radius: 3px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+            }
+
+            .item-quantity {
+                min-width: 70px;
+            }
+
+            .item-increase {
+                width: 32px;
+            }
+
+            .item-decrease {
+                width: 32px;
+            }
+
+            td {
+                vertical-align: top !important;
+            }
         }
     }
 }
