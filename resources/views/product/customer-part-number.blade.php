@@ -12,6 +12,10 @@
             data-route="{{ route('frontend.customer-part-numbers') }}"
             data-product-id="{{ $productId }}"
             onclick="Amplify.syncCustomPartNumber(this, '{{ $uuid }}');">
-        {{ __('Update') }}
+        @if(empty($customerPartNumber->customer_product_code))
+            {{ __('Add') }}
+        @else
+            {{ __('Delete') }}
+        @endif
     </button>
 </div>
