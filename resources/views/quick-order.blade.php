@@ -545,7 +545,7 @@
                                 $('#added_product_count').text('');
                                 ShowNotification('success', 'Quick Order', response.message);
                                 setTimeout(function() {
-                                    renderCartItems();
+                                    Amplify.loadCartDropdown();
                                 }, 1000);
                             } else {
                                 ShowNotification('error', 'Quick Order', response.message);

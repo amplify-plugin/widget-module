@@ -24,6 +24,6 @@ class CartSummary extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('widget::cart-summary');
+
     }
 }

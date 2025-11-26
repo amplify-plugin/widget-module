@@ -41,7 +41,13 @@ class CartSummary extends BaseComponent
 
         $this->component->attributes = $this->attributes;
 
-        return $this->component->render();
+        $templateBrandColor = theme_option(key: 'primary_color', default: '#002767');
+
+        $isCartEmpty = !getCart()->cartItems()->exists();
+
+        $cartId = getCart()->getKey();
+
+        return view('widget::cart-summary', compact('templateBrandColor', 'isCartEmpty', 'cartId'));
     }
 
     public function backToShoppingUrl(): string
