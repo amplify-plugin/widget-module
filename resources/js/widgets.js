@@ -11,6 +11,7 @@ window.swal = Swal.mixin({
 });
 
 window.Amplify = {
+    cartUrl: () => '/carts',
     /**
      * The function validate if the customer is logged in
      * return bool
@@ -153,7 +154,8 @@ window.Amplify = {
                     input.dataset.current = newValue;
                     button.innerHTML = 'Delete';
                 },
-                error: function (xhr, status, err) {
+                error: function (xhr, status, err)
+                {
                     Amplify.notify('error', xhr.response.message, 'Customer Part Number');
                 }
             });
@@ -201,12 +203,13 @@ window.Amplify = {
                 }
             });
     },
+
     /**
      * This function load the current items and display in cart summary
      * table
      */
-    loadCartSummary() {
-        $.ajax({
+    async loadCartSummary() {
+        await $.ajax({
             beforeSend: function () {
                 $('#cart-item-summary').html(
                     `<tr>
@@ -216,7 +219,7 @@ window.Amplify = {
                   </tr>`,
                 );
             },
-            url: '/carts',
+            url: this.cartUrl(),
             method: 'GET',
             dataType: 'json',
             headers: {
@@ -226,7 +229,7 @@ window.Amplify = {
                 $('#cart-item-summary').empty();
                 if (response.data.products.length > 0) {
                     $(response.data.products).each(function (index, item) {
-                        let layout = Amplify.renderCartItemRow(item, index);
+                        let layout = Amplify.renderCartSummaryItemRow(item, index);
                         $('#cart-item-summary').append(layout);
                     });
                 }
@@ -241,7 +244,7 @@ window.Amplify = {
         });
     },
 
-    renderCartItemRow(product, index) {
+    renderCartSummaryItemRow(product, index) {
         let template = $('#cart-single-item-template').html();
 
         let mapper = {
@@ -272,7 +275,7 @@ window.Amplify = {
         return stringReplaceArray(Object.keys(mapper), Object.values(mapper), template);
     },
 
-    removeCartItem(cart, cartItemId) {
+    removeCartItem(cartItemId) {
         const actionLink = element.dataset.actionLink;
         this.confirm('Are you sure to remove this item from cart?',
             'Remove Item', 'Confirm', {
@@ -308,5 +311,86 @@ window.Amplify = {
                     setTimeout(() => window.location.reload(), 2500)
                 }
             });
-    }
+    },
+
+    /**
+     * This function load the current cart items from backend
+     * @returns {Promise<void>}
+     */
+    async loadCartDropdown() {
+        await $.ajax({
+            beforeSend: () => Amplify.renderEmptyCart('/assets/img/preloader.gif'),
+            url: this.cartUrl(),
+            method: 'GET',
+            dataType: 'json',
+            headers: {
+                Accept: 'application/json'
+            },
+            success: function (res) {
+                $('.cart-dropdown').empty();
+
+                if (res.data.products.length > 0) {
+                    let item_qty = 0;
+                    res.data.products.forEach((product, index) => {
+                        item_qty += parseInt(product.qty);
+                        let item_price = (product.price * 1).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: AMPLIFY_BASE_CURRENCY,
+                        });
+                        let total_amount = (product.qty * product.price).toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: AMPLIFY_BASE_CURRENCY,
+                        });
+
+                        item_qty = item_qty > 0 && item_qty < 100 ? item_qty : '99+';
+                        $('.total_cart_items').text(item_qty);
+
+                        $('.cart-dropdown').append(`
+                        <div class="dropdown-product-item" id="cart_products_${index}">
+                        <span class="dropdown-product-remove" onclick="removeProductFromCart(${product.id})">
+                            <i class="icon-cross"></i>
+                        </span>
+                        <a class="dropdown-product-thumb"
+                           href="${product.url}">
+                            <img src="${product.product_image}"
+                                onerror="this.onerror=null; this.src='/assets/img/No-Image-Placeholder-min.png';"
+                                alt="Product">
+                        </a>
+                        <div class="dropdown-product-info">
+                            <a class="dropdown-product-title" href="${product.url}">
+                                ${product.product_name}
+                            </a>
+                            <span class="dropdown-product-details">${product.qty} x ${item_price} = ${total_amount}</span>
+                        </div>
+                    </div>`);
+                    });
+                    $('.total_cart_amount').text(
+                        new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: AMPLIFY_BASE_CURRENCY,
+                        }).format(parseFloat(res.data.total_price)),
+                    );
+                } else {
+                    Amplify.renderEmptyCart();
+                }
+            },
+            error: function (xhr, status) {
+                Amplify.renderEmptyCart();
+            }
+        });
+    },
+
+    renderEmptyCart(imageUrl = '/assets/img/empty_cart.png') {
+        $('.total_cart_items').text(0);
+        $('.total_cart_amount').text('$0.00');
+
+        $('.cart-dropdown').append(`
+        <div id="cart_items" class="text-center" style="min-height: 250px;">
+            <img src="${imageUrl}"
+                style="max-width: 160px !important;"
+                class="img-fluid mt-5" alt="No items in cart"
+            />
+        </div>
+    `);
+    },
 }
