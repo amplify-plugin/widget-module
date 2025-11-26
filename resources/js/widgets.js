@@ -95,13 +95,13 @@ window.Amplify = {
             return;
         }
 
-        if (!oldValue && !newValue) {
+        if (!newValue) {
             this.notify('warning', 'This field is required', 'Customer Part Number');
             return;
         }
 
         //current exist and new empty
-        if (oldValue && newValue) {
+        if (oldValue) {
             this.confirm('Are you sure you want to remove this part number?',
                 'Customer Part Number', 'Remove', {
                     customClass: {
