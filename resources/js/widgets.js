@@ -12,6 +12,10 @@ window.swal = Swal.mixin({
 
 window.Amplify = {
     cartUrl: () => '/carts',
+    cartItemRemoveUrl: () => '/carts/remove/cart_item_id',
+    cartItemUpdateUrl: () => '/carts/update/cart_item_id',
+    maxCartItemQuantity: () => 9999999999,
+
     /**
      * The function validate if the customer is logged in
      * return bool
@@ -154,8 +158,7 @@ window.Amplify = {
                     input.dataset.current = newValue;
                     button.innerHTML = 'Delete';
                 },
-                error: function (xhr, status, err)
-                {
+                error: function (xhr, status, err) {
                     Amplify.notify('error', xhr.response.message, 'Customer Part Number');
                 }
             });
@@ -168,8 +171,9 @@ window.Amplify = {
      */
     clearCart(element) {
         const actionLink = element.dataset.actionLink;
-        this.confirm('You won\'t be able to revert this action!',
-            'Clear Shopping Cart', 'Confirm', {
+        this.confirm('Are you sure to remove all items from shopping cart?',
+            'Cart', 'Confirm', {
+                icon: 'error',
                 customClass: {
                     confirmButton: 'btn btn-danger'
                 },
@@ -198,10 +202,54 @@ window.Amplify = {
             })
             .then(function (result) {
                 if (result.isConfirmed) {
-                    Amplify.notify('success', result.value.message, 'Clear Shopping Cart');
+                    Amplify.notify('success', result.value.message, 'Cart');
                     setTimeout(() => window.location.reload(), 2500)
                 }
             });
+    },
+
+    async removeCartItem(cartItemId) {
+        const actionLink = this.cartItemRemoveUrl().replace('cart_item_id', cartItemId);
+        this.confirm('Are you sure to remove this item from cart?',
+            'Cart', 'Remove', {
+                customClass: {
+                    confirmButton: 'btn btn-danger'
+                },
+                preConfirm: async function () {
+                    return new Promise((resolve, reject) => {
+                        $.ajax({
+                            url: actionLink,
+                            type: 'DELETE',
+                            data: {},
+                            header: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            success: function (result) {
+                                resolve(result);
+                            },
+                            error: function (xhr, status, err) {
+                                let response = JSON.parse(xhr.responseText);
+                                Swal.showValidationMessage(response.message);
+                                reject(false);
+                            },
+                        });
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    Amplify.notify('success', result.value.message, 'Cart');
+                    setTimeout(() => window.location.reload(), 2500)
+                }
+            });
+    },
+
+    async updateCartItem(target, cartItemId) {
+        const targetElement = document.querySelector(target);
+
+        const actionLink = this.cartItemUpdateUrl().replace('cart_item_id', cartItemId);
     },
 
     /**
@@ -275,44 +323,6 @@ window.Amplify = {
         return stringReplaceArray(Object.keys(mapper), Object.values(mapper), template);
     },
 
-    removeCartItem(cartItemId) {
-        const actionLink = element.dataset.actionLink;
-        this.confirm('Are you sure to remove this item from cart?',
-            'Remove Item', 'Confirm', {
-                customClass: {
-                    confirmButton: 'btn btn-danger'
-                },
-                preConfirm: async function () {
-                    return new Promise((resolve, reject) => {
-                        $.ajax({
-                            url: actionLink,
-                            type: 'DELETE',
-                            data: {},
-                            header: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            },
-                            success: function (result) {
-                                resolve(result);
-                            },
-                            error: function (xhr, status, err) {
-                                let response = JSON.parse(xhr.responseText);
-                                Swal.showValidationMessage(response.message);
-                                reject(false);
-                            },
-                        });
-                    });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            })
-            .then(function (result) {
-                if (result.isConfirmed) {
-                    Amplify.notify('success', result.value.message, 'Remove Item');
-                    setTimeout(() => window.location.reload(), 2500)
-                }
-            });
-    },
-
     /**
      * This function load the current cart items from backend
      * @returns {Promise<void>}
@@ -347,13 +357,13 @@ window.Amplify = {
 
                         $('.cart-dropdown').append(`
                         <div class="dropdown-product-item" id="cart_products_${index}">
-                        <span class="dropdown-product-remove" onclick="removeProductFromCart(${product.id})">
+                        <span class="dropdown-product-remove" onclick="Amplify.removeCartItem(${product.id})">
                             <i class="icon-cross"></i>
                         </span>
                         <a class="dropdown-product-thumb"
                            href="${product.url}">
                             <img src="${product.product_image}"
-                                onerror="this.onerror=null; this.src='/assets/img/No-Image-Placeholder-min.png';"
+                                onerror="this.onerror=null; this.src=FALLBACK_IMG_SRC;"
                                 alt="Product">
                         </a>
                         <div class="dropdown-product-info">
@@ -393,4 +403,100 @@ window.Amplify = {
         </div>
     `);
     },
+
+    handleQuantityChange(target, action) {
+
+        const targetElement = document.querySelector(target);
+
+        const productCode = targetElement.dataset.productCode;
+
+        if (!['decrement', 'input', 'increment'].includes(action)) {
+            this.notify('warning', `Invalid Quantity Change action [${action}].`, 'Cart');
+        }
+
+        if (!targetElement) {
+            alert(`Target Element not found in ${target}`);
+            return;
+        }
+
+        targetElement.max = this.maxCartItemQuantity();
+
+        const minOrderQty = parseFloat(targetElement.dataset.minOrderQty);
+
+        if (!minOrderQty) {
+            alert(`Target Element doesn't have "data-min-order-qty" attribute set or is empty.`);
+            return;
+        }
+
+        targetElement.min = minOrderQty;
+
+        const qtyInterval = parseFloat(targetElement.dataset.qtyInterval);
+
+        if (!qtyInterval) {
+            alert(`Target Element doesn't have "data-qty-interval" attribute set or is empty.`);
+            return;
+        }
+
+        targetElement.step = qtyInterval;
+
+        let quantity = parseFloat(targetElement.value);
+
+        switch (action) {
+
+            case 'decrement' : {
+                let newValue = quantity - qtyInterval;
+                if (newValue < minOrderQty) {
+                    this.confirm(
+                        `Product ${productCode} requires a minimum order quantity of ${minOrderQty}. You entered ${newValue}.`,
+                        'Cart', 'Confirm', {
+                            showConfirmButton: false,
+                            showLoaderOnConfirm: false,
+                        });
+                    return;
+                }
+                targetElement.value = newValue;
+                break;
+            }
+
+            case 'increment' : {
+                let newValue = quantity + qtyInterval;
+                if (newValue > this.maxCartItemQuantity()) {
+                    this.confirm(
+                        `Product ${productCode} requires a maximum order quantity of ${this.maxCartItemQuantity()}. You entered ${newValue}.`,
+                        'Cart', 'Confirm', {
+                            showConfirmButton: false,
+                            showLoaderOnConfirm: false,
+                        });
+                    return;
+                }
+                targetElement.value = newValue;
+                break;
+            }
+
+            default : {
+                if (quantity < minOrderQty) {
+                    this.confirm(
+                        `Product ${productCode} requires a minimum order quantity of ${minOrderQty}. You entered ${quantity}.`,
+                        'Cart', 'Confirm', {
+                            showConfirmButton: false,
+                            showLoaderOnConfirm: false,
+                        });
+                    targetElement.value = minOrderQty;
+                    return;
+                }
+
+                if (quantity > this.maxCartItemQuantity()) {
+                    this.confirm(
+                        `Product ${productCode} requires a maximum order quantity of ${this.maxCartItemQuantity()}. You entered ${quantity}.`,
+                        'Cart', 'Confirm', {
+                            showConfirmButton: false,
+                            showLoaderOnConfirm: false,
+                        });
+                    targetElement.value = minOrderQty;
+                    return;
+                }
+                break;
+            }
+        }
+    }
 }

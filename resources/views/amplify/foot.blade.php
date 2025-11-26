@@ -32,10 +32,5 @@
 @stack('internal-script')
 <!-- Footer Script -->
 @stack('footer-script')
-<script>
-    $(document).ready(function() {
-        renderCartItems();
-    });
-</script>
 <x-no-image-skeleton />
 <x-site.toastr-notification />
