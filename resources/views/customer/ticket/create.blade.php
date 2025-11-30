@@ -60,7 +60,6 @@
                     <div class="form-group col-md-6">
                         <label for="priority">Priority<span class="text-danger font-weight-bold">*</span></label>
                         <select class="form-control" id="priority" name="priority">
-                            <option value="">Select priority</option>
                             @foreach ($priorities ?? collect([]) as $key => $priority)
                                 <option value="{{ $priority }}" @if (old('priority') == $priority) selected @endif>
                                     {{ $key }}</option>
