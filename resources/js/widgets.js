@@ -9,7 +9,7 @@ window.swal = Swal.mixin({
         confirmButton: 'btn btn-primary',
         cancelButton: 'btn btn-secondary'
     }
-});
+}); 
 
 window.Amplify = {
     cartUrl: () => '/carts',
