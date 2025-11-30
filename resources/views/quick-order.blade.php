@@ -522,11 +522,12 @@
                 $('#error_div').html('');
                 if (products.length > 0) {
                     $('#add_to_order_btn').attr('disabled', 'disabled');
+                    let quick_order_link = $('#quick-order-link').data('link');
                     let html =
                         `<div class="spinner-border spinner-border-sm text-primary mr-2" role="status"></div>Adding...`;
                     $('#add_to_order_btn').html(html);
                     $.ajax({
-                        url: '{{ route('frontend.order.quick-order-add-to-order') }}',
+                        url: quick_order_link,
                         type: 'POST',
                         data: {
                             products: products,
