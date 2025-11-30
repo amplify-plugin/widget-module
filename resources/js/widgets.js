@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2';
-import {e_preventDefault} from "codemirror/src/util/event";
 
 window.swal = Swal.mixin({
     theme: 'bootstrap-4-light',
@@ -9,7 +8,7 @@ window.swal = Swal.mixin({
         confirmButton: 'btn btn-primary',
         cancelButton: 'btn btn-secondary'
     }
-}); 
+});
 
 window.Amplify = {
     cartUrl: () => '/carts',
