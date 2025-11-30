@@ -43,7 +43,7 @@ class CartSummary extends BaseComponent
 
         $templateBrandColor = theme_option(key: 'primary_color', default: '#002767');
 
-        $isCartEmpty = !getCart()->cartItems()->exists();
+        $isCartEmpty = ! getCart()->cartItems()->exists();
 
         $cartId = getCart()->getKey();
 

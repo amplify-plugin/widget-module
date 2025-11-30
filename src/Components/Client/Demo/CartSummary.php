@@ -22,8 +22,5 @@ class CartSummary extends BaseComponent
     /**
      * Get the view / contents that represent the component.
      */
-    public function render(): View|Closure|string
-    {
-
-    }
+    public function render(): View|Closure|string {}
 }
