@@ -9,6 +9,7 @@
         type="text"
         inputmode="numeric"
         data-product-code="{code}"
+        data-warehouse-code="{warehouse_code}"
         id="cart-item-{cart_item_id}"
         class="form-control item-quantity"
         value="{quantity}"
