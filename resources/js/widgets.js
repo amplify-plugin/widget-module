@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import {e_preventDefault} from "codemirror/src/util/event";
 
 window.swal = Swal.mixin({
     theme: 'bootstrap-4-light',
@@ -208,7 +209,7 @@ window.Amplify = {
             });
     },
 
-    async removeCartItem(cartItemId) {
+    async removeCartItem(cartItemId, redirect = true) {
         const actionLink = this.cartItemRemoveUrl().replace('cart_item_id', cartItemId);
         this.confirm('Are you sure to remove this item from cart?',
             'Cart', 'Remove', {
@@ -241,15 +242,48 @@ window.Amplify = {
             .then(function (result) {
                 if (result.isConfirmed) {
                     Amplify.notify('success', result.value.message, 'Cart');
-                    setTimeout(() => window.location.reload(), 2500)
+                    if (redirect) {
+                        setTimeout(() => window.location.reload(), 2500)
+                        return;
+                    }
+
+                    Amplify.loadCartDropdown();
                 }
             });
     },
 
-    async updateCartItem(target, cartItemId) {
-        const targetElement = document.querySelector(target);
+    async updateCartItem(e, target, cartItemId) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const targetElement = $(target);
+        const qty = targetElement.val();
 
         const actionLink = this.cartItemUpdateUrl().replace('cart_item_id', cartItemId);
+        const warehouseCode = targetElement.data('warehouse-code');
+
+        $.ajax({
+            url: actionLink,
+            type: 'PATCH',
+            data: {
+                quantity: qty,
+                product_warehouse_code: warehouseCode,
+            },
+            header: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            success: function (result) {
+                if (result.success) {
+                    Amplify.notify('success', result.message, 'Cart');
+                    setTimeout(() => window.location.reload(), 2500)
+                }
+            },
+            error: function (xhr, status, err) {
+                let response = JSON.parse(xhr.responseText);
+                Swal.showValidationMessage(response.message);
+            },
+        });
     },
 
     /**
@@ -300,6 +334,7 @@ window.Amplify = {
             '{cart_item_id}': product.id,
             '{code}': product.product_code,
             '{warehouse}': product.warehouse_name,
+            '{warehouse_code}': product.product_warehouse_code,
             '{name}': product.product_name,
             '{description}': product.short_description,
             '{manufacturer}': product.manufacturer_name,
