@@ -11,7 +11,7 @@
         data-product-code="{code}"
         data-warehouse-code="{warehouse_code}"
         id="cart-item-{cart_item_id}"
-        class="form-control item-quantity"
+        class="form-control item-quantity text-center"
         value="{quantity}"
         name="cart-item-qty[{cart_item_id}]"
         data-min-order-qty="{min_qty}"
