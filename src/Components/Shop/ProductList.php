@@ -78,7 +78,7 @@ class ProductList extends BaseComponent
 
         $this->component->attributes = $this->attributes;
 
-        return \view('widget::shop.product-list', compact('productView', 'products', 'message', 'seoPath'));
+        return view('widget::shop.product-list', compact('productView', 'products', 'message', 'seoPath'));
     }
 
     public function allowDisplayProductCode(): bool
