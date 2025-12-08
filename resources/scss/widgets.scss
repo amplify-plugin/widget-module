@@ -206,6 +206,7 @@
 @use "category-grid";
 @use 'sweetalert2/src/sweetalert2';
 @use 'sweetalert2/themes/bootstrap-4';
+@use 'site-language-change';
 .swal2-container {
     z-index: 99999 !important;
 }
