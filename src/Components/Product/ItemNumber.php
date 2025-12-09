@@ -13,7 +13,7 @@ use Illuminate\Contracts\View\View;
  */
 class ItemNumber extends BaseComponent
 {
-    public function __construct(public ItemRow|Product $product, public mixed $loop = null)
+    public function __construct(public ItemRow|Product $product, public string $format = "<b>Item Number: </b>{product_code}")
     {
         parent::__construct();
     }
@@ -33,5 +33,20 @@ class ItemNumber extends BaseComponent
     {
 
         return view('widget::product.item-number');
+    }
+
+    public function formattedItemNumber(): array|string
+    {
+        $code = $this->product instanceof ItemRow ? $this->product->Product_Code : $this->product->product_code;
+
+        return str_replace('{product_code}', $code, $this->format);
+
+    }
+
+    public function htmlAttributes(): string
+    {
+        $this->attributes = $this->attributes->class(['product-code']);
+
+        return parent::htmlAttributes();
     }
 }

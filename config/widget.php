@@ -2507,7 +2507,7 @@ return [
                 'hint' => 'On grid view number of the cards display in one line',
             ],
             [
-                'name' => 'header-pagination',
+                'name' => ':show-pagination-on-top',
                 'type' => 'boolean',
                 'value' => false,
                 'hint' => 'Show result pagination options in header also.',
@@ -3577,7 +3577,8 @@ return [
         '@client' => null,
         'model' => [],
         '@attributes' => [
-            ['name' => 'element', 'type' => 'text', 'value' => 'div'],
+            ['name' => 'product', 'type' => 'text', 'value' => '$product'],
+            ['name' => 'format', 'type' => 'text', 'value' => ''],
         ],
         '@nestedItems' => [],
         'description' => 'The widget display product unique  code, sku id.',
@@ -3590,10 +3591,12 @@ return [
         '@client' => null,
         'model' => [],
         '@attributes' => [
-            ['name' => 'element', 'type' => 'text', 'value' => 'div'],
+            ['name' => 'product', 'type' => 'text', 'value' => '$product'],
+            ['name' => 'seo-path', 'type' => 'text', 'value' => ''],
+            ['name' => ':wrap-link', 'type' => 'boolean', 'value' => 'true'],
         ],
         '@nestedItems' => [],
-        'description' => 'The widget display product short description.',
+        'description' => 'The widget display product main image.',
     ],
     Amplify\Widget\Components\Product\Name::class => [
         'name' => 'product.name',
