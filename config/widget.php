@@ -533,11 +533,21 @@ return [
                     'shop' => 'Shop (All Products)',
                 ],
             ],
+            [
+                'name' => ':create-favorite-from-cart',
+                'type' => 'boolean',
+                'value' => true
+            ],
+            [
+                'name' => 'create-favorite-label',
+                'type' => 'text',
+                'value' => 'Create Favourite List'
+            ],
         ],
         '@nestedItems' => [
             [
                 'name' => 'x-slot:item-row',
-                '@inside' => '{serial}, {cart_item_id}, {product_code}, {warehouse_name}, {product_name}, {quantity}, {unit_price}, {sub_total},{product_image}, {actions}, {product_url}, {source_message}',
+                '@inside' => "{serial}, \n{cart_item_id}, \n{product_code}, \n{warehouse_name}, \n{product_name}, \n{quantity}, \n{unit_price}, \n{sub_total},{product_image}, \n{actions}, \n{product_url}, \n{source_message}",
                 '@client' => null,
                 'model' => ['static_page'],
                 '@attributes' => [],
@@ -2123,7 +2133,23 @@ return [
         'model' => [],
         '@inside' => null,
         '@client' => null,
-        '@attributes' => [],
+        '@attributes' => [
+            [
+                'name' => ':create-favourite-from-cart',
+                'type' => 'boolean',
+                'value' => true
+            ],
+            [
+                'name' => ':allow-request-quote',
+                'type' => 'boolean',
+                'value' => true
+            ],
+            [
+                'name' => ':allow-draft-order',
+                'type' => 'boolean',
+                'value' => false
+            ],
+        ],
         '@nestedItems' => [],
         'description' => 'Checkout widget',
     ],
