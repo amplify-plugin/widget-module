@@ -210,3 +210,23 @@
 .swal2-container {
     z-index: 99999 !important;
 }
+
+.swal2-select {
+    transition: var(--swal2-input-transition);
+    border: var(--swal2-input-border);
+    border-radius: var(--swal2-input-border-radius);
+    background: var(--swal2-input-background);
+    box-shadow: var(--swal2-input-box-shadow);
+    height: 2.625em;
+    padding: 0 .75em;
+    &:focus {
+        border: var(--swal2-input-focus-border);
+        outline: none;
+        box-shadow: var(--swal2-input-focus-box-shadow);
+    }
+}
+
+div:where(.swal2-container) input:where(.swal2-input), div:where(.swal2-container) input:where(.swal2-file), div:where(.swal2-container) textarea:where(.swal2-textarea), div:where(.swal2-container) select:where(.swal2-select), div:where(.swal2-container) div:where(.swal2-radio), div:where(.swal2-container) label:where(.swal2-checkbox) {
+    margin-left: 0.5em !important;
+    margin-right: 0.5em !important;
+}

@@ -5,8 +5,8 @@ window.swal = Swal.mixin({
     showCloseButton: true,
     // buttonsStyling: false,
     customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-secondary'
+        confirmButton: 'btn btn-danger',
+        cancelButton: 'btn btn-outline-secondary',
     }
 });
 
@@ -15,6 +15,7 @@ window.Amplify = {
     cartItemRemoveUrl: () => '/carts/remove/cart_item_id',
     cartItemUpdateUrl: () => '/carts/update/cart_item_id',
     maxCartItemQuantity: () => 9999999999,
+    favouritesCreateUrl: () => '/favourites',
 
     /**
      * The function validate if the customer is logged in
@@ -80,6 +81,16 @@ window.Amplify = {
         });
     },
 
+    alert(message = 'This action is not allowed', title = 'Alert', options = {}) {
+        return this.confirm(message, title, '', {
+            icon:'warning',
+            showConfirmButton: false,
+            showLoaderOnConfirm: false,
+            cancelButtonText: 'Okay',
+            willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center'
+        })
+    },
+
     /**
      * This function handle the custom part number add, update and remove operation.
      *
@@ -100,7 +111,7 @@ window.Amplify = {
             return;
         }
 
-        if (!newValue) {
+        if (!oldValue && !newValue) {
             this.notify('warning', 'This field is required', 'Customer Part Number');
             return;
         }
@@ -109,9 +120,6 @@ window.Amplify = {
         if (oldValue) {
             this.confirm('Are you sure you want to remove this part number?',
                 'Customer Part Number', 'Remove', {
-                    customClass: {
-                        confirmButton: 'btn btn-danger'
-                    },
                     preConfirm: async function () {
                         return new Promise((resolve, reject) => {
                             $.ajax({
@@ -173,10 +181,6 @@ window.Amplify = {
         const actionLink = element.dataset.actionLink;
         this.confirm('Are you sure to remove all items from shopping cart?',
             'Cart', 'Confirm', {
-                icon: 'error',
-                customClass: {
-                    confirmButton: 'btn btn-danger'
-                },
                 preConfirm: async function () {
                     return new Promise((resolve, reject) => {
                         $.ajax({
@@ -212,9 +216,6 @@ window.Amplify = {
         const actionLink = this.cartItemRemoveUrl().replace('cart_item_id', cartItemId);
         this.confirm('Are you sure to remove this item from cart?',
             'Cart', 'Remove', {
-                customClass: {
-                    confirmButton: 'btn btn-danger'
-                },
                 preConfirm: async function () {
                     return new Promise((resolve, reject) => {
                         $.ajax({
@@ -437,6 +438,12 @@ window.Amplify = {
     `);
     },
 
+    /**
+     * The function handle quantity update and quantity value validation
+     *
+     * @param target
+     * @param action
+     */
     handleQuantityChange(target, action) {
 
         const targetElement = document.querySelector(target);
@@ -444,11 +451,11 @@ window.Amplify = {
         const productCode = targetElement.dataset.productCode;
 
         if (!['decrement', 'input', 'increment'].includes(action)) {
-            this.notify('warning', `Invalid Quantity Change action [${action}].`, 'Cart');
+            this.alert(`Invalid Quantity Change action [${action}].`, 'Cart');
         }
 
         if (!targetElement) {
-            alert(`Target Element not found in ${target}`);
+            this.alert(`Target Element not found in ${target}`, 'Cart');
             return false;
         }
 
@@ -457,7 +464,7 @@ window.Amplify = {
         const minOrderQty = parseFloat(targetElement.dataset.minOrderQty);
 
         if (!minOrderQty) {
-            alert(`Target Element doesn't have "data-min-order-qty" attribute set or is empty.`);
+            this.alert('Target Element doesn\'t have "data-min-order-qty" attribute set or is empty.', 'Cart');
             return false;
         }
 
@@ -466,7 +473,7 @@ window.Amplify = {
         const qtyInterval = parseFloat(targetElement.dataset.qtyInterval);
 
         if (!qtyInterval) {
-            alert(`Target Element doesn't have "data-qty-interval" attribute set or is empty.`);
+            this.alert(`Target Element doesn't have "data-qty-interval" attribute set or is empty.`, 'Cart');
             return false;
         }
 
@@ -479,12 +486,9 @@ window.Amplify = {
             case 'decrement' : {
                 let newValue = quantity - qtyInterval;
                 if (newValue < minOrderQty) {
-                    this.confirm(
+                    this.alert(
                         `Product ${productCode} requires a minimum order quantity of ${minOrderQty}. You entered ${newValue}.`,
-                        'Cart', 'Confirm', {
-                            showConfirmButton: false,
-                            showLoaderOnConfirm: false,
-                        });
+                        'Cart');
                     return false;
                 }
                 targetElement.value = newValue;
@@ -494,12 +498,9 @@ window.Amplify = {
             case 'increment' : {
                 let newValue = quantity + qtyInterval;
                 if (newValue > this.maxCartItemQuantity()) {
-                    this.confirm(
+                    this.alert(
                         `Product ${productCode} requires a maximum order quantity of ${this.maxCartItemQuantity()}. You entered ${newValue}.`,
-                        'Cart', 'Confirm', {
-                            showConfirmButton: false,
-                            showLoaderOnConfirm: false,
-                        });
+                        'Cart');
                     return false;
                 }
                 targetElement.value = newValue;
@@ -508,29 +509,98 @@ window.Amplify = {
 
             default : {
                 if (quantity < minOrderQty) {
-                    this.confirm(
+                    this.alert(
                         `Product ${productCode} requires a minimum order quantity of ${minOrderQty}. You entered ${quantity}.`,
-                        'Cart', 'Confirm', {
-                            showConfirmButton: false,
-                            showLoaderOnConfirm: false,
-                        });
+                        'Cart');
                     targetElement.value = minOrderQty;
                     return false;
                 }
 
                 if (quantity > this.maxCartItemQuantity()) {
-                    this.confirm(
+                    this.alert(
                         `Product ${productCode} requires a maximum order quantity of ${this.maxCartItemQuantity()}. You entered ${quantity}.`,
-                        'Cart', 'Confirm', {
-                            showConfirmButton: false,
-                            showLoaderOnConfirm: false,
-                        });
+                        'Cart');
                     targetElement.value = minOrderQty;
                     return false;
                 }
                 break;
             }
         }
+
+        return true;
+    },
+
+    /**
+     * The function create a shopping list from product and cart and order and invoice, etc.
+     * @param sourceId
+     * @param source
+     */
+    createShippingList(sourceId, source = 'product') {
+        this.confirm('Create a new shopping list?',
+            'Shopping List', 'Save', {
+                icon: undefined,
+                input: "text",
+                inputPlaceholder: 'Enter name',
+                inputAttributes: {
+                    required: true,
+                    max: "255",
+                    maxlength: "255",
+                    autocorrect: "on"
+                },
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-secondary'
+                },
+                preConfirm: async function () {
+                    return new Promise((resolve, reject) => {
+                        let payload = {
+                            type: source,
+                            list_id: null,
+                            is_shopping_list: 1,
+                            list_name: $('#swal2-input').val(),
+                            list_type: $('#swal2-select').val(),
+                            list_desc: $('#swal2-textarea').val(),
+                        };
+
+                        payload[source + '_id'] = sourceId;
+
+                        $.ajax({
+                            url: Amplify.favouritesCreateUrl(),
+                            type: 'POST',
+                            data: JSON.stringify(payload),
+                            contentType: 'application/json; charset=UTF-8',
+                            headers: {
+                                Accept: 'application/json'
+                            },
+                            success: function (result) {
+                                resolve(result);
+                            },
+                            error: function (xhr, status, err) {
+                                let response = JSON.parse(xhr.responseText);
+                                Swal.showValidationMessage(response.message);
+                                reject(false);
+                            },
+                        });
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
+                willOpen: function () {
+                    $('#swal2-select').append(
+                        $('<option>', {value: '', text: 'Select Type', disabled: true, selected: true}),
+                        $('<option>', {value: 'personal', text: 'Personal'}),
+                        $('<option>', {value: 'global', text: 'Global'})
+                    ).css({
+                        'display': 'flex',
+                    }).addClass('swal2-input');
+
+                    $('#swal2-textarea').css('display', 'flex').attr('placeholder', 'Enter description');
+                }
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    Amplify.notify('success', result.value.message, 'Shopping List');
+                }
+            });
 
         return true;
     },

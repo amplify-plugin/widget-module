@@ -3,6 +3,9 @@
 @endpushonce
 
 <div {!! $htmlAttributes !!}>
+    <template id="cart-single-item-template">
+        {!! $itemRow ?? '' !!}
+    </template>
     <div id="app">
         @if ($cartItemCount > 0)
         <div class="row">
@@ -35,7 +38,6 @@
 
 @pushonce('plugin-script')
     <script src="{{ asset('packages/select2/dist/js/select2.min.js') }}"></script>
-    <script src="{{ asset('vendor/jp-card/credit-card.min.js') }}"></script>
 @endpushonce
 @pushonce('footer-script')
     <script src="{{ mix("js/backend.js", "vendor/backend") }}"></script>
