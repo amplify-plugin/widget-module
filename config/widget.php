@@ -2523,7 +2523,7 @@ return [
         'description' => 'Display all the products in a grid or list view.',
         '@client' => null,
     ],
-    Amplify\Widget\Components\Shop\ProductDetails::class => [
+    Amplify\Widget\Components\Shop\ProductDetail::class => [
         'name' => 'product-details',
         'reserved' => true,
         'internal' => false,
@@ -3554,8 +3554,8 @@ return [
         '@nestedItems' => [],
         'description' => '',
     ],
-    Amplify\Widget\Components\Product\CartButton::class => [
-        'name' => 'product.cart-button',
+    Amplify\Widget\Components\Product\QuickAction::class => [
+        'name' => 'product.quick-action',
         'reserved' => true,
         'internal' => false,
         '@inside' => null,
@@ -3564,7 +3564,7 @@ return [
         '@attributes' => [
             ['name' => 'cart-button-label', 'type' => 'text', 'value' => 'Add To Cart'],
             ['name' => 'detail-button-label', 'type' => 'text', 'value' => 'View Details'],
-            ['name' => ':sku-order-option', 'type' => 'boolean', 'value' => false],
+            ['name' => ':product', 'type' => 'text', 'value' => '$product'],
         ],
         '@nestedItems' => [],
         'description' => 'The widget display a button to add item to cart.',

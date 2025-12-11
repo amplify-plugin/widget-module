@@ -3,8 +3,8 @@
 namespace Amplify\Widget\Components\Shop;
 
 use Amplify\ErpApi\Facades\ErpApi;
+use Amplify\ErpApi\Wrappers\ProductPriceAvailability;
 use Amplify\System\Backend\Enums\ProductAvailabilityEnum;
-use Amplify\System\Backend\Models\DocumentType;
 use Amplify\System\Backend\Models\OrderList;
 use Amplify\System\Backend\Models\OrderListItem;
 use Amplify\System\Backend\Models\Product;
@@ -13,7 +13,6 @@ use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Str;
 
 /**
@@ -86,12 +85,36 @@ class ProductList extends BaseComponent
          */
         $dbProducts = Product::whereIn('id', $ids)->get();
 
-        foreach ($products as $product) {
+        foreach ($products as $index => $product) {
             $erpProductCodes[] = [
                 'item' => $product->Product_Code,
                 'uom' => $product->UoM,
                 'qty' => $dbProducts->firstWhere('id', '=', $product->Amplify_Id)?->min_order_qty ?? 1,
             ];
+
+            $dbProduct = $dbProducts->firstWhere('id', '=', $product->Amplify_Id);
+
+            $orderList = $this->productExistOnFavorite($product->Amplify_Id, $product);
+            $product->exists_in_favorite = $orderList != null;
+            $product->favorite_list_id = $orderList->id ?? null;
+            $product->mpn = $dbProduct->manufacturer ?? 'N/A';
+            $product->in_stock = $dbProduct->in_stock ?? false;
+            $product->is_ncnr = $dbProduct?->is_ncnr ?? false;
+            $product->ship_restriction = $dbProduct->ship_restriction ?? false;
+            $product->availability = $dbProduct->availability ?? ProductAvailabilityEnum::Actual;
+            $product->pricing = true;
+            $product->avaliable = 0;
+            $product->total_quantity_available = 0;
+            $product->ERP = new ProductPriceAvailability($dbProduct->toArray());
+            $product->ERP->Price = $dbProduct->msrp;
+            $product->ERP->ListPrice = $dbProduct->msrp;
+            $product->ERP->StandardPrice = $dbProduct->msrp;
+            $product->ERP->ExtendedPrice = $dbProduct->selling_price;
+            $product->min_order_qty = $dbProduct->min_order_qty;
+            $product->qty_interval = $dbProduct->qty_interval;
+            $product->allow_back_order = $dbProduct->allow_back_order ?? false;
+
+            $products[$index] = $product;
         }
 
         unset($product);
@@ -116,13 +139,6 @@ class ProductList extends BaseComponent
 
                 $warehouse_codes = array_unique([$erpCustomer->DefaultWarehouse, customer()?->warehouse?->code, config('amplify.frontend.guest_checkout_warehouse')]);
 
-//                $productDefaultDocumentTypes = DocumentType::select(['document_types.*', 'document_type_product.file_path', 'document_type_product.product_id'])
-//                    ->join('document_type_product', function (JoinClause $join) use ($ids) {
-//                        return $join->whereIn('product_id', $ids);
-//                    })
-//                    ->where('document_types.id', '=', config('amplify.pim.document_type'))
-//                    ->get();
-
                 array_walk($products, function (ItemRow &$product) use ($erpProductDetails, $warehouse_codes, $dbProducts) {
 
                     $filteredPriceAvailability = $erpProductDetails
@@ -139,21 +155,11 @@ class ProductList extends BaseComponent
                         ->where('QuantityAvailable', '>=', 1)
                         ->count();
 
-                    $product->Product_Name = strip_tags(explode('<B>', $product->Product_Name)[0] ?? '');
                     $product->total_quantity_available = $erpProductDetails->where('ItemNumber', $product->Product_Code)->sum('QuantityAvailable');
-                    $orderList = $this->productExistOnFavorite($product->Amplify_Id, $product);
-                    $product->exists_in_favorite = $orderList != null;
-                    $product->favorite_list_id = $orderList->id ?? null;
                     $ownProduct = $dbProducts->firstWhere('id', '=', $product->Amplify_Id);
-                    $product->mpn = $ownProduct->manufacturer ?? 'N/A';
                     $product->min_order_qty = $product->ERP->MinOrderQuantity ?? $ownProduct->min_order_qty;
                     $product->qty_interval = $product->ERP->QuantityInterval ?? $ownProduct->qty_interval;
                     $product->allow_back_order = $product->ERP->AllowBackOrder ?? $ownProduct->allow_back_order ?? false;
-                    $product->in_stock = $ownProduct->in_stock ?? false;
-                    $product->is_ncnr = $ownProduct?->is_ncnr ?? false;
-                    $product->ship_restriction = $ownProduct->ship_restriction ?? false;
-                    $product->availability = $ownProduct->availability ?? ProductAvailabilityEnum::Actual;
-                    $product->pricing = true;
                 });
             }
         }
@@ -202,8 +208,16 @@ class ProductList extends BaseComponent
         return $this->detailButtonLabel ?? 'View Detail';
     }
 
-    public function isMasterProduct($product): bool
+    public function isMasterProduct($product)
     {
+        if ($product instanceof ItemRow) {
+            return $product->HasSku;
+        }
+
+        if ($product instanceof Product) {
+            return !empty($product->has_sku) && empty($product->parent_id);
+        }
+
         return false;
     }
 

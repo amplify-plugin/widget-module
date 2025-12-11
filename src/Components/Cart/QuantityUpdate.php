@@ -2,6 +2,7 @@
 
 namespace Amplify\Widget\Components\Cart;
 
+use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Sayt\Classes\ItemRow;
 use Amplify\Widget\Abstracts\BaseComponent;
@@ -43,10 +44,19 @@ class QuantityUpdate extends BaseComponent
     public function render(): View|Closure|string
     {
         if (!empty($this->product)) {
+
+            if (isset($this->product->ERP?->WarehouseID)) {
+                $defaultWarehouse = $this->product->ERP?->Warehouse;
+            } else {
+                $defaultWarehouse = customer_check()
+                    ? ErpApi::getCustomerDetail()->DefaultWarehouse
+                    : config('amplify.frontend.guest_checkout_warehouse');
+            }
+
             $this->data = [
                 'cart_item_id' => $this->index,
                 'code' => $this->product->Product_Code,
-                'warehouse_code' => $this->product->ERP?->WarehouseID,
+                'warehouse_code' => $defaultWarehouse,
                 'quantity' => $this->product->min_order_qty ?? 1,
                 'min_qty' => $this->product->min_order_qty ?? 1,
                 'qty_interval' => $this->product->qty_interval ?? 1

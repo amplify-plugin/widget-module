@@ -22,10 +22,12 @@ class FavouriteManageButton extends BaseComponent
      * @param mixed|null $productId
      * @param bool $alreadyExists
      * @param mixed|null $favouriteListId
+     * @param string $label
      */
-    public function __construct(public mixed $productId = null,
-                                public bool  $alreadyExists = false,
-                                public mixed $favouriteListId = null)
+    public function __construct(public mixed  $productId = null,
+                                public bool   $alreadyExists = false,
+                                public mixed  $favouriteListId = null,
+                                public string $label = 'Favourite List')
     {
         parent::__construct();
 

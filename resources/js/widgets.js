@@ -362,9 +362,8 @@ window.Amplify = {
      * @returns {Promise<void>}
      */
     async loadCartDropdown() {
-        await $.ajax({
+        await $.ajax(this.cartUrl(), {
             beforeSend: () => Amplify.renderEmptyCart('/assets/img/preloader.gif'),
-            url: this.cartUrl(),
             method: 'GET',
             dataType: 'json',
             headers: {
@@ -450,7 +449,7 @@ window.Amplify = {
 
         if (!targetElement) {
             alert(`Target Element not found in ${target}`);
-            return;
+            return false;
         }
 
         targetElement.max = this.maxCartItemQuantity();
@@ -459,7 +458,7 @@ window.Amplify = {
 
         if (!minOrderQty) {
             alert(`Target Element doesn't have "data-min-order-qty" attribute set or is empty.`);
-            return;
+            return false;
         }
 
         targetElement.min = minOrderQty;
@@ -468,7 +467,7 @@ window.Amplify = {
 
         if (!qtyInterval) {
             alert(`Target Element doesn't have "data-qty-interval" attribute set or is empty.`);
-            return;
+            return false;
         }
 
         targetElement.step = qtyInterval;
@@ -486,7 +485,7 @@ window.Amplify = {
                             showConfirmButton: false,
                             showLoaderOnConfirm: false,
                         });
-                    return;
+                    return false;
                 }
                 targetElement.value = newValue;
                 break;
@@ -501,7 +500,7 @@ window.Amplify = {
                             showConfirmButton: false,
                             showLoaderOnConfirm: false,
                         });
-                    return;
+                    return false;
                 }
                 targetElement.value = newValue;
                 break;
@@ -516,7 +515,7 @@ window.Amplify = {
                             showLoaderOnConfirm: false,
                         });
                     targetElement.value = minOrderQty;
-                    return;
+                    return false;
                 }
 
                 if (quantity > this.maxCartItemQuantity()) {
@@ -527,10 +526,56 @@ window.Amplify = {
                             showLoaderOnConfirm: false,
                         });
                     targetElement.value = minOrderQty;
-                    return;
+                    return false;
                 }
                 break;
             }
         }
+
+        return true;
+    },
+
+    async addToCart(cartElement, quantityTarget, extras = {}) {
+
+        let defaultContent = cartElement.innerHTML;
+        let quantityElement = document.querySelector(quantityTarget);
+
+        cartElement.disabled = true;
+        cartElement.innerHTML = '<i class="icon-loader spinner"></i> Processing...';
+
+        if (this.handleQuantityChange(quantityTarget, 'input')) {
+
+            let warehouse = cartElement.dataset.warehouse;
+            let options = JSON.parse(cartElement.dataset.options);
+
+            let cartItems = {
+                products: [{
+                    product_code: options.code,
+                    product_warehouse_code: warehouse,
+                    qty: quantityElement.value,
+                    source_type: extras.source_type ?? 'Default',
+                }]
+            }
+
+            await $.ajax(this.cartUrl(), {
+                beforeSend: () => Amplify.renderEmptyCart('/assets/img/preloader.gif'),
+                method: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(cartItems),
+                headers: {
+                    Accept: 'application/json',
+                    ContentType: 'application/json'
+                },
+                success: function (res) {
+
+                },
+                error: function (xhr, status) {
+                    Amplify.renderEmptyCart();
+                }
+            });
+        }
+
+        cartElement.innerHTML = defaultContent;
+        cartElement.disabled = false;
     }
 }

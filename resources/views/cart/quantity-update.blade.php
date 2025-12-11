@@ -17,7 +17,6 @@
         name="cart-item-qty[{{ $cart_item_id ?? '{cart_item_id}' }}]"
         data-min-order-qty="{{ $min_qty ?? '{min_qty}' }}"
         data-qty-interval="{{ $qty_interval ?? '{qty_interval}' }}"
-        oninput="Amplify.handleQuantityChange('#cart-item-{{ $cart_item_id ?? '{cart_item_id}' }}', 'input')"
     />
 
     <button type="button"
