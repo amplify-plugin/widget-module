@@ -61,6 +61,11 @@ class QuantityUpdate extends BaseComponent
                 'min_qty' => $this->product->min_order_qty ?? 1,
                 'qty_interval' => $this->product->qty_interval ?? 1
             ];
+
+            if (!config('amplify.pim.use_minimum_order_quantity')) {
+                $this->data['min_qty'] = 1;
+                $this->data['qty_interval'] = 1;
+            }
         }
 
         return view('widget::cart.quantity-update', $this->data);

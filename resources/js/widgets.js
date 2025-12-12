@@ -83,7 +83,7 @@ window.Amplify = {
 
     alert(message = 'This action is not allowed', title = 'Alert', options = {}) {
         return this.confirm(message, title, '', {
-            icon:'warning',
+            icon: 'warning',
             showConfirmButton: false,
             showLoaderOnConfirm: false,
             cancelButtonText: 'Okay',
@@ -605,7 +605,7 @@ window.Amplify = {
         return true;
     },
 
-    async addToCart(cartElement, quantityTarget, extras = {}) {
+    async addSingleItemToCart(cartElement, quantityTarget, extras = {}) {
 
         let defaultContent = cartElement.innerHTML;
         let quantityElement = document.querySelector(quantityTarget);
@@ -618,29 +618,38 @@ window.Amplify = {
             let warehouse = cartElement.dataset.warehouse;
             let options = JSON.parse(cartElement.dataset.options);
 
-            let cartItems = {
-                products: [{
-                    product_code: options.code,
-                    product_warehouse_code: warehouse,
-                    qty: quantityElement.value,
-                    source_type: extras.source_type ?? 'Default',
-                }]
+            let cartItem = {
+                product_code: options.code,
+                product_warehouse_code: warehouse,
+                qty: quantityElement.value,
             }
+
+            // if (typeof options.source_type != 'undefined') {
+            //     cartItem.source_type = options.source_type;
+            // }
+            //
+            // if (typeof options.source_type != 'undefined') {
+            //     cartItem.source_type = options.source_type;
+            // }
 
             await $.ajax(this.cartUrl(), {
                 beforeSend: () => Amplify.renderEmptyCart('/assets/img/preloader.gif'),
                 method: 'POST',
                 dataType: 'json',
-                data: JSON.stringify(cartItems),
+                data: {
+                    products: [cartItem]
+                },
                 headers: {
                     Accept: 'application/json',
-                    ContentType: 'application/json'
-                },
-                success: function (res) {
+                    ContentType: 'application/json',
 
                 },
+                success: function (res) {
+                    Amplify.notify('success', res.message);
+                    Amplify.loadCartDropdown();
+                },
                 error: function (xhr, status) {
-                    Amplify.renderEmptyCart();
+                    Amplify.alert((JSON.parse(xhr.responseText)?.message || 'Something Went Wrong. PLease try again later.'));
                 }
             });
         }

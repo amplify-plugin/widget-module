@@ -26,7 +26,7 @@
             </x-wishlist-button>
             <button
                 data-warehouse="{{ $defaultWarehouse }}"
-                onclick="Amplify.addToCart(this, '#cart-item-{{$index}}', {{ json_encode($extras) }})"
+                onclick="Amplify.addSingleItemToCart(this, '#cart-item-{{$index}}', {{ json_encode($extras) }})"
                 data-options="{{ json_encode($cartData) }}"
                 class="btn btn-block btn-sm btn-primary m-0">
                 {{ __($cartLabel) }}
