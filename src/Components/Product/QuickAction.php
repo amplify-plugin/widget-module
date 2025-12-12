@@ -5,23 +5,21 @@ namespace Amplify\Widget\Components\Product;
 use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Sayt\Classes\ItemRow;
+use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Amplify\Widget\Abstracts\BaseComponent;
 
 /**
  * @class QuickAction
- * @package Amplify\Widget\Components\Product
- *
  */
 class QuickAction extends BaseComponent
 {
     public function __construct(public Product|ItemRow $product,
-                                public ?string         $seoPath = '',
-                                public mixed           $index = 1,
-                                public string          $detailLabel = 'View Details',
-                                public string          $cartLabel = 'Add To Cart',
-                                public array           $extras = [])
+        public ?string $seoPath = '',
+        public mixed $index = 1,
+        public string $detailLabel = 'View Details',
+        public string $cartLabel = 'Add To Cart',
+        public array $extras = [])
     {
         parent::__construct();
     }
@@ -74,7 +72,7 @@ class QuickAction extends BaseComponent
         }
 
         if ($product instanceof Product) {
-            return !empty($product->has_sku) && empty($product->parent_id);
+            return ! empty($product->has_sku) && empty($product->parent_id);
         }
 
         return false;

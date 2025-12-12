@@ -13,7 +13,7 @@ use Illuminate\Contracts\View\View;
  */
 class ItemNumber extends BaseComponent
 {
-    public function __construct(public ItemRow|Product $product, public string $format = "<b>Item Number: </b>{product_code}", public string $element = 'span')
+    public function __construct(public ItemRow|Product $product, public string $format = '<b>Item Number: </b>{product_code}', public string $element = 'span')
     {
         parent::__construct();
     }

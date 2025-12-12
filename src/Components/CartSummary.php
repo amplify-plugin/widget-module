@@ -13,10 +13,9 @@ use Illuminate\Contracts\View\View;
 class CartSummary extends BaseComponent
 {
     public function __construct(public string $backToUrl = 'home',
-                                public bool   $createFavoriteFromCart = true,
-                                public string $createFavoriteLabel = 'Create Shopping List'
-    )
-    {
+        public bool $createFavoriteFromCart = true,
+        public string $createFavoriteLabel = 'Create Shopping List'
+    ) {
         parent::__construct();
     }
 
@@ -33,14 +32,14 @@ class CartSummary extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-//        $class = match (config('amplify.client_code')) {
-//            'RHS' => \Amplify\Widget\Components\Client\Rhsparts\CartSummary::class,
-//            default => \Amplify\Widget\Components\Client\Demo\CartSummary::class,
-//        };
-//
-//        $this->component = new $class;
-//
-//        $this->component->attributes = $this->attributes;
+        //        $class = match (config('amplify.client_code')) {
+        //            'RHS' => \Amplify\Widget\Components\Client\Rhsparts\CartSummary::class,
+        //            default => \Amplify\Widget\Components\Client\Demo\CartSummary::class,
+        //        };
+        //
+        //        $this->component = new $class;
+        //
+        //        $this->component->attributes = $this->attributes;
 
         $templateBrandColor = theme_option(key: 'primary_color', default: '#002767');
 

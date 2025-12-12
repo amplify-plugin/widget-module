@@ -18,16 +18,11 @@ class FavouriteManageButton extends BaseComponent
 
     /**
      * Create a new component instance.
-     *
-     * @param mixed|null $productId
-     * @param bool $alreadyExists
-     * @param mixed|null $favouriteListId
-     * @param string $label
      */
-    public function __construct(public mixed  $productId = null,
-                                public bool   $alreadyExists = false,
-                                public mixed  $favouriteListId = null,
-                                public string $label = 'Favourite List')
+    public function __construct(public mixed $productId = null,
+        public bool $alreadyExists = false,
+        public mixed $favouriteListId = null,
+        public string $label = 'Favourite List')
     {
         parent::__construct();
 
@@ -59,7 +54,7 @@ class FavouriteManageButton extends BaseComponent
     {
         $class = 'btn';
 
-        $class = ($this->alreadyExists) ? $class . ' active' : $class;
+        $class = ($this->alreadyExists) ? $class.' active' : $class;
 
         $this->attributes = $this->attributes->class([$class]);
 

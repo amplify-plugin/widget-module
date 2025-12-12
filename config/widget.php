@@ -536,12 +536,12 @@ return [
             [
                 'name' => ':create-favorite-from-cart',
                 'type' => 'boolean',
-                'value' => true
+                'value' => true,
             ],
             [
                 'name' => 'create-favorite-label',
                 'type' => 'text',
-                'value' => 'Create Favourite List'
+                'value' => 'Create Favourite List',
             ],
         ],
         '@nestedItems' => [
@@ -2137,17 +2137,17 @@ return [
             [
                 'name' => ':create-favourite-from-cart',
                 'type' => 'boolean',
-                'value' => true
+                'value' => true,
             ],
             [
                 'name' => ':allow-request-quote',
                 'type' => 'boolean',
-                'value' => true
+                'value' => true,
             ],
             [
                 'name' => ':allow-draft-order',
                 'type' => 'boolean',
-                'value' => false
+                'value' => false,
             ],
         ],
         '@nestedItems' => [],

@@ -43,7 +43,7 @@ class QuantityUpdate extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        if (!empty($this->product)) {
+        if (! empty($this->product)) {
 
             if (isset($this->product->ERP?->WarehouseID)) {
                 $defaultWarehouse = $this->product->ERP?->Warehouse;
@@ -59,10 +59,10 @@ class QuantityUpdate extends BaseComponent
                 'warehouse_code' => $defaultWarehouse,
                 'quantity' => $this->product->min_order_qty ?? 1,
                 'min_qty' => $this->product->min_order_qty ?? 1,
-                'qty_interval' => $this->product->qty_interval ?? 1
+                'qty_interval' => $this->product->qty_interval ?? 1,
             ];
 
-            if (!config('amplify.pim.use_minimum_order_quantity')) {
+            if (! config('amplify.pim.use_minimum_order_quantity')) {
                 $this->data['min_qty'] = 1;
                 $this->data['qty_interval'] = 1;
             }

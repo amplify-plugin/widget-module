@@ -13,7 +13,7 @@ use Illuminate\Contracts\View\View;
  */
 class MainImage extends BaseComponent
 {
-    public function __construct(public ItemRow|Product $product , public string $seoPath = '', public bool $wrapLink = true)
+    public function __construct(public ItemRow|Product $product, public string $seoPath = '', public bool $wrapLink = true)
     {
         parent::__construct();
     }

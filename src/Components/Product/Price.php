@@ -4,7 +4,6 @@ namespace Amplify\Widget\Components\Product;
 
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Sayt\Classes\ItemRow;
-use Amplify\System\Support\Money;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;

@@ -164,7 +164,6 @@ class ProductList extends BaseComponent
             }
         }
 
-
         return view('widget::shop.product-list', compact('productView', 'products', 'message', 'seoPath'));
     }
 
@@ -215,7 +214,7 @@ class ProductList extends BaseComponent
         }
 
         if ($product instanceof Product) {
-            return !empty($product->has_sku) && empty($product->parent_id);
+            return ! empty($product->has_sku) && empty($product->parent_id);
         }
 
         return false;
