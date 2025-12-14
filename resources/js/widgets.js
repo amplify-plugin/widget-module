@@ -316,12 +316,7 @@ window.Amplify = {
                     });
                 }
 
-                $('#order-subtotal').text(
-                    response.data.total_price.toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: AMPLIFY_BASE_CURRENCY,
-                    }),
-                );
+                $('#order-subtotal').text(response.data.total);
             },
         });
     },
@@ -339,11 +334,8 @@ window.Amplify = {
             '{description}': product.short_description,
             '{manufacturer}': product.manufacturer_name,
             '{quantity}': product.qty,
-            '{unit_price}': product.price.toLocaleString('en-US', {style: 'currency', currency: AMPLIFY_BASE_CURRENCY}),
-            '{subtotal}': parseFloat(product.subtotal).toLocaleString('en-US', {
-                style: 'currency',
-                currency: AMPLIFY_BASE_CURRENCY,
-            }),
+            '{unit_price}': product.price,
+            '{subtotal}': product.subtotal,
             '{image}': product.product_image,
             '{uom}': product.uom,
             '{actions}': JSON.stringify(product),
@@ -372,23 +364,9 @@ window.Amplify = {
             },
             success: function (res) {
                 $('.cart-dropdown').empty();
-
                 if (res.data.products.length > 0) {
-                    let item_qty = 0;
+                    $('.total_cart_items').text(res.data.item_count);
                     res.data.products.forEach((product, index) => {
-                        item_qty += parseInt(product.qty);
-                        let item_price = (product.price * 1).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: AMPLIFY_BASE_CURRENCY,
-                        });
-                        let total_amount = (product.qty * product.price).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: AMPLIFY_BASE_CURRENCY,
-                        });
-
-                        item_qty = item_qty > 0 && item_qty < 100 ? item_qty : '99+';
-                        $('.total_cart_items').text(item_qty);
-
                         $('.cart-dropdown').append(`
                         <div class="dropdown-product-item" id="cart_products_${index}">
                         <span class="dropdown-product-remove" onclick="Amplify.removeCartItem(${product.id})">
@@ -404,16 +382,11 @@ window.Amplify = {
                             <a class="dropdown-product-title" href="${product.url}">
                                 ${product.product_name}
                             </a>
-                            <span class="dropdown-product-details">${product.qty} x ${item_price} = ${total_amount}</span>
+                            <span class="dropdown-product-details">${product.qty} x ${product.price} = ${product.subtotal}</span>
                         </div>
                     </div>`);
                     });
-                    $('.total_cart_amount').text(
-                        new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: AMPLIFY_BASE_CURRENCY,
-                        }).format(parseFloat(res.data.total_price)),
-                    );
+                    $('.total_cart_amount').text(res.data.total);
                 } else {
                     Amplify.renderEmptyCart();
                 }
