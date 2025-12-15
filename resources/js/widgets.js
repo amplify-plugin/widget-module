@@ -316,7 +316,7 @@ window.Amplify = {
                     });
                 }
 
-                $('#order-subtotal').text(response.data.total);
+                $('#order-subtotal').text(response.data.sub_total);
             },
         });
     },
