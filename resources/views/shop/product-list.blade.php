@@ -3,7 +3,7 @@
     $hasPermission = customer(true)?->canAny(['favorites.manage-global-list', 'favorites.manage-personal-list']) ?? false;
 @endphp--}}
 <div {!! $htmlAttributes !!}>
-
+    <x-product-favorite-list />
     {!! $before ?? '' !!}
 
     <p @class(["font-weight-bold my-2 error-message", 'd-none' => empty($message)])>{!! $message !!}</p>
@@ -24,9 +24,9 @@
             <div class="gutter-sizer"></div>
             <div class="grid-sizer"></div>
             @foreach($products as $product)
-                <div class="grid-item">
+                <div class="grid-item p-2">
                     <div @class(['product-card','product-grid' => $productView == 'grid', 'product-list' => $productView == 'list'])>
-                        {!! ${$productView}->with(['loop' => $loop, 'product' => $product]) !!}
+                        @include('widget::shop.product.item')
                     </div>
                 </div>
             @endforeach

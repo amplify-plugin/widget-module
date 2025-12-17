@@ -5,8 +5,8 @@ window.swal = Swal.mixin({
     showCloseButton: true,
     // buttonsStyling: false,
     customClass: {
-        confirmButton: 'btn btn-primary',
-        cancelButton: 'btn btn-secondary'
+        confirmButton: 'btn btn-danger',
+        cancelButton: 'btn btn-outline-secondary',
     }
 });
 
@@ -15,6 +15,7 @@ window.Amplify = {
     cartItemRemoveUrl: () => '/carts/remove/cart_item_id',
     cartItemUpdateUrl: () => '/carts/update/cart_item_id',
     maxCartItemQuantity: () => 9999999999,
+    favouritesCreateUrl: () => '/favourites',
 
     /**
      * The function validate if the customer is logged in
@@ -80,6 +81,16 @@ window.Amplify = {
         });
     },
 
+    alert(message = 'This action is not allowed', title = 'Alert', options = {}) {
+        return this.confirm(message, title, '', {
+            icon: 'warning',
+            showConfirmButton: false,
+            showLoaderOnConfirm: false,
+            cancelButtonText: 'Okay',
+            willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center'
+        })
+    },
+
     /**
      * This function handle the custom part number add, update and remove operation.
      *
@@ -100,7 +111,7 @@ window.Amplify = {
             return;
         }
 
-        if (!newValue) {
+        if (!oldValue && !newValue) {
             this.notify('warning', 'This field is required', 'Customer Part Number');
             return;
         }
@@ -109,9 +120,6 @@ window.Amplify = {
         if (oldValue) {
             this.confirm('Are you sure you want to remove this part number?',
                 'Customer Part Number', 'Remove', {
-                    customClass: {
-                        confirmButton: 'btn btn-danger'
-                    },
                     preConfirm: async function () {
                         return new Promise((resolve, reject) => {
                             $.ajax({
@@ -173,10 +181,6 @@ window.Amplify = {
         const actionLink = element.dataset.actionLink;
         this.confirm('Are you sure to remove all items from shopping cart?',
             'Cart', 'Confirm', {
-                icon: 'error',
-                customClass: {
-                    confirmButton: 'btn btn-danger'
-                },
                 preConfirm: async function () {
                     return new Promise((resolve, reject) => {
                         $.ajax({
@@ -208,13 +212,10 @@ window.Amplify = {
             });
     },
 
-    async removeCartItem(cartItemId) {
+    async removeCartItem(cartItemId, redirect = true) {
         const actionLink = this.cartItemRemoveUrl().replace('cart_item_id', cartItemId);
         this.confirm('Are you sure to remove this item from cart?',
             'Cart', 'Remove', {
-                customClass: {
-                    confirmButton: 'btn btn-danger'
-                },
                 preConfirm: async function () {
                     return new Promise((resolve, reject) => {
                         $.ajax({
@@ -241,15 +242,48 @@ window.Amplify = {
             .then(function (result) {
                 if (result.isConfirmed) {
                     Amplify.notify('success', result.value.message, 'Cart');
-                    setTimeout(() => window.location.reload(), 2500)
+                    if (redirect) {
+                        setTimeout(() => window.location.reload(), 2500)
+                        return;
+                    }
+
+                    Amplify.loadCartDropdown();
                 }
             });
     },
 
-    async updateCartItem(target, cartItemId) {
-        const targetElement = document.querySelector(target);
+    async updateCartItem(e, target, cartItemId) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const targetElement = $(target);
+        const qty = targetElement.val();
 
         const actionLink = this.cartItemUpdateUrl().replace('cart_item_id', cartItemId);
+        const warehouseCode = targetElement.data('warehouse-code');
+
+        $.ajax({
+            url: actionLink,
+            type: 'PATCH',
+            data: {
+                quantity: qty,
+                product_warehouse_code: warehouseCode,
+            },
+            header: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            success: function (result) {
+                if (result.success) {
+                    Amplify.notify('success', result.message, 'Cart');
+                    setTimeout(() => window.location.reload(), 2500)
+                }
+            },
+            error: function (xhr, status, err) {
+                let response = JSON.parse(xhr.responseText);
+                Swal.showValidationMessage(response.message);
+            },
+        });
     },
 
     /**
@@ -282,12 +316,7 @@ window.Amplify = {
                     });
                 }
 
-                $('#order-subtotal').text(
-                    response.data.total_price.toLocaleString('en-US', {
-                        style: 'currency',
-                        currency: AMPLIFY_BASE_CURRENCY,
-                    }),
-                );
+                $('#order-subtotal').text(response.data.sub_total);
             },
         });
     },
@@ -300,15 +329,13 @@ window.Amplify = {
             '{cart_item_id}': product.id,
             '{code}': product.product_code,
             '{warehouse}': product.warehouse_name,
+            '{warehouse_code}': product.product_warehouse_code,
             '{name}': product.product_name,
             '{description}': product.short_description,
             '{manufacturer}': product.manufacturer_name,
             '{quantity}': product.qty,
-            '{unit_price}': product.price.toLocaleString('en-US', {style: 'currency', currency: AMPLIFY_BASE_CURRENCY}),
-            '{subtotal}': parseFloat(product.subtotal).toLocaleString('en-US', {
-                style: 'currency',
-                currency: AMPLIFY_BASE_CURRENCY,
-            }),
+            '{unit_price}': product.price,
+            '{subtotal}': product.subtotal,
             '{image}': product.product_image,
             '{uom}': product.uom,
             '{actions}': JSON.stringify(product),
@@ -328,9 +355,8 @@ window.Amplify = {
      * @returns {Promise<void>}
      */
     async loadCartDropdown() {
-        await $.ajax({
+        await $.ajax(this.cartUrl(), {
             beforeSend: () => Amplify.renderEmptyCart('/assets/img/preloader.gif'),
-            url: this.cartUrl(),
             method: 'GET',
             dataType: 'json',
             headers: {
@@ -338,23 +364,9 @@ window.Amplify = {
             },
             success: function (res) {
                 $('.cart-dropdown').empty();
-
                 if (res.data.products.length > 0) {
-                    let item_qty = 0;
+                    $('.total_cart_items').text(res.data.item_count);
                     res.data.products.forEach((product, index) => {
-                        item_qty += parseInt(product.qty);
-                        let item_price = (product.price * 1).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: AMPLIFY_BASE_CURRENCY,
-                        });
-                        let total_amount = (product.qty * product.price).toLocaleString('en-US', {
-                            style: 'currency',
-                            currency: AMPLIFY_BASE_CURRENCY,
-                        });
-
-                        item_qty = item_qty > 0 && item_qty < 100 ? item_qty : '99+';
-                        $('.total_cart_items').text(item_qty);
-
                         $('.cart-dropdown').append(`
                         <div class="dropdown-product-item" id="cart_products_${index}">
                         <span class="dropdown-product-remove" onclick="Amplify.removeCartItem(${product.id})">
@@ -370,16 +382,11 @@ window.Amplify = {
                             <a class="dropdown-product-title" href="${product.url}">
                                 ${product.product_name}
                             </a>
-                            <span class="dropdown-product-details">${product.qty} x ${item_price} = ${total_amount}</span>
+                            <span class="dropdown-product-details">${product.qty} x ${product.price} = ${product.subtotal}</span>
                         </div>
                     </div>`);
                     });
-                    $('.total_cart_amount').text(
-                        new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: AMPLIFY_BASE_CURRENCY,
-                        }).format(parseFloat(res.data.total_price)),
-                    );
+                    $('.total_cart_amount').text(res.data.total);
                 } else {
                     Amplify.renderEmptyCart();
                 }
@@ -404,6 +411,12 @@ window.Amplify = {
     `);
     },
 
+    /**
+     * The function handle quantity update and quantity value validation
+     *
+     * @param target
+     * @param action
+     */
     handleQuantityChange(target, action) {
 
         const targetElement = document.querySelector(target);
@@ -411,12 +424,12 @@ window.Amplify = {
         const productCode = targetElement.dataset.productCode;
 
         if (!['decrement', 'input', 'increment'].includes(action)) {
-            this.notify('warning', `Invalid Quantity Change action [${action}].`, 'Cart');
+            this.alert(`Invalid Quantity Change action [${action}].`, 'Cart');
         }
 
         if (!targetElement) {
-            alert(`Target Element not found in ${target}`);
-            return;
+            this.alert(`Target Element not found in ${target}`, 'Cart');
+            return false;
         }
 
         targetElement.max = this.maxCartItemQuantity();
@@ -424,8 +437,8 @@ window.Amplify = {
         const minOrderQty = parseFloat(targetElement.dataset.minOrderQty);
 
         if (!minOrderQty) {
-            alert(`Target Element doesn't have "data-min-order-qty" attribute set or is empty.`);
-            return;
+            this.alert('Target Element doesn\'t have "data-min-order-qty" attribute set or is empty.', 'Cart');
+            return false;
         }
 
         targetElement.min = minOrderQty;
@@ -433,8 +446,8 @@ window.Amplify = {
         const qtyInterval = parseFloat(targetElement.dataset.qtyInterval);
 
         if (!qtyInterval) {
-            alert(`Target Element doesn't have "data-qty-interval" attribute set or is empty.`);
-            return;
+            this.alert(`Target Element doesn't have "data-qty-interval" attribute set or is empty.`, 'Cart');
+            return false;
         }
 
         targetElement.step = qtyInterval;
@@ -446,13 +459,10 @@ window.Amplify = {
             case 'decrement' : {
                 let newValue = quantity - qtyInterval;
                 if (newValue < minOrderQty) {
-                    this.confirm(
+                    this.alert(
                         `Product ${productCode} requires a minimum order quantity of ${minOrderQty}. You entered ${newValue}.`,
-                        'Cart', 'Confirm', {
-                            showConfirmButton: false,
-                            showLoaderOnConfirm: false,
-                        });
-                    return;
+                        'Cart');
+                    return false;
                 }
                 targetElement.value = newValue;
                 break;
@@ -461,13 +471,10 @@ window.Amplify = {
             case 'increment' : {
                 let newValue = quantity + qtyInterval;
                 if (newValue > this.maxCartItemQuantity()) {
-                    this.confirm(
+                    this.alert(
                         `Product ${productCode} requires a maximum order quantity of ${this.maxCartItemQuantity()}. You entered ${newValue}.`,
-                        'Cart', 'Confirm', {
-                            showConfirmButton: false,
-                            showLoaderOnConfirm: false,
-                        });
-                    return;
+                        'Cart');
+                    return false;
                 }
                 targetElement.value = newValue;
                 break;
@@ -475,28 +482,152 @@ window.Amplify = {
 
             default : {
                 if (quantity < minOrderQty) {
-                    this.confirm(
+                    this.alert(
                         `Product ${productCode} requires a minimum order quantity of ${minOrderQty}. You entered ${quantity}.`,
-                        'Cart', 'Confirm', {
-                            showConfirmButton: false,
-                            showLoaderOnConfirm: false,
-                        });
+                        'Cart');
                     targetElement.value = minOrderQty;
-                    return;
+                    return false;
                 }
 
                 if (quantity > this.maxCartItemQuantity()) {
-                    this.confirm(
+                    this.alert(
                         `Product ${productCode} requires a maximum order quantity of ${this.maxCartItemQuantity()}. You entered ${quantity}.`,
-                        'Cart', 'Confirm', {
-                            showConfirmButton: false,
-                            showLoaderOnConfirm: false,
-                        });
+                        'Cart');
                     targetElement.value = minOrderQty;
-                    return;
+                    return false;
                 }
                 break;
             }
         }
+
+        return true;
+    },
+
+    /**
+     * The function create a shopping list from product and cart and order and invoice, etc.
+     * @param sourceId
+     * @param source
+     */
+    createShippingList(sourceId, source = 'product') {
+        this.confirm('Create a new shopping list?',
+            'Shopping List', 'Save', {
+                icon: undefined,
+                input: "text",
+                inputPlaceholder: 'Enter name',
+                inputAttributes: {
+                    required: true,
+                    max: "255",
+                    maxlength: "255",
+                    autocorrect: "on"
+                },
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-secondary'
+                },
+                preConfirm: async function () {
+                    return new Promise((resolve, reject) => {
+                        let payload = {
+                            type: source,
+                            list_id: null,
+                            is_shopping_list: 1,
+                            list_name: $('#swal2-input').val(),
+                            list_type: $('#swal2-select').val(),
+                            list_desc: $('#swal2-textarea').val(),
+                        };
+
+                        payload[source + '_id'] = sourceId;
+
+                        $.ajax({
+                            url: Amplify.favouritesCreateUrl(),
+                            type: 'POST',
+                            data: JSON.stringify(payload),
+                            contentType: 'application/json; charset=UTF-8',
+                            headers: {
+                                Accept: 'application/json'
+                            },
+                            success: function (result) {
+                                resolve(result);
+                            },
+                            error: function (xhr, status, err) {
+                                let response = JSON.parse(xhr.responseText);
+                                Swal.showValidationMessage(response.message);
+                                reject(false);
+                            },
+                        });
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
+                willOpen: function () {
+                    $('#swal2-select').append(
+                        $('<option>', {value: '', text: 'Select Type', disabled: true, selected: true}),
+                        $('<option>', {value: 'personal', text: 'Personal'}),
+                        $('<option>', {value: 'global', text: 'Global'})
+                    ).css({
+                        'display': 'flex',
+                    }).addClass('swal2-input');
+
+                    $('#swal2-textarea').css('display', 'flex').attr('placeholder', 'Enter description');
+                }
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    Amplify.notify('success', result.value.message, 'Shopping List');
+                }
+            });
+
+        return true;
+    },
+
+    async addSingleItemToCart(cartElement, quantityTarget, extras = {}) {
+
+        let defaultContent = cartElement.innerHTML;
+        let quantityElement = document.querySelector(quantityTarget);
+
+        cartElement.disabled = true;
+        cartElement.innerHTML = '<i class="icon-loader spinner"></i> Processing...';
+
+        if (this.handleQuantityChange(quantityTarget, 'input')) {
+
+            let warehouse = cartElement.dataset.warehouse;
+            let options = JSON.parse(cartElement.dataset.options);
+
+            let cartItem = {
+                product_code: options.code,
+                product_warehouse_code: warehouse,
+                qty: quantityElement.value,
+            }
+
+            // if (typeof options.source_type != 'undefined') {
+            //     cartItem.source_type = options.source_type;
+            // }
+            //
+            // if (typeof options.source_type != 'undefined') {
+            //     cartItem.source_type = options.source_type;
+            // }
+
+            await $.ajax(this.cartUrl(), {
+                beforeSend: () => Amplify.renderEmptyCart('/assets/img/preloader.gif'),
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    products: [cartItem]
+                },
+                headers: {
+                    Accept: 'application/json',
+                    ContentType: 'application/json',
+
+                },
+                success: function (res) {
+                    Amplify.notify('success', res.message);
+                    Amplify.loadCartDropdown();
+                },
+                error: function (xhr, status) {
+                    Amplify.alert((JSON.parse(xhr.responseText)?.message || 'Something Went Wrong. PLease try again later.'));
+                }
+            });
+        }
+
+        cartElement.innerHTML = defaultContent;
+        cartElement.disabled = false;
     }
 }

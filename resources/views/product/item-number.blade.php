@@ -1,3 +1,1 @@
-<div {!! $htmlAttributes !!}>
-
-</div>
+    <{{ $element }} {!! $htmlAttributes !!}>{!! $formattedItemNumber() !!}</{{ $element }}>

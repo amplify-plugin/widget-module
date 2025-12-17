@@ -21,7 +21,9 @@
             Add to Shopping List
         </button>
         <div class="dropdown-menu" aria-labelledby="shoppingListDropdown">
-            <a href="#" class="dropdown-item create-shopping-list">
+            <a href="javascript:void(0);"
+               class="dropdown-item create-shopping"
+               onclick="Amplify.createShippingList({{ $productId }}, 'product', '')">
                 Create new shopping list
             </a>
             <div class="dropdown-divider"></div>

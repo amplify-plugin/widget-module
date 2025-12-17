@@ -12,10 +12,10 @@ use Illuminate\Contracts\View\View;
  */
 class CartSummary extends BaseComponent
 {
-    public BaseComponent $component;
-
-    public function __construct(public string $backToUrl = 'home')
-    {
+    public function __construct(public string $backToUrl = 'home',
+        public bool $createFavoriteFromCart = true,
+        public string $createFavoriteLabel = 'Create Shopping List'
+    ) {
         parent::__construct();
     }
 
@@ -32,14 +32,14 @@ class CartSummary extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $class = match (config('amplify.client_code')) {
-            'RHS' => \Amplify\Widget\Components\Client\Rhsparts\CartSummary::class,
-            default => \Amplify\Widget\Components\Client\Demo\CartSummary::class,
-        };
-
-        $this->component = new $class;
-
-        $this->component->attributes = $this->attributes;
+        //        $class = match (config('amplify.client_code')) {
+        //            'RHS' => \Amplify\Widget\Components\Client\Rhsparts\CartSummary::class,
+        //            default => \Amplify\Widget\Components\Client\Demo\CartSummary::class,
+        //        };
+        //
+        //        $this->component = new $class;
+        //
+        //        $this->component->attributes = $this->attributes;
 
         $templateBrandColor = theme_option(key: 'primary_color', default: '#002767');
 
@@ -48,6 +48,11 @@ class CartSummary extends BaseComponent
         $cartId = getCart()->getKey();
 
         return view('widget::cart-summary', compact('templateBrandColor', 'isCartEmpty', 'cartId'));
+    }
+
+    public function createShoppingListLabel(): string
+    {
+        return $this->createFavoriteLabel;
     }
 
     public function backToShoppingUrl(): string

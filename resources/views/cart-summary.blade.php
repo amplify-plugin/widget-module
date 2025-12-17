@@ -276,19 +276,20 @@
             <a class="btn btn-outline-secondary align-items-center" href="{{ $backToShoppingUrl() }}">
                 <i class="icon-arrow-left"></i>&nbsp;Back to Shopping
             </a>
-            <div>
-                {{--                <butoon type="button"--}}
-                {{--                        class="btn btn-primary"--}}
-                {{--                        data-action-link="{{ route('frontend.carts.destroy', $cartId) }}"--}}
-                {{--                        onclick="Amplify.clearCart(this)">--}}
-                {{--                    <i class="icon-circle-minus"></i>&nbsp;Remove Item(s)--}}
-                {{--                </butoon>--}}
+            <div class="d-md-flex d-grid gap-2 justify-content-center">
                 <butoon type="button"
                         class="btn btn-primary"
                         data-action-link="{{ route('frontend.carts.destroy', $cartId) }}"
                         onclick="Amplify.clearCart(this)">
                     <i class="icon-circle-cross"></i>&nbsp;Clear Cart
                 </butoon>
+                @if($createFavoriteFromCart)
+                    <button type="button"
+                            class="btn btn-primary"
+                            onclick="Amplify.createShippingList({{ $cartId }}, 'cart')">
+                        <i class="icon-file-subtract"></i>&nbsp;{{ $createShoppingListLabel() }}
+                    </button>
+                @endif
             </div>
             <a class="btn btn-success align-items-center" href="{{ route('frontend.checkout') }}">
                 Checkout&nbsp;<i class="icon-arrow-right"></i>

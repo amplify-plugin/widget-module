@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 /**
  * @class ProductDetails
  */
-class ProductDetails extends BaseComponent
+class ProductDetail extends BaseComponent
 {
     protected Collection $orderList;
 

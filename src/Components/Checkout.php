@@ -13,6 +13,13 @@ class Checkout extends BaseComponent
 {
     public $component;
 
+    public function __construct(public bool $createFavouriteFromCart = true,
+        public bool $allowRequestQuote = true,
+        public bool $allowDraftOrder = false)
+    {
+        parent::__construct();
+    }
+
     /**
      * Whether the component should be rendered
      */

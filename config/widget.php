@@ -533,11 +533,21 @@ return [
                     'shop' => 'Shop (All Products)',
                 ],
             ],
+            [
+                'name' => ':create-favorite-from-cart',
+                'type' => 'boolean',
+                'value' => true,
+            ],
+            [
+                'name' => 'create-favorite-label',
+                'type' => 'text',
+                'value' => 'Create Favourite List',
+            ],
         ],
         '@nestedItems' => [
             [
                 'name' => 'x-slot:item-row',
-                '@inside' => '{serial}, {cart_item_id}, {product_code}, {warehouse_name}, {product_name}, {quantity}, {unit_price}, {sub_total},{product_image}, {actions}, {product_url}, {source_message}',
+                '@inside' => "{serial}, \n{cart_item_id}, \n{product_code}, \n{warehouse_name}, \n{product_name}, \n{quantity}, \n{unit_price}, \n{sub_total},{product_image}, \n{actions}, \n{product_url}, \n{source_message}",
                 '@client' => null,
                 'model' => ['static_page'],
                 '@attributes' => [],
@@ -2123,7 +2133,23 @@ return [
         'model' => [],
         '@inside' => null,
         '@client' => null,
-        '@attributes' => [],
+        '@attributes' => [
+            [
+                'name' => ':create-favourite-from-cart',
+                'type' => 'boolean',
+                'value' => true,
+            ],
+            [
+                'name' => ':allow-request-quote',
+                'type' => 'boolean',
+                'value' => true,
+            ],
+            [
+                'name' => ':allow-draft-order',
+                'type' => 'boolean',
+                'value' => false,
+            ],
+        ],
         '@nestedItems' => [],
         'description' => 'Checkout widget',
     ],
@@ -2507,7 +2533,7 @@ return [
                 'hint' => 'On grid view number of the cards display in one line',
             ],
             [
-                'name' => 'header-pagination',
+                'name' => ':show-pagination-on-top',
                 'type' => 'boolean',
                 'value' => false,
                 'hint' => 'Show result pagination options in header also.',
@@ -2523,7 +2549,7 @@ return [
         'description' => 'Display all the products in a grid or list view.',
         '@client' => null,
     ],
-    Amplify\Widget\Components\Shop\ProductDetails::class => [
+    Amplify\Widget\Components\Shop\ProductDetail::class => [
         'name' => 'product-details',
         'reserved' => true,
         'internal' => false,
@@ -3554,8 +3580,8 @@ return [
         '@nestedItems' => [],
         'description' => '',
     ],
-    Amplify\Widget\Components\Product\CartButton::class => [
-        'name' => 'product.cart-button',
+    Amplify\Widget\Components\Product\QuickAction::class => [
+        'name' => 'product.quick-action',
         'reserved' => true,
         'internal' => false,
         '@inside' => null,
@@ -3564,7 +3590,7 @@ return [
         '@attributes' => [
             ['name' => 'cart-button-label', 'type' => 'text', 'value' => 'Add To Cart'],
             ['name' => 'detail-button-label', 'type' => 'text', 'value' => 'View Details'],
-            ['name' => ':sku-order-option', 'type' => 'boolean', 'value' => false],
+            ['name' => ':product', 'type' => 'text', 'value' => '$product'],
         ],
         '@nestedItems' => [],
         'description' => 'The widget display a button to add item to cart.',
@@ -3577,7 +3603,8 @@ return [
         '@client' => null,
         'model' => [],
         '@attributes' => [
-            ['name' => 'element', 'type' => 'text', 'value' => 'div'],
+            ['name' => 'product', 'type' => 'text', 'value' => '$product'],
+            ['name' => 'format', 'type' => 'text', 'value' => ''],
         ],
         '@nestedItems' => [],
         'description' => 'The widget display product unique  code, sku id.',
@@ -3590,10 +3617,12 @@ return [
         '@client' => null,
         'model' => [],
         '@attributes' => [
-            ['name' => 'element', 'type' => 'text', 'value' => 'div'],
+            ['name' => 'product', 'type' => 'text', 'value' => '$product'],
+            ['name' => 'seo-path', 'type' => 'text', 'value' => ''],
+            ['name' => ':wrap-link', 'type' => 'boolean', 'value' => 'true'],
         ],
         '@nestedItems' => [],
-        'description' => 'The widget display product short description.',
+        'description' => 'The widget display product main image.',
     ],
     Amplify\Widget\Components\Product\Name::class => [
         'name' => 'product.name',

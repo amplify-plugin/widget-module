@@ -33,7 +33,9 @@ class ProductDetails extends BaseComponent
     public function render(): View|Closure|string
     {
         $dbProduct = store()->productModel;
+
         $response = $this->getProductFromEasyAsk($dbProduct->id, 'All');
+
         abort_if(isset($response['noResultsMessage']), 404, 'Product is not available on EasyAsk Catalog.');
 
         $productInfoTabs = [];
