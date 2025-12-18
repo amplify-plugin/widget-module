@@ -1,5 +1,5 @@
 @pushonce('plugin-style')
-    <link type="text/css" href="{{ asset('vendor/bs-stepper/css/bs-stepper.min.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ asset('vendor/bs-stepper/css/bs-stepper.min.css') }}" rel="stylesheet"/>
 @endpushonce
 <div class="bs-stepper" id="customer-verification-steps">
     <div class="bs-stepper-header" role="tablist">
@@ -28,7 +28,7 @@
                     {!! \Form::rText('customer_street_address', trans('Street Address'), null, false, ['placeholder' => trans('Enter Street Address')]) !!}
                     {!! \Form::rText('customer_postal_code', trans('Postal/Zip Code'), null, false, ['placeholder' => trans('Enter Postal/Zip Code')]) !!}
                     <input type="hidden" name="required[]" value="search_account_number">
-                    {!! \Form::rText('search_account_number', trans('Customer Number/Code'), null, false, ['placeholder' => trans('Enter Customer Number/Code')]) !!}
+                    {!! \Form::rText('search_account_number', trans('Customer Number/Code'), null, false, ['placeholder' => trans('Enter Customer Number/Code'), 'autocomplete' => 'off']) !!}
                     <button class="btn btn-primary"
                             onclick="verifyCustomerInformation(event, this);"
                             type="button">
@@ -46,7 +46,6 @@
                                 <div class="col-sm-8 text-uppercase">
                                     <span id="CustomerName"></span>
                                     {!!\Form::hidden('customer_name') !!}
-
                                 </div>
                             </div>
                             <div class="mb-2 row">
@@ -199,7 +198,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <x-captcha :display="$captchaVerification" id="captcha-container-account"
-                                   field-name="contact_captcha" :reload-captcha="$active" />
+                                   field-name="contact_captcha" :reload-captcha="$active"/>
                     </div>
                 </div>
             @endif
@@ -222,47 +221,79 @@
     <script>
         function verifyCustomerInformation(event, element) {
             event.preventDefault();
-            $(element).prop('disabled', 'disabled');
+
+            element.disabled = 'disabled';
+
             $('#customer-profile').hide();
+
             let street_address = $('#customer_street_address').val();
             let zip_code = $('#customer_postal_code').val();
             let customer_number = $('#search_account_number').val();
 
-            if (street_address === '' && zip_code === '' && customer_number === '') {
-                ShowNotification('warning', 'Verification', 'Missing full Account Number and partial Street Address or partial Postal Code');
-                return;
+            let payload = {
+                street_address: street_address ?? '',
+                zip_code: zip_code ?? '',
+                customer_number: customer_number ?? ''
             }
 
-            if (customer_number == null) {
-                customer_number = undefined;
+            if (payload.street_address === '' && payload.zip_code === '' && payload.customer_number === '') {
+                Amplify.alert('Customer Number, Street address, Postal code any of them is must', 'Registration');
+                element.disabled = false;
+                return false;
             }
 
-            $.post(
-                '{{ route('frontend.contact-validation') }}',
-                { street_address, zip_code, customer_number },
-                function(response) {
-                    ShowNotification(response.status ? 'success' : 'danger', 'Registration', response.message);
-                    if (response.status) {
-                        $('#customer-profile').show();
-                        for (const [id, value] of Object.entries(response.data)) {
-                            if (value != null) {
-                                id.includes('_')
-                                    ? $(`input:hidden[name='${id}']`).val(value)
-                                    : $(`#${id}`).text(value);
-                            }
+            if (typeof validateCustomerSearchPayload === 'function') {
+                if (!validateCustomerSearchPayload(payload)) {
+                    element.disabled = false;
+                    return;
+                }
+            } else {
+                console.warn("`validateCustomerSearchPayload(payload)` function not defined. using system default");
+            }
+
+            if (payload.customer_number === '') {
+                delete payload.customer_number;
+            }
+
+            $.ajax('{{ route('frontend.contact-validation') }}', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+                data: payload,
+                dataType: 'json',
+                success: function (response) {
+
+                    if (!response.status) {
+                        Amplify.alert(response.message, 'Registration');
+                        return;
+                    }
+
+                    $('#customer-profile').show();
+
+                    for (const [id, value] of Object.entries(response.data)) {
+                        if (value != null) {
+                            id.includes('_')
+                                ? $(`input:hidden[name='${id}']`).val(value)
+                                : $(`#${id}`).text(value);
                         }
                     }
                 },
-            )
-                .fail((xhr, status, error) => console.log(error))
-                .done(() => $(element).prop('disabled', false));
+                error: function (xhr) {
+
+                    const response = JSON.parse(xhr.responseText);
+
+                    if (response.message) {
+                        Amplify.alert(response.message, 'Registration');
+                        return;
+                    }
+
+                    Amplify.alert(xhr.statusText, 'Registration');
+                }
+            }).done(() => element.disabled = false);
         }
 
         var stepper = new Stepper(document.querySelector('#customer-verification-steps'));
 
-        // stepper.to(2);
-
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             $('#customer-profile').hide();
         });
     </script>

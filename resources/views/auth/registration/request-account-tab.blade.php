@@ -21,6 +21,8 @@
           action="{{ route('frontend.registration.request-account') }}">
         @csrf
         {!! \Form::hidden('tab', 'request-account') !!}
+        <input type="email" name="_email" class="form-control" style="opacity: 0; height: 0 !important;"/>
+        <input type="password" name="_password" class="form-control" style="opacity: 0; height: 0 !important;"/>
         <x-honeypot/>
         <div class="d-flex justify-content-between mb-3">
             <h5 class="subtitle font-weight-bold">{{ $displayableSubTitle }}</h5>
