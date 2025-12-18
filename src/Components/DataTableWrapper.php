@@ -18,14 +18,21 @@ class DataTableWrapper extends BaseComponent
 
     private ?string $id;
 
+    public array $dataTableOptions = [];
+
     /**
      * Create a new component instance.
      */
-    public function __construct(?string $id = null)
+    public function __construct(?string $id = null, array $dataTableOptions  = [])
     {
         parent::__construct();
 
         $this->id = $id;
+
+        // Default DataTable options
+        $this->dataTableOptions  = array_merge([
+            'search' => true,
+        ], $dataTableOptions );
     }
 
     /**
@@ -42,7 +49,8 @@ class DataTableWrapper extends BaseComponent
     public function render(): View|Closure|string
     {
         return view('widget::data-table-wrapper', [
-            'id' => $this->id,
+            'id'      => $this->id,
+            'dataTableOptions ' => $this->dataTableOptions,
         ]);
     }
 }
