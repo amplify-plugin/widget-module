@@ -1414,6 +1414,17 @@ return [
         '@nestedItems' => [],
         'description' => '',
     ],
+    Amplify\Widget\Components\Customer\PastSales\History::class => [
+        'name' => 'customer.past-sales.history',
+        'reserved' => true,
+        'internal' => false,
+        '@inside' => null,
+        '@client' => null,
+        'model' => [],
+        '@attributes' => [],
+        '@nestedItems' => [],
+        'description' => '',
+    ],
     Amplify\Widget\Components\Customer\Invoice\CenposPay::class => [
         'name' => 'customer.invoice.cenpos.pay',
         'reserved' => true,
