@@ -48,7 +48,7 @@ class History extends BaseComponent
         $sales = [];
         $product = null;
 
-        if (!empty($prod)) {
+        if (! empty($prod)) {
             try {
                 $sales = ErpApi::getPastSalesHistory(['prod' => $prod, 'year' => $year]);
             } catch (\Exception $e) {
