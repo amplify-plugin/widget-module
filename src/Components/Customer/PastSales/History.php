@@ -58,6 +58,11 @@ class History extends BaseComponent
             // try to fetch local product details (only required fields)
             try {
                 $product = Product::where('product_code', $prod)->first(['product_code', 'product_name', 'description']);
+
+                // clean product name: strip HTML tags and get first part before <B>
+                if ($product) {
+                    $product->product_name = strip_tags(explode('<B>', $product->product_name ?? '')[0] ?? '');
+                }
             } catch (\Exception $e) {
                 $product = null;
             }
