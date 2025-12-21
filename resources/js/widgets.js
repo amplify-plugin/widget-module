@@ -43,6 +43,11 @@ window.Amplify = {
             position: 'top-end',
             showConfirmButton: false,
             timer: 2500,
+            timerProgressBar: true,
+            didOpen: (t) => {
+                t.onmouseenter = Swal.stopTimer;
+                t.onmouseleave = Swal.resumeTimer;
+            },
             padding: '0.25em 0.75em',
         });
 
@@ -84,9 +89,13 @@ window.Amplify = {
     alert(message = 'This action is not allowed', title = 'Alert', options = {}) {
         return this.confirm(message, title, '', {
             icon: 'warning',
-            showConfirmButton: false,
+            showConfirmButton: true,
             showLoaderOnConfirm: false,
-            cancelButtonText: 'Okay',
+            showCancelButton: false,
+            confirmButtonText: 'Okay',
+            customClass: {
+                confirmButton: 'btn btn-outline-secondary'
+            },
             willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center'
         })
     },
@@ -256,33 +265,62 @@ window.Amplify = {
         e.preventDefault();
         e.stopPropagation();
 
-        const targetElement = $(target);
-        const qty = targetElement.val();
+        if (!this.handleQuantityChange(target, 'input')) {
+            return;
+        }
+
+        const targetElement = document.querySelector(target);
+        const quantity = targetElement.value;
 
         const actionLink = this.cartItemUpdateUrl().replace('cart_item_id', cartItemId);
-        const warehouseCode = targetElement.data('warehouse-code');
+        const warehouseCode = targetElement.dataset.warehouseCode;
+        const productCode = targetElement.dataset.productCode;
 
-        $.ajax({
-            url: actionLink,
-            type: 'PATCH',
-            data: {
-                quantity: qty,
-                product_warehouse_code: warehouseCode,
+        swal.fire({
+            title: 'Cart',
+            icon: 'warning',
+            backdrop: true,
+            showCancelButton: false,
+            text: `Updating ${productCode}'s information in cart...`,
+            confirmButtonText: 'Okay',
+            customClass: {
+                confirmButton: 'btn btn-outline-secondary'
             },
-            header: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+            willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center',
+            didOpen: () => {
+                Swal.showLoading();
+                // $('div.swal2-actions').css({
+                //     display: 'flex',
+                //     'justify-content': 'center'
+                // });
+
+                //make ajax call
+                $.ajax({
+                    url: actionLink,
+                    type: 'PATCH',
+                    data: {
+                        'quantity': quantity,
+                        product_warehouse_code: warehouseCode,
+                    },
+                    header: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            Swal.close();
+                            Amplify.notify('success', result.message, 'Cart');
+                            setTimeout(() => window.location.reload(), 2500)
+                        }
+                    },
+                    error: function (xhr) {
+                        Swal.hideLoading();
+                        let response = JSON.parse(xhr.responseText);
+                        Swal.showValidationMessage(response?.message ?? xhr.responseText);
+                    },
+                });
             },
-            success: function (result) {
-                if (result.success) {
-                    Amplify.notify('success', result.message, 'Cart');
-                    setTimeout(() => window.location.reload(), 2500)
-                }
-            },
-            error: function (xhr, status, err) {
-                let response = JSON.parse(xhr.responseText);
-                Swal.showValidationMessage(response.message);
-            },
+            allowOutsideClick: () => !Swal.isLoading()
         });
     },
 
@@ -315,8 +353,11 @@ window.Amplify = {
                         $('#cart-item-summary').append(layout);
                     });
                 }
-
                 $('#order-subtotal').text(response.data.sub_total);
+            },
+            error: function (xhr) {
+                let response = JSON.parse(xhr.responseText);
+                Amplify.alert(response?.message ?? xhr.responseText, 'Cart');
             },
         });
     },
@@ -428,7 +469,7 @@ window.Amplify = {
         }
 
         if (!targetElement) {
-            this.alert(`Target Element not found in ${target}`, 'Cart');
+            this.alert(`Target input element not found in ${target}`, 'Cart');
             return false;
         }
 
@@ -437,7 +478,7 @@ window.Amplify = {
         const minOrderQty = parseFloat(targetElement.dataset.minOrderQty);
 
         if (!minOrderQty) {
-            this.alert('Target Element doesn\'t have "data-min-order-qty" attribute set or is empty.', 'Cart');
+            this.alert(`Target input element [${target}] doesn't have "data-min-order-qty" attribute set or is empty.`, 'Cart');
             return false;
         }
 
@@ -446,7 +487,7 @@ window.Amplify = {
         const qtyInterval = parseFloat(targetElement.dataset.qtyInterval);
 
         if (!qtyInterval) {
-            this.alert(`Target Element doesn't have "data-qty-interval" attribute set or is empty.`, 'Cart');
+            this.alert(`Target input element [${target}] doesn't have "data-qty-interval" attribute set or is empty.`, 'Cart');
             return false;
         }
 
