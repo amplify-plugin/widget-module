@@ -29,7 +29,7 @@
             <div class="product-sku-item text-black">
                 <div class="w-100 d-flex  align-items-sm-center gap-4 flex-column flex-sm-row">
                     <div class="product-img" style="height: 105px; width: 120px; border-radius: 8px; padding: 8px;">
-                        <img src="{{ $rp?->productImage?->main ?? '' }}" alt="Product"
+                        <img src="{{ $rp?->productImage?->main ?? asset(config('amplify.frontend.fallback_image_path')) }}" alt="Product"
                             style="height: 100%; width: 100%; object-fit: contain;">
                     </div>
                     <div>
