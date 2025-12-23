@@ -427,7 +427,7 @@ window.Amplify = {
                         </div>
                     </div>`);
                     });
-                    $('.total_cart_amount').text(res.data.total);
+                    $('.total_cart_amount').text(res.data.sub_total);
                 } else {
                     Amplify.renderEmptyCart();
                 }
