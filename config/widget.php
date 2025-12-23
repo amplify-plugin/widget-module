@@ -3663,5 +3663,32 @@ return [
         '@nestedItems' => [],
         'description' => 'The widget display product short description.',
     ],
+    Amplify\Widget\Components\ShopByManufacturer::class => [
+        'name' => 'shop-by-manufacturer',
+        'reserved' => true,
+        'internal' => false,
+        '@inside' => null,
+        '@client' => null,
+        'model' => ['static_page'],
+        '@attributes' => [
+            [
+                'name' => 'only-featured',
+                'type' => 'boolean',
+                'value' => false,
+            ],
+            [
+                'name' => 'name-only',
+                'type' => 'boolean',
+                'value' => false,
+            ],
+            [
+                'name' => 'search-placeholder',
+                'type' => 'text',
+                'value' => 'Search Brand',
+            ],
+        ],
+        '@nestedItems' => null,
+        'description' => '',
+    ],
     // DO NOT REMOVE THIS COMMENT//
 ];

@@ -41,6 +41,7 @@
         margin: 0 auto;
         margin-top: 100px;
         max-width: 500px;
+        padding-top: 50px;
     }
 
     .funds-checkmark-text-container {
