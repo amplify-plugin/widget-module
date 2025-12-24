@@ -251,9 +251,17 @@
                     },
                     body: JSON.stringify({email: email, otp: otp})
                 })
-                    .then(response => response.json())
-                    .then(() => {
+                    .then(async (response) => {
+                        const data = await response.json().catch(() => ({}));
                         setLoading(otpSubmitBtn, otpSubmitText, false);
+
+                        const statusCode = response.status || data.status;
+
+                        if (statusCode === 210) {
+                            otpError.innerHTML = data.message || 'Please check your input.';
+                            return;
+                        }
+
                         $('#otpModal').modal('hide');
                         $('#passwordModal').modal('show');
                     })
