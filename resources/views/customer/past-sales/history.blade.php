@@ -57,29 +57,41 @@
                         <tbody>
                             @php
                                 $months = $sales['months'] ?? null;
+                                $noRecords = $sales['no_records'] ?? false;
+                                $noRecordsMessage = $sales['message'] ?? null;
                                 $fallbackMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
                                 $displayYear = $year ?? date('Y');
                             @endphp
 
-                            @if(!empty($months) && is_array($months))
-                                @foreach($months as $m)
-                                        <tr>
-                                            <td class="align-middle">{{ $m['month'] }}</td>
-                                            <td class="align-middle">{{ $m['year'] }}</td>
-                                            <td class="text-center align-middle">{{ $m['quantity_purchased'] }}</td>
-                                            <td class="align-middle">{{ $m['average_purchase_price_formatted'] }}</td>
-                                        </tr>
-                                @endforeach
-                            @else
-                                @foreach($fallbackMonths as $idx => $mon)
-                                        <tr>
-                                            <td class="align-middle">{{ $mon }}</td>
-                                            <td class="align-middle">{{ $displayYear }}</td>
-                                            <td class="text-center align-middle">0</td>
-                                            <td class="align-middle">$0.00</td>
-                                        </tr>
-                                @endforeach
+                            @if($noRecords)
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="alert alert-info mb-0">{{ $noRecordsMessage ?? 'No sales records found for the selected year.' }}</div>
+                                    </td>
+                                </tr>
                             @endif
+
+                            @unless($noRecords)
+                                @if(!empty($months) && is_array($months))
+                                    @foreach($months as $m)
+                                            <tr>
+                                                <td class="align-middle">{{ $m['month'] }}</td>
+                                                <td class="align-middle">{{ $m['year'] }}</td>
+                                                <td class="text-center align-middle">{{ $m['quantity_purchased'] }}</td>
+                                                <td class="align-middle">{{ $m['average_purchase_price_formatted'] }}</td>
+                                            </tr>
+                                    @endforeach
+                                @else
+                                    @foreach($fallbackMonths as $idx => $mon)
+                                            <tr>
+                                                <td class="align-middle">{{ $mon }}</td>
+                                                <td class="align-middle">{{ $displayYear }}</td>
+                                                <td class="text-center align-middle">0</td>
+                                                <td class="align-middle">$0.00</td>
+                                            </tr>
+                                    @endforeach
+                                @endif
+                            @endunless
                         </tbody>
                     </table>
                 </div>
