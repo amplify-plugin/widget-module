@@ -3690,5 +3690,29 @@ return [
         '@nestedItems' => null,
         'description' => '',
     ],
+    Amplify\Widget\Components\Notice\Index::class => [
+        'name' => 'notice-list',
+        'reserved' => true,
+        'internal' => false,
+        '@inside' => null,
+        '@client' => null,
+        'model' => [],
+        '@attributes' => [
+            ['name' => ':display-calender', 'type' => 'boolean', 'value' => true],
+        ],
+        '@nestedItems' => [],
+        'description' => 'The widget display list of all latest notice description.',
+    ],
+    Amplify\Widget\Components\Notice\Slider::class => [
+        'name' => 'notice-slider',
+        'reserved' => true,
+        'internal' => false,
+        '@inside' => null,
+        '@client' => null,
+        'model' => [],
+        '@attributes' => [],
+        '@nestedItems' => [],
+        'description' => 'The widget slide all enabled notice with link.',
+    ],
     // DO NOT REMOVE THIS COMMENT//
 ];
