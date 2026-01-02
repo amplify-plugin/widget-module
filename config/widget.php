@@ -539,10 +539,16 @@ return [
                 'value' => true,
             ],
             [
+                'name' => ':allow-change-ship-to',
+                'type' => 'boolean',
+                'value' => true,
+            ],
+            [
                 'name' => 'create-favorite-label',
                 'type' => 'text',
                 'value' => 'Create Favourite List',
             ],
+
         ],
         '@nestedItems' => [
             [

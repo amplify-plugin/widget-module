@@ -2,6 +2,7 @@
 
 namespace Amplify\Widget\Components;
 
+use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
@@ -13,9 +14,11 @@ use Illuminate\Contracts\View\View;
 class CartSummary extends BaseComponent
 {
     public function __construct(public string $backToUrl = 'home',
-        public bool $createFavoriteFromCart = true,
-        public string $createFavoriteLabel = 'Create Shopping List'
-    ) {
+                                public bool   $createFavoriteFromCart = true,
+                                public string $createFavoriteLabel = 'Create Shopping List',
+                                public bool   $allowChangeShipTo = true,
+    )
+    {
         parent::__construct();
     }
 
@@ -43,11 +46,19 @@ class CartSummary extends BaseComponent
 
         $templateBrandColor = theme_option(key: 'primary_color', default: '#002767');
 
-        $isCartEmpty = ! getCart()->cartItems()->exists();
+        $isCartEmpty = !getCart()->cartItems()->exists();
 
         $cartId = getCart()->getKey();
 
-        return view('widget::cart-summary', compact('templateBrandColor', 'isCartEmpty', 'cartId'));
+        $shipToAddress = null;
+
+        $shipToNumber = session('ship_to_address.ShipToNumber', session('ship_to_address.address_code', ErpApi::getCustomerDetail()->DefaultShipTo));
+
+        if (!empty($shipToNumber)) {
+            $shipToAddress = ErpApi::getCustomerShippingLocationList()->firstWhere('ShipToNumber', '=', $shipToNumber);
+        }
+
+        return view('widget::cart-summary', compact('templateBrandColor', 'isCartEmpty', 'cartId', 'shipToAddress'));
     }
 
     public function createShoppingListLabel(): string
