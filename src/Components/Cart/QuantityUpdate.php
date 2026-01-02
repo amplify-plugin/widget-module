@@ -55,7 +55,7 @@ class QuantityUpdate extends BaseComponent
 
             $this->data = [
                 'cart_item_id' => $this->index,
-                'code' => $this->product->Product_Code,
+                'code' => $this->product->Product_Code ?? $this->product->product_code,
                 'warehouse_code' => $defaultWarehouse,
                 'quantity' => $this->product->min_order_qty ?? 1,
                 'min_qty' => $this->product->min_order_qty ?? 1,
