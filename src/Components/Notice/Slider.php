@@ -2,15 +2,12 @@
 
 namespace Amplify\Widget\Components\Notice;
 
-use Closure;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Contracts\View\View;
 use Amplify\Widget\Abstracts\BaseComponent;
+use Closure;
+use Illuminate\Contracts\View\View;
 
 /**
  * @class Slider
- * @package Amplify\Widget\Components\Notice
- *
  */
 class Slider extends BaseComponent
 {
