@@ -2,7 +2,7 @@
     @if (!empty($relatedProducts) && $relatedProducts->isNotEmpty())
         {{-- Relation type selector --}}
         @if (!empty($relationTypes) && $relationTypes->isNotEmpty())
-            <div class="d-flex justify-content-end align-items-center gap-2 mb-3 relation-type-group">
+            <div class="d-flex justify-content-start align-items-center gap-2 mb-3 relation-type-group">
                 @foreach ($relationTypes as $rt)
                     @php
                         $active = (int) ($selectedRelationType ?? $relationTypes->first()->id) === (int) $rt->id;
