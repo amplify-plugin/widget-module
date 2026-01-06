@@ -2,6 +2,7 @@
 
 namespace Amplify\Widget\Components;
 
+use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
@@ -14,7 +15,8 @@ class CartSummary extends BaseComponent
 {
     public function __construct(public string $backToUrl = 'home',
         public bool $createFavoriteFromCart = true,
-        public string $createFavoriteLabel = 'Create Shopping List'
+        public string $createFavoriteLabel = 'Create Shopping List',
+        public bool $allowChangeShipTo = true,
     ) {
         parent::__construct();
     }
@@ -47,7 +49,15 @@ class CartSummary extends BaseComponent
 
         $cartId = getCart()->getKey();
 
-        return view('widget::cart-summary', compact('templateBrandColor', 'isCartEmpty', 'cartId'));
+        $shipToAddress = null;
+
+        $shipToNumber = session('ship_to_address.ShipToNumber', session('ship_to_address.address_code', ErpApi::getCustomerDetail()->DefaultShipTo));
+
+        if (! empty($shipToNumber)) {
+            $shipToAddress = ErpApi::getCustomerShippingLocationList()->firstWhere('ShipToNumber', '=', $shipToNumber);
+        }
+
+        return view('widget::cart-summary', compact('templateBrandColor', 'isCartEmpty', 'cartId', 'shipToAddress'));
     }
 
     public function createShoppingListLabel(): string

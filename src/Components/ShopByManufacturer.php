@@ -99,10 +99,10 @@ class ShopByManufacturer extends BaseComponent
 
         if (Request::has('search')) {
             $filteredGroupedManufacturers = $initialQuery
-                ->where('title', 'like', '%'.request()->search.'%')
+                ->where('name', 'like', '%'.request()->search.'%')
                 ->get()
                 ->groupBy(function ($item, $key) {
-                    return $item->title[0];     // treats the name string as an array
+                    return $item->name[0];     // treats the name string as an array
                 })
                 ->sortBy(function ($item, $key) {      // sorts A-Z at the top level
                     return $key;

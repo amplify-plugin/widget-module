@@ -386,6 +386,7 @@ window.Amplify = {
             '{note}': product.note,
             '{ncnr_msg}': product.ncnr_msg,
             '{ship_restriction}': product.ship_restriction,
+            '{error}': product.error,
         };
 
         return stringReplaceArray(Object.keys(mapper), Object.values(mapper), template);
