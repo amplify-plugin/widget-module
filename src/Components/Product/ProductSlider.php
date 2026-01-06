@@ -234,14 +234,15 @@ class ProductSlider extends BaseComponent
 
     private function productPrice($product): float|int|string
     {
-        $price = isset($product->Msrp) ? $product->Msrp : $product->Price ?? 0.00;
-        if (ErpApi::enabled() && has_erp_customer()) {
+        $price = isset($product->Msrp) ? $product->Msrp : $product->Price ?? 0.0;
+
+        if (ErpApi::enabled() && has_erp_customer() && $price != 0.0) {
             $erpProduct = ErpApi::getProductPriceAvailability([
                 'items' => [['item' => $product->Sku_ProductCode ?? $product->Product_Code, 'qty' => 1]],
             ])->first();
 
             if ($erpProduct) {
-                $price = $erpProduct->Price ?? $erpProduct->ListPrice;
+                $price = $erpProduct->Price ?? $erpProduct->ListPrice ?? 0;
             }
         }
 
