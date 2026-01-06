@@ -37,16 +37,16 @@
                 </span>
             </div>
             <div class="tableFixHead table-responsive pb-4 pb-md-0">
-                <table class="table table-bordered" id="quickOrderTable">
+                <table class="table table-striped table-hover" id="quickOrderTable">
                     <thead>
                     <tr>
                         <th scope="col" class="text-center" style="min-width: 150px">{{ __('Product Code') }}</th>
                         <th scope="col" class="text-center" style="min-width: 150px">{{ __('Product Name') }}</th>
                         @erp
-                        <th scope="col" rowspan="2" style="width: 440px" class="text-center">{{ __('Warehouse') }}</th>
-                        <th scope="col" rowspan="2" style="width: 135px" class="text-center">{{ __('Qty') }}</th>
+                        <th scope="col" style="width: 440px" class="text-center">{{ __('Warehouse') }}</th>
+                        <th scope="col" style="width: 135px" class="text-center">{{ __('Qty') }}</th>
                         @enderp
-                        <th scope="col" rowspan="2">Remove</th>
+                        <th scope="col" style="width: 55px">Remove</th>
                     </tr>
                     </thead>
                     <tbody id="quick_order_tbody"></tbody>
@@ -63,7 +63,6 @@
             </div>
         </div>
     </div>
-
 </div>
 <script type="text/javascript">
     var timeout;
@@ -71,8 +70,7 @@
     var limit = 0;
     var from = 0;
 
-    const MULTIPLE_WAREHOUSE_ENABLED = @selectwarehouse true;
-    @else false @endselectwarehouse;
+    const MULTIPLE_WAREHOUSE_ENABLED = @selectwarehouse true @else false @endselectwarehouse;
     const USER_ACTIVE_WAREHOUSE_CODE = "{{ $userActiveWarehouseCode }}";
     const isMultiWarehouse = "{{ erp()->allowMultiWarehouse() }}";
     var user_active_warehouse_name = null;
@@ -142,11 +140,10 @@
                                             </td>
                                             <td>
                                                 <input type="number"   placeholder="Quantity" name="qty[]" value="${product['qty']}" min="1" max=""  id="qty_${index}" class="form-control form-control-sm">
-                                                <!-- <small class="text-danger" id="qty_error_${index}"></small>  -->
                                             </td>
-                                            <td>
-                                                <button class="btn btn-danger btn-sm mt-0" onclick="removeProduct(this)">
-                                                   Remove
+                                            <td class="p-2" style="width: 55px">
+                                                <button class="btn btn-sm m-0 px-2" data-toggle="tooltip" title="Remove" onclick="removeProduct(this)">
+                                                   <i class="icon-cross text-danger font-weight-bold"></i>
                                                 </button>
                                             </td>
                                         </tr>`;
@@ -257,7 +254,7 @@
                         <td width="15%">
                             <input type="hidden" id="product_id_${i}" value="" name="product_id[]" />
                             <input type="hidden" id="product_back_order_${i}" value="" name="product_back_order[]" />
-                            <input type="text" aria-label="Product code" onblur="debounceSearch(this)" id="product_code_${i}" placeholder="Enter product code" name="product_code[]" class="form-control form-control-sm" value="">
+                            <input type="text" aria-label="Product code" autofocus onblur="debounceSearch(this)" id="product_code_${i}" placeholder="Enter product code" name="product_code[]" class="form-control form-control-sm" value="">
                             <small class="text-danger" id="product_code_error_${i}"></small>
                         </td>
                         <td>
@@ -273,8 +270,8 @@
                             <!-- <small class="text-danger" id="qty_error_${i}"></small> -->
                         </td>
                         <td>
-                            <button class="btn btn-danger btn-sm d-none" onclick="removeProduct(this)">
-                                Remove
+                            <button class="btn btn-sm m-0 px-2 d-none" onclick="removeProduct(this)">
+                                <i class="icon-cross text-danger font-weight-bold"></i>
                             </button>
                         </td>
                     </tr>`;
@@ -478,7 +475,8 @@
                         $('#add_to_order_btn').html('Add to Order');
                     }
                 },
-                error: function(err) {
+                error: function(xhr, status, err) {
+                    console.log({xhr, status, err});
                     ShowNotification('error', 'Quick Order', err.responseJSON.message);
                     $('#add_to_order_btn').removeAttr('disabled');
                     $('#add_to_order_btn').html('Add to Order');
