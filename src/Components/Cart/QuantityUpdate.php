@@ -16,7 +16,7 @@ class QuantityUpdate extends BaseComponent
 {
     public array $data;
 
-    public function __construct(public Product|ItemRow|null $product = null, public $index = null)
+    public function __construct(public Product|ItemRow|null $product = null, public $index = null, public mixed $value = null, public ?string $name= null)
     {
         parent::__construct();
 
@@ -46,7 +46,7 @@ class QuantityUpdate extends BaseComponent
         if (! empty($this->product)) {
 
             if (isset($this->product->ERP?->WarehouseID)) {
-                $defaultWarehouse = $this->product->ERP?->Warehouse;
+                $defaultWarehouse = $this->product->ERP?->WarehouseID;
             } else {
                 $defaultWarehouse = customer_check()
                     ? ErpApi::getCustomerDetail()->DefaultWarehouse
@@ -57,7 +57,7 @@ class QuantityUpdate extends BaseComponent
                 'cart_item_id' => $this->index,
                 'code' => $this->product->Product_Code ?? $this->product->product_code,
                 'warehouse_code' => $defaultWarehouse,
-                'quantity' => $this->product->min_order_qty ?? 1,
+                'quantity' => $this->value ?? $this->product->min_order_qty ?? 1,
                 'min_qty' => $this->product->min_order_qty ?? 1,
                 'qty_interval' => $this->product->qty_interval ?? 1,
             ];
