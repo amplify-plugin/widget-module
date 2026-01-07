@@ -37,16 +37,16 @@
                 </span>
             </div>
             <div class="tableFixHead table-responsive pb-4 pb-md-0">
-                <table class="table table-bordered" id="quickOrderTable">
+                <table class="table table-striped table-hover" id="quickOrderTable">
                     <thead>
                     <tr>
                         <th scope="col" class="text-center" style="min-width: 150px">{{ __('Product Code') }}</th>
                         <th scope="col" class="text-center" style="min-width: 150px">{{ __('Product Name') }}</th>
                         @erp
-                        <th scope="col" rowspan="2" style="width: 440px" class="text-center">{{ __('Warehouse') }}</th>
-                        <th scope="col" rowspan="2" style="width: 135px" class="text-center">{{ __('Qty') }}</th>
+                        <th scope="col" style="width: 440px" class="text-center">{{ __('Warehouse') }}</th>
+                        <th scope="col" style="width: 135px" class="text-center">{{ __('Qty') }}</th>
                         @enderp
-                        <th scope="col" rowspan="2">Remove</th>
+                        <th scope="col" style="width: 55px">Remove</th>
                     </tr>
                     </thead>
                     <tbody id="quick_order_tbody"></tbody>
@@ -63,7 +63,6 @@
             </div>
         </div>
     </div>
-
 </div>
 <script type="text/javascript">
     var timeout;
@@ -71,8 +70,7 @@
     var limit = 0;
     var from = 0;
 
-    const MULTIPLE_WAREHOUSE_ENABLED = @selectwarehouse true;
-    @else false @endselectwarehouse;
+    const MULTIPLE_WAREHOUSE_ENABLED = @selectwarehouse true @else false @endselectwarehouse;
     const USER_ACTIVE_WAREHOUSE_CODE = "{{ $userActiveWarehouseCode }}";
     const isMultiWarehouse = "{{ erp()->allowMultiWarehouse() }}";
     var user_active_warehouse_name = null;
@@ -142,11 +140,10 @@
                                             </td>
                                             <td>
                                                 <input type="number"   placeholder="Quantity" name="qty[]" value="${product['qty']}" min="1" max=""  id="qty_${index}" class="form-control form-control-sm">
-                                                <!-- <small class="text-danger" id="qty_error_${index}"></small>  -->
                                             </td>
-                                            <td>
-                                                <button class="btn btn-danger btn-sm mt-0" onclick="removeProduct(this)">
-                                                   Remove
+                                            <td class="p-2" style="width: 55px">
+                                                <button class="btn btn-sm m-0 px-2" data-toggle="tooltip" title="Remove" onclick="removeProduct(this)">
+                                                   <i class="icon-cross text-danger font-weight-bold"></i>
                                                 </button>
                                             </td>
                                         </tr>`;
@@ -161,7 +158,6 @@
                             $('#added_product_count').text(added_product_count + ' Products added');
                             from = 0;
                             limit = products_array.length;
-                            verifyQuantityByERP(products_array);
                             addProduct();
                         } else {
                             showNoProductsFound();
@@ -186,55 +182,6 @@
             $('#upload_btn').removeAttr('disabled');
             $('#upload_btn').html('Upload');
             ShowNotification('error', 'Quick Order', 'Please select a file to upload');
-        }
-    }
-
-    function verifyQuantityByERP(products) {
-        if (!products) return false;
-
-        for (const index in products) {
-            let selectedWarehouse = null;
-            let isWarehouseSelected = false;
-            let isPassedDefaultWarehouse = false;
-
-            for (const i in products[index].ERP) {
-                const warehouse = products[index].ERP[i];
-
-                if (!isWarehouseSelected && parseInt(warehouse.QuantityAvailable) > 0) {
-                    if (selectedWarehouse && parseInt(selectedWarehouse.QuantityAvailable) > parseInt(warehouse
-                        .QuantityAvailable)) {
-                        continue;
-                    }
-                    if (parseInt(warehouse.QuantityAvailable) >= parseInt(products[index].qty)) {
-                        selectedWarehouse = warehouse;
-                        isWarehouseSelected = true;
-                        if (isPassedDefaultWarehouse) break;
-                        continue;
-                    }
-
-                    selectedWarehouse = warehouse;
-                }
-
-                if (warehouse.WarehouseID == USER_ACTIVE_WAREHOUSE_CODE) {
-                    let product_qty = products[index].qty == null ? 0 : products[index].qty;
-                    if (parseInt(warehouse.QuantityAvailable) >= parseInt(product_qty)) {
-                        selectedWarehouse = warehouse;
-                        break;
-                    }
-                    if (isWarehouseSelected) break;
-                    if (selectedWarehouse && parseInt(selectedWarehouse.QuantityAvailable) > parseInt(warehouse
-                        .QuantityAvailable)) continue;
-
-                    selectedWarehouse = warehouse;
-                    isPassedDefaultWarehouse = true;
-                }
-            }
-
-            if (WAREHOUSE_QUANTITY_AVAILABILITY_CHECK && selectedWarehouse) {
-                const quantity = parseInt(selectedWarehouse.QuantityAvailable) >= parseInt(products[index].qty) ?
-                    parseInt(products[index].qty) : parseInt(selectedWarehouse.QuantityAvailable);
-                changeUserInputsERP(selectedWarehouse.WarehouseID, quantity, index);
-            }
         }
     }
 
@@ -272,14 +219,8 @@
 
         if (warehouses) {
             for (const warehouse of warehouses) {
-                if (warehouse.WarehouseID == USER_ACTIVE_WAREHOUSE_CODE) {
-                    $('#qty_' + index).attr('max', warehouse.QuantityAvailable);
-                }
-                const isDisabled = (WAREHOUSE_QUANTITY_AVAILABILITY_CHECK && parseInt(warehouse.QuantityAvailable) <= 0);
-
                 html += `<option value="${warehouse.WarehouseID}" data-quantity="${warehouse.QuantityAvailable}"
-                    ${(warehouse.WarehouseID == USER_ACTIVE_WAREHOUSE_CODE) ? 'selected' : ''}
-                    ${isDisabled ? 'disabled' : ''} >
+                    ${(warehouse.WarehouseID == USER_ACTIVE_WAREHOUSE_CODE) ? 'selected' : ''} >
                                     ${warehouse.WarehouseName}
                                 </option>`;
 
@@ -313,7 +254,7 @@
                         <td width="15%">
                             <input type="hidden" id="product_id_${i}" value="" name="product_id[]" />
                             <input type="hidden" id="product_back_order_${i}" value="" name="product_back_order[]" />
-                            <input type="text" aria-label="Product code" onblur="debounceSearch(this)" id="product_code_${i}" placeholder="Enter product code" name="product_code[]" class="form-control form-control-sm" value="">
+                            <input type="text" aria-label="Product code" autofocus onblur="debounceSearch(this)" id="product_code_${i}" placeholder="Enter product code" name="product_code[]" class="form-control form-control-sm" value="">
                             <small class="text-danger" id="product_code_error_${i}"></small>
                         </td>
                         <td>
@@ -329,8 +270,8 @@
                             <!-- <small class="text-danger" id="qty_error_${i}"></small> -->
                         </td>
                         <td>
-                            <button class="btn btn-danger btn-sm d-none" onclick="removeProduct(this)">
-                                Remove
+                            <button class="btn btn-sm m-0 px-2 d-none" onclick="removeProduct(this)">
+                                <i class="icon-cross text-danger font-weight-bold"></i>
                             </button>
                         </td>
                     </tr>`;
@@ -466,26 +407,25 @@
     function addToOrder() {
         let products = [];
         let validation_error = false;
+        let quick_order_link = $('#quick-order-link').data('link');
+
         if ($('#quick_order_tbody tr').length > 0 && $('#quick_order_tbody tr#no_product_tr').length === 0) {
             $('#quick_order_tbody tr').each(function(index, element) {
                 let product_code = $(element).find('input[name="product_code[]"]').val();
                 let product_id = $(element).find('input[name="product_id[]"]').val();
-                let product_back_order = $(element).find('input[name="product_back_order[]"]').val();
                 let qty = $(element).find('input[name="qty[]"]').val();
                 let warehouse = $(element).find('select[name="product_warehouse_code[]"]').val();
                 let id = $(element).attr('id').split('_')[2];
                 let maxQty = $(element).find('select[name="product_warehouse_code[]"]').find('option:selected')
                     .data('quantity');
 
-                if (product_code.trim() !== '' && qty.trim() !== '' && warehouse !== null && warehouse
-                    ?.trim() !== '') {
+                if (product_code.trim() !== '' && qty.trim() !== '') {
                     $('#product_code_error_' + id).text('');
                     $('#qty_error_' + id).text('');
                     $('#warehouse_error_' + id).text('');
                     products.push({
                         product_code: product_code,
                         product_id: product_id,
-                        product_back_order: product_back_order,
                         qty: qty,
                         product_warehouse_code: warehouse,
                     });
@@ -495,21 +435,11 @@
                     }
                 } else {
                     if (product_code.trim() !== '') {
-                        if (warehouse === null || warehouse?.trim() === '') {
-                            $('#warehouse_error_' + id).text(warehouse === null ? 'Warehouse has no quantity.' :
-                                'Warehouse is required.');
-                        } else {
-
-                            $('#warehouse_error_' + id).text('');
-                        }
-
                         if (qty.trim() === '') {
                             $('#qty_error_' + id).text('Quantity is required');
                         } else {
                             $('#qty_error_' + id).text('');
                         }
-
-
                         validation_error = true;
                     } else {
                         $('#product_code_error_' + id).text('');
@@ -517,56 +447,42 @@
                 }
             });
 
-            if (!validation_error) {
-                $('#error_div').addClass('d-none');
-                $('#error_div').html('');
-                if (products.length > 0) {
-                    $('#add_to_order_btn').attr('disabled', 'disabled');
-                    let quick_order_link = $('#quick-order-link').data('link');
-                    let html =
-                        `<div class="spinner-border spinner-border-sm text-primary mr-2" role="status"></div>Adding...`;
-                    $('#add_to_order_btn').html(html);
-                    $.ajax({
-                        url: quick_order_link,
-                        type: 'POST',
-                        data: {
-                            products: products,
-                            _token: '{{ csrf_token() }}',
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                $('#add_to_order_btn').removeAttr('disabled');
-                                $('#add_to_order_btn').html('Add to Order');
-                                $('#quick_order_tbody tr').each(function(index, element) {
-                                    if ($(element).hasClass('added_protducts')) {
-                                        $(element).remove();
-                                    }
-                                });
-                                showNoProductsFound();
-                                $('#added_product_count').text('');
-                                ShowNotification('success', 'Quick Order', response.message);
-                                setTimeout(function() {
-                                    Amplify.loadCartDropdown();
-                                }, 1000);
-                            } else {
-                                ShowNotification('error', 'Quick Order', response.message);
-                                $('#add_to_order_btn').removeAttr('disabled');
-                                $('#add_to_order_btn').html('Add to Order');
+            $.ajax({
+                url: quick_order_link,
+                type: 'POST',
+                data: {
+                    products: products,
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#add_to_order_btn').removeAttr('disabled');
+                        $('#add_to_order_btn').html('Add to Order');
+                        $('#quick_order_tbody tr').each(function(index, element) {
+                            if ($(element).hasClass('added_protducts')) {
+                                $(element).remove();
                             }
-                        },
-                        error: function(err) {
-                            ShowNotification('error', 'Quick Order', err.responseJSON.message);
-                            $('#add_to_order_btn').removeAttr('disabled');
-                            $('#add_to_order_btn').html('Add to Order');
-                        },
+                        });
+                        showNoProductsFound();
+                        $('#added_product_count').text('');
+                        ShowNotification('success', 'Quick Order', response.message);
+                        setTimeout(function() {
+                            Amplify.loadCartDropdown();
+                        }, 1000);
+                    } else {
+                        ShowNotification('error', 'Quick Order', response.message);
+                        $('#add_to_order_btn').removeAttr('disabled');
+                        $('#add_to_order_btn').html('Add to Order');
+                    }
+                },
+                error: function(xhr, status, err) {
+                    console.log({xhr, status, err});
+                    ShowNotification('error', 'Quick Order', err.responseJSON.message);
+                    $('#add_to_order_btn').removeAttr('disabled');
+                    $('#add_to_order_btn').html('Add to Order');
+                },
 
-                    });
-                } else {
-                    ShowNotification('error', 'Quick Order', 'Please add at least one product');
-                }
-            } else {
-                ShowNotification('error', 'Quick Order', 'Please fill valid warehouse and quantity');
-            }
+            });
         } else {
             ShowNotification('error', 'Quick Order', 'Please add at least one product');
         }
