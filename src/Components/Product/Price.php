@@ -13,7 +13,7 @@ use Illuminate\Contracts\View\View;
  */
 class Price extends BaseComponent
 {
-    public function __construct(public Product|ItemRow $product,
+    public function __construct(public Product|ItemRow|\stdClass $product,
         public mixed $value = null,
         public ?string $uom = 'EA',
         public string $element = 'div',

@@ -16,7 +16,7 @@ class QuantityUpdate extends BaseComponent
 {
     public array $data;
 
-    public function __construct(public Product|ItemRow|null $product = null, public $index = null, public mixed $value = null, public ?string $name = null)
+    public function __construct(public Product|ItemRow|\stdClass|null $product = null, public $index = null, public mixed $value = null, public ?string $name = null)
     {
         parent::__construct();
 
@@ -55,7 +55,7 @@ class QuantityUpdate extends BaseComponent
 
             $this->data = [
                 'cart_item_id' => $this->index,
-                'code' => $this->product->Product_Code ?? $this->product->product_code,
+                'code' => $this->product->Product_Code ?? $this->product?->product_code ?? '{code}',
                 'warehouse_code' => $defaultWarehouse,
                 'quantity' => $this->value ?? $this->product->min_order_qty ?? 1,
                 'min_qty' => $this->product->min_order_qty ?? 1,
