@@ -16,7 +16,7 @@ class QuantityUpdate extends BaseComponent
 {
     public array $data;
 
-    public function __construct(public Product|ItemRow|null $product = null, public $index = null, public mixed $value = null, public ?string $name= null)
+    public function __construct(public Product|ItemRow|null $product = null, public $index = null, public mixed $value = null, public ?string $name = null)
     {
         parent::__construct();
 
