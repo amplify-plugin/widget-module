@@ -7,6 +7,7 @@ use Amplify\System\Backend\Models\OrderList;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Helpers\UtilityHelper;
 use Amplify\System\Marketing\Models\MerchandisingZone;
+use Amplify\System\Support\Money;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -236,7 +237,7 @@ class ProductSlider extends BaseComponent
     {
         $price = isset($product->Msrp) ? $product->Msrp : $product->Price ?? 0.0;
 
-        if (ErpApi::enabled() && has_erp_customer() && $price != 0.0) {
+        if (ErpApi::enabled() && has_erp_customer() && $price instanceof Money) {
             $erpProduct = ErpApi::getProductPriceAvailability([
                 'items' => [['item' => $product->Sku_ProductCode ?? $product->Product_Code, 'qty' => 1]],
             ])->first();
