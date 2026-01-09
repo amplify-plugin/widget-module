@@ -671,5 +671,58 @@ window.Amplify = {
 
         cartElement.innerHTML = defaultContent;
         cartElement.disabled = false;
+    },
+
+    async addMultipleItemToCart(cartElement, formTarget, extras = {}) {
+
+        let defaultContent = cartElement.innerHTML;
+
+        cartElement.disabled = true;
+        cartElement.innerHTML = '<i class="icon-loader spinner"></i> Processing...';
+
+        swal.fire({
+            title: 'Cart',
+            icon: 'info',
+            backdrop: true,
+            showCancelButton: false,
+            text: `Adding Items to Cart...`,
+            confirmButtonText: 'Okay',
+            customClass: {
+                confirmButton: 'btn btn-outline-secondary'
+            },
+            willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center',
+            didOpen: () => {
+                Swal.showLoading();
+                $.ajax(this.cartUrl(), {
+                    method: 'POST',
+                    data: $(`form${formTarget}`).serialize(),
+                    processData: false,
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    success: function (response) {
+                        if (response.success) {
+                            Amplify.notify('success', response.message, 'Cart');
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2500);
+                        }
+                    }, error: function (xhr) {
+                        let response = xhr.responseJSON ?? {};
+                        if (xhr.status === 400) {
+                            $.each(response.errors, function (key, messages) {
+                                let message = messages.join('<br>');
+                                $(`input#product-code-${key}`).addClass('is-invalid');
+                                $(`#product-${key}-error`).html(message);
+                            })
+                        }
+                        Swal.showValidationMessage(response.message);
+                        Swal.hideLoading();
+                    }
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        });
+
+        cartElement.innerHTML = defaultContent;
+        cartElement.disabled = false;
     }
 }

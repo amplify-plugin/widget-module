@@ -14,20 +14,6 @@ use Illuminate\Support\Facades\Config;
 class Details extends BaseComponent
 {
     /**
-     * @var array
-     */
-    public $options;
-
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
-    {
-        $this->options = Config::get('amplify.widget.'.__CLASS__, []);
-
-    }
-
-    /**
      * Whether the component should be rendered
      */
     public function shouldRender(): bool
@@ -45,16 +31,17 @@ class Details extends BaseComponent
             abort(404, 'Page Not Found');
         }
 
-        $perPage = request()->has('per_page') ? request()->per_page : 10;
-        $search = request()->has('search') ? request()->search : '';
+        $search = request('search', '');
+
         $orderList = OrderList::find($param);
 
         $orderListItems = $orderList->orderListItems()
             ->with('product')
             ->whereHas('product', function ($q) use ($search) {
-                $q->where('product_name', 'like', "%{$search}%");
+                 return $q->where('product_name', 'like', "%{$search}%");
             })
-            ->paginate($perPage)->withQueryString();
+            ->paginate(request('per_page',  getPaginationLengths()[0]))
+            ->withQueryString();
 
         $orderList = $orderList ?? [];
         $orderListItems = $orderListItems ?? [];
