@@ -6,7 +6,6 @@ use Amplify\System\Backend\Models\OrderList;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Config;
 
 /**
  * @class Details
@@ -38,9 +37,9 @@ class Details extends BaseComponent
         $orderListItems = $orderList->orderListItems()
             ->with('product')
             ->whereHas('product', function ($q) use ($search) {
-                 return $q->where('product_name', 'like', "%{$search}%");
+                return $q->where('product_name', 'like', "%{$search}%");
             })
-            ->paginate(request('per_page',  getPaginationLengths()[0]))
+            ->paginate(request('per_page', getPaginationLengths()[0]))
             ->withQueryString();
 
         $orderList = $orderList ?? [];
