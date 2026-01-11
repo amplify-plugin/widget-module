@@ -723,6 +723,9 @@ window.Amplify = {
                 });
             },
             allowOutsideClick: () => !Swal.isLoading()
+        }).then(function () {
+            cartElement.innerHTML = defaultContent;
+            cartElement.disabled = false;
         });
 
         cartElement.innerHTML = defaultContent;
