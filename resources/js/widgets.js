@@ -678,6 +678,8 @@ window.Amplify = {
 
     async addMultipleItemToCart(cartElement, formTarget, extras = {}) {
 
+        console.log(cartElement);
+
         let defaultContent = cartElement.innerHTML;
 
         cartElement.disabled = true;
