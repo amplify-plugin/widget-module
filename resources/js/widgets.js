@@ -660,12 +660,15 @@ window.Amplify = {
 
                 },
                 success: function (res) {
-                    Amplify.notify('success', res.message);
+                    Amplify.notify('success', res.message, 'Cart');
                     Amplify.loadCartDropdown();
                 },
                 error: function (xhr, status) {
-                    Amplify.alert((JSON.parse(xhr.responseText)?.message || 'Something Went Wrong. PLease try again later.'));
+                    Amplify.alert(xhr.responseJSON?.message ?? 'Something Went Wrong. PLease try again later.', 'Cart');
                 }
+            }).always(function () {
+                cartElement.innerHTML = defaultContent;
+                cartElement.disabled = false;
             });
         }
 
