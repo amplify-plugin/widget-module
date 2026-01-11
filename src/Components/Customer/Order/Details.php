@@ -161,7 +161,7 @@ class Details extends BaseComponent
         return $parsedNotes;
     }
 
-    private function getCustomPartsForCustomer(?int $customerId, \Illuminate\Support\Collection $products): array
+    private function getCustomPartsForCustomer(int|string $customerId, \Illuminate\Support\Collection $products): array
     {
         if (! $customerId || $products->isEmpty()) {
             return [];
