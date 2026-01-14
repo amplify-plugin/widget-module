@@ -593,6 +593,7 @@ window.Amplify = {
                             error: function (xhr, status, err) {
                                 let response = JSON.parse(xhr.responseText);
                                 Swal.showValidationMessage(response.message);
+                                Swal.hideLoading();
                                 reject(false);
                             },
                         });
