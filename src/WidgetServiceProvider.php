@@ -23,8 +23,6 @@ class WidgetServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'widget');
 
-        $this->loadRoutesFrom(__DIR__.'/../routes/widget.php');
-
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/widget'),
         ], 'widget-asset');
