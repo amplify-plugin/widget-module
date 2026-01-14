@@ -223,9 +223,6 @@
             event.preventDefault();
 
             element.disabled = 'disabled';
-            let defaultValue = element.innerHTML;
-
-            element.innerHTML = '<i class="icon-loader spinner"></i> Searching...';
 
             $('#customer-profile').hide();
 
@@ -299,7 +296,6 @@
                         }
                     }).always(() => {
                         element.disabled = false;
-                        element.innerHTML = defaultValue;
                     });
                 },
                 allowOutsideClick: () => !window.swal.isLoading()
