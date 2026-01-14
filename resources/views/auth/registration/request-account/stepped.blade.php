@@ -223,6 +223,9 @@
             event.preventDefault();
 
             element.disabled = 'disabled';
+            let defaultValue = element.innerHTML;
+
+            element.innerHTML = '<i class="icon-loader spinner"></i> Searching...';
 
             $('#customer-profile').hide();
 
@@ -255,40 +258,52 @@
                 delete payload.customer_number;
             }
 
-            $.ajax('{{ route('frontend.contact-validation') }}', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-                data: payload,
-                dataType: 'json',
-                success: function (response) {
-
-                    if (!response.status) {
-                        Amplify.alert(response.message, 'Registration');
-                        return;
-                    }
-
-                    $('#customer-profile').show();
-
-                    for (const [id, value] of Object.entries(response.data)) {
-                        if (value != null) {
-                            id.includes('_')
-                                ? $(`input:hidden[name='${id}']`).val(value)
-                                : $(`#${id}`).text(value);
-                        }
-                    }
+            swal.fire({
+                title: 'Registration',
+                icon: 'info',
+                backdrop: true,
+                showCancelButton: false,
+                text: `Searching for valid customer information...`,
+                confirmButtonText: 'Okay',
+                customClass: {
+                    confirmButton: 'btn btn-outline-secondary'
                 },
-                error: function (xhr) {
+                willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center',
+                didOpen: () => {
+                    $.ajax('{{ route('frontend.contact-validation') }}', {
+                        beforeSend: () => window.swal.showLoading(),
+                        method: 'POST',
+                        data: payload,
+                        success: function (response) {
+                            if (!response.status) {
+                                Amplify.alert(response.message, 'Registration');
+                                return;
+                            }
 
-                    const response = JSON.parse(xhr.responseText);
+                            window.swal.close();
 
-                    if (response.message) {
-                        Amplify.alert(response.message, 'Registration');
-                        return;
-                    }
+                            $('#customer-profile').show();
 
-                    Amplify.alert(xhr.statusText, 'Registration');
-                }
-            }).done(() => element.disabled = false);
+                            for (const [id, value] of Object.entries(response.data)) {
+                                if (value != null) {
+                                    id.includes('_')
+                                        ? $(`input:hidden[name='${id}']`).val(value)
+                                        : $(`#${id}`).text(value);
+                                }
+                            }
+                        },
+                        error: function (xhr) {
+                            window.swal.hideLoading();
+                            let response = JSON.parse(xhr.responseText);
+                            window.swal.showValidationMessage(response?.message ?? xhr.responseText);
+                        }
+                    }).always(() => {
+                        element.disabled = false;
+                        element.innerHTML = defaultValue;
+                    });
+                },
+                allowOutsideClick: () => !window.swal.isLoading()
+            });
         }
 
         var stepper = new Stepper(document.querySelector('#customer-verification-steps'));
