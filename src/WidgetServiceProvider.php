@@ -3,7 +3,6 @@
 namespace Amplify\Widget;
 
 use Amplify\Widget\Abstracts\Widget;
-use Amplify\Widget\Commands\WidgetMakeCommand;
 use Illuminate\Support\ServiceProvider;
 
 class WidgetServiceProvider extends ServiceProvider
