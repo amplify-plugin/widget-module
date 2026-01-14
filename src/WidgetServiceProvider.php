@@ -8,14 +8,6 @@ use Illuminate\Support\ServiceProvider;
 
 class WidgetServiceProvider extends ServiceProvider
 {
-    public function register()
-    {
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/widget.php',
-            'amplify.widget'
-        );
-    }
-
     /**
      * Bootstrap services.
      */
@@ -30,10 +22,6 @@ class WidgetServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/amplify/widget'),
         ]);
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([WidgetMakeCommand::class]);
-        }
 
         if (! $this->app->runningInConsole()) {
             $this->app->booted(function ($app) {

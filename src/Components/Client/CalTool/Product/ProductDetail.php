@@ -8,7 +8,7 @@ use Amplify\System\Backend\Models\OrderListItem;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Backend\Models\Warehouse;
 use Amplify\Widget\Abstracts\BaseComponent;
-use Amplify\Widget\Traits\ProductDetailTrait;
+use Amplify\System\Traits\ProductDetailTrait;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;

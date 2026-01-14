@@ -6,7 +6,7 @@ use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\System\Backend\Models\OrderList;
 use Amplify\System\Backend\Models\Product;
 use Amplify\Widget\Abstracts\BaseComponent;
-use Amplify\Widget\Traits\ProductDetailTrait;
+use Amplify\System\Traits\ProductDetailTrait;
 use Closure;
 use Illuminate\Contracts\View\View;
 
