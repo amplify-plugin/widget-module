@@ -73,14 +73,18 @@
                         {!! \Form::label('address_1', 'Street Address', true) !!}
                         <input name="address_1" value="{{ old('address.0.address_1') }}" placeholder="Address Line 1"
                                class="form-control my-1" type="text" id="address_1" required="required">
+                        <span id="address_1-error" class="d-block invalid-feedback">
+                            @error('address_1') {{ $message }} @enderror
+                        </span>
                         <input name="address_2" value="{{ old('address.0.address_2') }}" placeholder="Address Line 2"
                                class="form-control my-1" type="text" id="address_2">
+                        <span id="address_2-error" class="d-block invalid-feedback">
+                            @error('address_2') {{ $message }} @enderror
+                        </span>
                         <input name="address_3" value="{{ old('address.0.address_3') }}" placeholder="Address Line 3"
                                class="form-control my-1" type="text" id="address_3">
-                        <span id="address_1-error" class="d-block invalid-feedback">
-                            @error('address.*')
-                            {{ $message }}
-                            @enderror
+                        <span id="address_3-error" class="d-block invalid-feedback">
+                            @error('address_3') {{ $message }} @enderror
                         </span>
                     </div>
                 </div>
@@ -116,7 +120,9 @@
                                 {!! $newsletterLabel ?? '' !!}
                             </label>
                         </div>
-                        <span id="newsletter-error" class="d-block invalid-feedback"></span>
+                        <span id="newsletter-error" class="d-block invalid-feedback">
+                            @error('newsletter') {{ $message }} @enderror
+                        </span>
                     </div>
                 </div>
             @endif
@@ -133,7 +139,9 @@
                                 {!! $termsLabel ?? '' !!}
                             </label>
                         </div>
-                        <span id="customer_accept_term-error" class="d-block invalid-feedback"></span>
+                        <span id="customer_accept_term-error" class="d-block invalid-feedback">
+                            @error('accept_term') {{ $message }} @enderror
+                        </span>
                     </div>
                 </div>
             @endif
