@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        {!! \Form::rText('email',  __('E-mail Address'), $account->name, true, ['disabled' => true]) !!}
+                        {!! \Form::rText('email',  __('E-mail Address'), $account->email ?? '', true, ['disabled' => true]) !!}
                     </div>
 
                     <div class="col-md-6">
