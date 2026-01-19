@@ -17,6 +17,12 @@ window.Amplify = {
     maxCartItemQuantity: () => 9999999999,
     favouritesCreateUrl: () => '/favourites',
 
+    isHtml(text) {
+        return new DOMParser()
+            .parseFromString(text, 'text/html')
+            .body.children.length > 0;
+    },
+
     /**
      * The function validate if the customer is logged in
      * return bool
@@ -54,7 +60,7 @@ window.Amplify = {
         toast.fire({
             icon: type,
             title: title,
-            text: message,
+            html: message,
             ...options
         });
     },
@@ -80,7 +86,7 @@ window.Amplify = {
 
         return confirmAlert.fire({
             title: title,
-            text: question,
+            html: question,
             confirmButtonText: confirmBtnText,
             ...options
         });
@@ -678,8 +684,6 @@ window.Amplify = {
     },
 
     async addMultipleItemToCart(cartElement, formTarget, extras = {}) {
-
-        console.log(cartElement);
 
         let defaultContent = cartElement.innerHTML;
 
