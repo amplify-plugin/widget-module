@@ -71,6 +71,7 @@ class Index extends BaseComponent
         $productsCodes = array_keys($products);
         $productsWithItemKey = array_map(function ($item) {
             $uom = Product::where('product_code', $item)->pluck('uom')->first();
+
             return ['item' => $item, 'qty' => 1, 'uom' => $uom ?? 'EA'];
         }, $productsCodes);
 
