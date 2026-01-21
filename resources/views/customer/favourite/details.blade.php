@@ -55,7 +55,8 @@
                                             <tr class="added_products align-center" id="product-{{ $key }}">
                                                 <th scope="row">{{ $orderListItems->firstItem() + $key }}</th>
                                                 <td>
-                                                    <input type="hidden" name="products[{{ $key }}][product_warehouse_code]"
+                                                    <input type="hidden"
+                                                           name="products[{{ $key }}][product_warehouse_code]"
                                                            value="{{\ErpApi::getCustomerDetail()->DefaultWarehouse }}"/>
                                                     <input type="hidden" name="products[{{ $key }}][product_id]"
                                                            value="{{ $item->product->id }}"/>
@@ -79,7 +80,7 @@
                                                             </a>
                                                             <a class="text-decoration-none"
                                                                href="{{ frontendSingleProductURL(optional($item->product)) }}">
-                                                                <p>{{ optional($item->product)->product_name ?? '' }}</p>
+                                                                <p>{!! optional($item->product)->product_name ?? '' !!}</p>
                                                             </a>
                                                         </div>
                                                         <span class="text-danger" id="product-{{ $key }}-error"></span>
@@ -100,19 +101,21 @@
                                                             Actions
                                                         </button>
                                                         <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item delete-modal"
-                                                               href="javascript:void(0);"
-                                                               onclick="setFormAction(this)"
-                                                               data-toggle="modal" data-target="#remove-item"
-                                                               data-action="{{ route('frontend.favourites.destroy-item', $item->id) }}">
-                                                                <i class="icon-ban mr-1"></i> {{ __('Remove') }}
-                                                            </a>
                                                             <a class="dropdown-item"
                                                                href="javascript:void(0)"
                                                                data-warehouse="{{ \ErpApi::getCustomerDetail()->DefaultWarehouse }}"
                                                                data-options="{{ json_encode(['code' => $item->product?->product_code ?? '']) }}"
                                                                onclick="Amplify.addSingleItemToCart(this, '{{ "#cart-item-{$key}" }}');"
-                                                            ><i class="icon-bag mr-1"></i> {{ __('Add to Cart') }}</a>
+                                                            ><i class="icon-bag mr-1"></i>
+                                                                {{ __('Add to Cart') }}
+                                                            </a>
+                                                            <a class="dropdown-item"
+                                                               href="javascript:void(0);"
+                                                               onclick="Amplify.removeItemFromFavorites(this)"
+                                                               data-action="{{ route('frontend.favourites.destroy-item', $item->id) }}">
+                                                                <i class="icon-trash mr-1"></i>
+                                                                {{ __('Remove') }}
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -159,35 +162,44 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="remove-item" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content shadow-sm">
-            <form method="POST" class="d-inline" id="form-delete">
-                @method('delete')
-                @csrf
-                <div class="modal-body">
-                    <h3 class="text-center">{{__('Are you sure?')}}</h3>
-                </div>
-                <div class="modal-footer justify-content-around pt-0 border-top-0">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                            onclick="setPositionOffCanvas()">Close
-                    </button>
-                    <button type="submit" class="btn btn-danger" name="delete_user">{{__('Delete')}}</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 @push('internal-script')
     <script>
-        function setFormAction(e) {
-            setPositionOffCanvas(false);
-            const form = $('#form-delete');
-            const deleteBtn = $(e);
-
-            form.attr('action', deleteBtn.data('action'));
-        }
+        Amplify.removeItemFromFavorites = function (target) {
+            let actionLink = target.dataset.action;
+            Amplify.confirm('Are you sure to remove this item?',
+                '{{ $widgetTitle }}', 'Remove', {
+                    preConfirm: async function () {
+                        return new Promise((resolve, reject) => {
+                            $.ajax({
+                                url: actionLink,
+                                type: 'DELETE',
+                                dataType: 'json',
+                                header: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                },
+                                success: function (result) {
+                                    resolve(result);
+                                },
+                                error: function (xhr, status, err) {
+                                    let response = JSON.parse(xhr.responseText);
+                                    window.swal.showValidationMessage(response.message);
+                                    window.swal.hideLoading();
+                                    reject(false);
+                                },
+                            });
+                        });
+                    },
+                    allowOutsideClick: () => !window.swal.isLoading()
+                })
+                .then(function (result) {
+                    if (result.isConfirmed) {
+                        Amplify.notify('success', result.value.message, '{{ $widgetTitle }}');
+                        setTimeout(() => window.location.reload(), 2500)
+                    }
+                });
+        };
     </script>
 @endpush
 

@@ -12,12 +12,9 @@ use Illuminate\Contracts\View\View;
  */
 class Details extends BaseComponent
 {
-    /**
-     * Whether the component should be rendered
-     */
-    public function shouldRender(): bool
+    public function __construct(public string $widgetTitle = 'Favourites')
     {
-        return true;
+        parent::__construct();
     }
 
     /**
@@ -26,7 +23,7 @@ class Details extends BaseComponent
     public function render(): View|Closure|string
     {
         $param = request()->route('favourite');
-        if (! is_numeric($param)) {
+        if (!is_numeric($param)) {
             abort(404, 'Page Not Found');
         }
 
