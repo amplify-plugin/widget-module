@@ -23,7 +23,7 @@ class Details extends BaseComponent
     public function render(): View|Closure|string
     {
         $param = request()->route('favourite');
-        if (!is_numeric($param)) {
+        if (! is_numeric($param)) {
             abort(404, 'Page Not Found');
         }
 
