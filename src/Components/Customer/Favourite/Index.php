@@ -13,28 +13,17 @@ use Illuminate\Contracts\View\View;
 class Index extends BaseComponent
 {
     /**
-     * @var array
-     */
-    public $options;
-
-    /**
      * Create a new component instance.
      */
     public function __construct(public string $nameLabel = '',
-        public string $listTypeLabel = '',
-        public string $descriptionLabel = '',
-        public string $productCountLabel = ''
-    ) {
+                                public string $listTypeLabel = '',
+                                public string $descriptionLabel = '',
+                                public string $productCountLabel = '',
+                                public string $widgetTitle = 'Favourites'
+    )
+    {
         parent::__construct();
 
-    }
-
-    /**
-     * Whether the component should be rendered
-     */
-    public function shouldRender(): bool
-    {
-        return true;
     }
 
     /**
@@ -59,8 +48,8 @@ class Index extends BaseComponent
                 });
             })
             ->when($request->filled('search'), function ($q) use ($request) {
-                $q->where('name', 'like', '%'.strtolower($request->search).'%')
-                    ->orWhere('description', 'like', '%'.strtolower($request->search).'%');
+                $q->where('name', 'like', '%' . strtolower($request->search) . '%')
+                    ->orWhere('description', 'like', '%' . strtolower($request->search) . '%');
             })
             // TODO: Last change wise filter.
             // ->when($request->filled('filtered_start_date'), function ($q) use ($request) {

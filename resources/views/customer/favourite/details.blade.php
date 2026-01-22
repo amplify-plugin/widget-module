@@ -106,15 +106,15 @@
                                                                data-warehouse="{{ \ErpApi::getCustomerDetail()->DefaultWarehouse }}"
                                                                data-options="{{ json_encode(['code' => $item->product?->product_code ?? '']) }}"
                                                                onclick="Amplify.addSingleItemToCart(this, '{{ "#cart-item-{$key}" }}');"
-                                                            ><i class="icon-bag mr-1"></i>
+                                                            ><i class="pe-7s-cart font-weight-bolder mr-1"></i>
                                                                 {{ __('Add to Cart') }}
                                                             </a>
                                                             <a class="dropdown-item"
                                                                href="javascript:void(0);"
-                                                               onclick="Amplify.removeItemFromFavorites(this)"
+                                                               onclick="Amplify.deleteConfirmation(this, '{{ $widgetTitle }}')"
                                                                data-action="{{ route('frontend.favourites.destroy-item', $item->id) }}">
                                                                 <i class="icon-trash mr-1"></i>
-                                                                {{ __('Remove') }}
+                                                                {{ __('Delete') }}
                                                             </a>
                                                         </div>
                                                     </div>
@@ -162,46 +162,6 @@
         </div>
     </div>
 </div>
-
-@push('internal-script')
-    <script>
-        Amplify.removeItemFromFavorites = function (target) {
-            let actionLink = target.dataset.action;
-            Amplify.confirm('Are you sure to remove this item?',
-                '{{ $widgetTitle }}', 'Remove', {
-                    preConfirm: async function () {
-                        return new Promise((resolve, reject) => {
-                            $.ajax({
-                                url: actionLink,
-                                type: 'DELETE',
-                                dataType: 'json',
-                                header: {
-                                    'Content-Type': 'application/json',
-                                    'Accept': 'application/json'
-                                },
-                                success: function (result) {
-                                    resolve(result);
-                                },
-                                error: function (xhr, status, err) {
-                                    let response = JSON.parse(xhr.responseText);
-                                    window.swal.showValidationMessage(response.message);
-                                    window.swal.hideLoading();
-                                    reject(false);
-                                },
-                            });
-                        });
-                    },
-                    allowOutsideClick: () => !window.swal.isLoading()
-                })
-                .then(function (result) {
-                    if (result.isConfirmed) {
-                        Amplify.notify('success', result.value.message, '{{ $widgetTitle }}');
-                        setTimeout(() => window.location.reload(), 2500)
-                    }
-                });
-        };
-    </script>
-@endpush
 
 @push('internal-style')
     <style>

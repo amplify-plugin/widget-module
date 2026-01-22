@@ -737,5 +737,59 @@ window.Amplify = {
 
         cartElement.innerHTML = defaultContent;
         cartElement.disabled = false;
+    },
+
+    /**
+     * This confirmation modal only sent request on DELETE method
+     * also follow the standard api response.
+     *
+     * @param target
+     * @param title
+     * @param payload
+     * @param redirect
+     */
+    deleteConfirmation(target, title, payload = {}, redirect = true) {
+        let actionLink = target.dataset.action;
+
+        if (!actionLink) {
+            this.alert('There is no action link in the target element.<br>Please add `data-action` attribute to the target element.');
+            return;
+        }
+
+        this.confirm('Are you sure to delete this item?',
+            title, 'Delete', {
+                preConfirm: async function () {
+                    return new Promise((resolve, reject) => {
+                        $.ajax({
+                            url: actionLink,
+                            type: 'DELETE',
+                            dataType: 'json',
+                            data: payload,
+                            header: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            success: function (result) {
+                                resolve(result);
+                            },
+                            error: function (xhr) {
+                                console.error(xhr.responseJSON);
+                                window.swal.showValidationMessage(xhr.responseJSON?.message ?? 'Something Went Wrong. PLease try again');
+                                window.swal.hideLoading();
+                                reject(false);
+                            },
+                        });
+                    });
+                },
+                allowOutsideClick: () => !window.swal.isLoading()
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    Amplify.notify('success', result.value.message, title);
+                    if (redirect) {
+                        setTimeout(() => window.location.reload(), 2000);
+                    }
+                }
+            });
     }
 }
