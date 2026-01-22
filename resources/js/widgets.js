@@ -747,8 +747,9 @@ window.Amplify = {
      * @param title
      * @param payload
      * @param redirect
+     * @param question
      */
-    deleteConfirmation(target, title, payload = {}, redirect = true) {
+    deleteConfirmation(target, title, payload = {}, redirect = true, question = 'Are you sure to delete this item?') {
         let actionLink = target.dataset.action;
 
         if (!actionLink) {
@@ -756,7 +757,7 @@ window.Amplify = {
             return;
         }
 
-        this.confirm('Are you sure to delete this item?',
+        this.confirm(question,
             title, 'Delete', {
                 preConfirm: async function () {
                     return new Promise((resolve, reject) => {
@@ -787,7 +788,10 @@ window.Amplify = {
                 if (result.isConfirmed) {
                     Amplify.notify('success', result.value.message, title);
                     if (redirect) {
-                        setTimeout(() => window.location.reload(), 2000);
+                        setTimeout(() => {
+                            const {origin, pathname} = window.location;
+                            window.location.replace(origin + pathname);
+                        }, 2000);
                     }
                 }
             });
