@@ -11,7 +11,7 @@ use Illuminate\Contracts\View\View;
  */
 class ShoppingList extends BaseComponent
 {
-    public function __construct(public string $productId = '', public string $addLabel="Add to Shopping List")
+    public function __construct(public string $productId = '', public string $addLabel = 'Add to Shopping List')
     {
         parent::__construct();
     }
