@@ -5343,7 +5343,7 @@ window.Amplify = {
     this.confirm('Add item to existing ' + title.toLowerCase(), title, 'Save', {
       icon: undefined,
       input: "text",
-      inputLabel: 'Enter Quantity',
+      inputPlaceholder: 'Enter Quantity',
       customClass: {
         confirmButton: 'btn btn-primary',
         cancelButton: 'btn btn-outline-secondary'

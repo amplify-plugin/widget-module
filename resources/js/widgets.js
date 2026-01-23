@@ -640,7 +640,7 @@ window.Amplify = {
             title, 'Save', {
                 icon: undefined,
                 input: "text",
-                inputLabel: 'Enter Quantity',
+                inputPlaceholder: 'Enter Quantity',
                 customClass: {
                     confirmButton: 'btn btn-primary',
                     cancelButton: 'btn btn-outline-secondary'
@@ -664,7 +664,7 @@ window.Amplify = {
                             list_id: listId,
                             is_shopping_list: 1,
                             list_type: null,
-                            title:title
+                            title: title
                         };
 
                         payload[source + '_id'] = sourceId;
