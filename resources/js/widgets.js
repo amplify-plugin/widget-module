@@ -556,9 +556,9 @@ window.Amplify = {
      * @param sourceId
      * @param source
      */
-    createShippingList(sourceId, source = 'product') {
-        this.confirm('Create a new shopping list?',
-            'Shopping List', 'Save', {
+    addToNewOrderList(sourceId, source = 'product', title = 'Order List') {
+        this.confirm('Create a new ' + title.toLowerCase() + ' & add item on it',
+            title, 'Save', {
                 icon: undefined,
                 input: "text",
                 inputPlaceholder: 'Enter name',
@@ -617,6 +617,83 @@ window.Amplify = {
 
                     $('#swal2-textarea').css('display', 'flex').attr('placeholder', 'Enter description');
                 }
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    Amplify.notify('success', result.value.message, title);
+                }
+            });
+
+        return true;
+    },
+
+    /**
+     *
+     * The function add a item(product/cart/order/invoice) to an exists order list
+     * @param listId
+     * @param sourceId
+     * @param source
+     * @param title
+     */
+    addToExistingOrderList(listId, sourceId, source = 'product', title = 'Order List') {
+        this.confirm('Add item to existing ' + title.toLowerCase(),
+            title, 'Save', {
+                icon: undefined,
+                input: "text",
+                inputLabel: 'Enter Quantity',
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-secondary'
+                },
+                inputValidator: (value) => {
+                    if (!value) {
+                        return "The quantity is required";
+                    }
+
+                    if (isNaN(value)) {
+                        return "The quantity is not a number";
+                    }
+                    if (Number(value) <= 0) {
+                        return "The quantity has to be greater than 0";
+                    }
+                },
+                preConfirm: async function (value) {
+                    return new Promise((resolve, reject) => {
+                        let payload = {
+                            type: source,
+                            list_id: listId,
+                            is_shopping_list: 1,
+                            list_type: null,
+                            title:title
+                        };
+
+                        payload[source + '_id'] = sourceId;
+
+                        if (source === 'product') {
+                            payload['product_qty'] = value;
+                        }
+
+                        $.ajax({
+                            url: Amplify.favouritesCreateUrl(),
+                            type: 'POST',
+                            data: JSON.stringify(payload),
+                            contentType: 'application/json; charset=UTF-8',
+                            headers: {
+                                Accept: 'application/json'
+                            },
+                            success: function (result) {
+                                resolve(result);
+                            },
+                            error: function (xhr, status, err) {
+                                let response = JSON.parse(xhr.responseText);
+                                Swal.showValidationMessage(response.message);
+                                Swal.hideLoading();
+                                reject(false);
+                            },
+                        });
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
             })
             .then(function (result) {
                 if (result.isConfirmed) {
