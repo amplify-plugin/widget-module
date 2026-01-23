@@ -18,16 +18,16 @@
             aria-haspopup="true"
             aria-expanded="false"
         >
-            Add to Shopping List
+            {!! $addLabel !!}
         </button>
         <div class="dropdown-menu" aria-labelledby="shoppingListDropdown">
             <a href="javascript:void(0);"
                class="dropdown-item create-shopping"
                onclick="Amplify.createShippingList({{ $productId }}, 'product', '')">
-                Create new shopping list
+                {{ __('Add to new list') }}
             </a>
             <div class="dropdown-divider"></div>
-            <div class="dropdown-header">Existing Shopping Lists:</div>
+            <div class="dropdown-header">{{ __('Existing Lists') }}:</div>
             <div class="shopping-list-items-container"></div>
         </div>
     </div>
