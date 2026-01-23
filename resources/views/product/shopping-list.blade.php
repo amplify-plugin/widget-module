@@ -16,7 +16,7 @@
     <div class="dropdown-menu"
          style="width: 100%; min-width: 200px !important;"
          aria-labelledby="shoppingListDropdown">
-        @if(customer(true)->can('favorites.manage-personal-list'))
+        @if(customer_check() && customer(true)->can('favorites.manage-personal-list'))
             <a href="javascript:void(0);"
                class="dropdown-item align-center"
                onclick="Amplify.addToNewOrderList({{ $productId }}, 'product', 'Shopping List')">
