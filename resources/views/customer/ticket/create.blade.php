@@ -88,7 +88,7 @@
                                 <input  aria-label="custom-file-input"
                                     class="form-control custom-file-input @if ($errors->has('attachments') || $errors->has('attachments.*')) is-invalid @endif"
                                     id="attachments" name="attachments[]" type="file" multiple>
-                                <label class="custom-file-label" for="upload-file">Choose file</label>
+                                <label class="custom-file-label" for="attachments">Choose file</label>
                             </div>
                         </div>
                         <small class="text-danger">
@@ -104,10 +104,17 @@
                                 <span>Save</span>
                             </button>
                         </div>
-                        <a class="btn btn-outline-secondary" href="{{ route('frontend.contacts.index') }}">Cancel</a>
+                        <a class="btn btn-outline-secondary" href="{{ route('frontend.tickets.index') }}">Cancel</a>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    document.getElementById('attachments').addEventListener('change', function(e) {
+        const fileName = Array.from(this.files).map(f => f.name).join(', ');
+        this.nextElementSibling.textContent = fileName || 'Choose file';
+    });
+</script>
