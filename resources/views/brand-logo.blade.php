@@ -1,4 +1,4 @@
-<div class="site-branding position-relative" {!! $htmlAttributes !!}>
+<div {!! $htmlAttributes !!}>
     <div class="inner">
         <!-- Off-Canvas Toggle (#mobile-menu)-->
         <a class="offcanvas-toggle menu-toggle" href="#mobile-menu" data-toggle="offcanvas"></a>
