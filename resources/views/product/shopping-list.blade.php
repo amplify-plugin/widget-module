@@ -19,7 +19,7 @@
         @if(customer_check() && customer(true)->can('favorites.manage-personal-list'))
             <a href="javascript:void(0);"
                class="dropdown-item align-center"
-               onclick="Amplify.addToNewOrderList({{ $productId }}, 'product', 'Shopping List')">
+               onclick="Amplify.addToNewOrderList({{ $productId }}, 'product','{{ $widgetTitle }}')">
                 <i class="icon-plus mr-1"></i> {{ __('Add to new list') }}
             </a>
             <div class="dropdown-divider"></div>

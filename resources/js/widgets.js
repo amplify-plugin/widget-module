@@ -581,6 +581,7 @@ window.Amplify = {
                             list_name: $('#swal2-input').val(),
                             list_type: $('#swal2-select').val(),
                             list_desc: $('#swal2-textarea').val(),
+                            title: title
                         };
 
                         payload[source + '_id'] = sourceId;
