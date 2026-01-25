@@ -7,8 +7,8 @@
                         data-toggle="tooltip"
                         data-html="true"
                         data-placement="bottom"
-                        title="{!!  $title !!}">
-                        {!!  $title !!}
+                        title="{!!  $displayPageTitle() !!}">
+                        {!!  $displayPageTitle() !!}
                     </h1>
                 </div>
             @endif
