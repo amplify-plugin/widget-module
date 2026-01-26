@@ -14,12 +14,20 @@
     </div>
 @endif
 
+{{--@if ($document->documentType->media_type === 'pdf')--}}
+{{--    <object class="iframe-style" data="{{ external_asset($document->file_path) }}"--}}
+{{--            type="application/pdf">--}}
+{{--        <embed src="{{ external_asset($document->file_path) }}" type="application/pdf"--}}
+{{--               style="width: 100% !important;" />--}}
+{{--    </object>--}}
+{{--@endif--}}
 @if ($document->documentType->media_type === 'pdf')
-    <object class="iframe-style" data="{{ external_asset($document->file_path) }}"
-            type="application/pdf">
-        <embed src="{{ external_asset($document->file_path) }}" type="application/pdf"
-               style="width: 100% !important;" />
-    </object>
+    <iframe
+        class="iframe-style"
+        src="{{ external_asset($document->file_path) }}"
+        style="width:100%;"
+        loading="lazy">
+    </iframe>
 @endif
 
 @if ($document->documentType->media_type === 'google_doc' || $document->documentType->media_type === 'google_sheet')
