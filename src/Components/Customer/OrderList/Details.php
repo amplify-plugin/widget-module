@@ -22,10 +22,10 @@ class Details extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-//        $param = request()->route('order_list');
-//        if (! is_numeric($param)) {
-//            abort(404, 'Not Found');
-//        }
+        //        $param = request()->route('order_list');
+        //        if (! is_numeric($param)) {
+        //            abort(404, 'Not Found');
+        //        }
 
         $search = request('search', '');
 
