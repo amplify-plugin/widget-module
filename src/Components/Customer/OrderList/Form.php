@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\Widget\Components\Customer\Favourite;
+namespace Amplify\Widget\Components\Customer\OrderList;
 
 use Amplify\System\Backend\Models\Contact;
 use Amplify\System\Helpers\UtilityHelper;

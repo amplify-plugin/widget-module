@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\Widget\Components\Customer\Favourite;
+namespace Amplify\Widget\Components\Customer\OrderList;
 
 use Amplify\System\Backend\Models\OrderList;
 use Amplify\Widget\Abstracts\BaseComponent;
@@ -22,10 +22,10 @@ class Details extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $param = request()->route('favourite');
-        if (! is_numeric($param)) {
-            abort(404, 'Page Not Found');
-        }
+//        $param = request()->route('order_list');
+//        if (! is_numeric($param)) {
+//            abort(404, 'Not Found');
+//        }
 
         $search = request('search', '');
 

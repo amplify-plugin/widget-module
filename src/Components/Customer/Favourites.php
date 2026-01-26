@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\Widget\Components\Customer\Favourite;
+namespace Amplify\Widget\Components\Customer;
 
 use Amplify\System\Backend\Models\OrderList;
 use Amplify\Widget\Abstracts\BaseComponent;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\View\View;
 /**
  * @class Index
  */
-class Index extends BaseComponent
+class Favourites extends BaseComponent
 {
     /**
      * Create a new component instance.
@@ -76,6 +76,6 @@ class Index extends BaseComponent
             'product_count' => strlen($this->productCountLabel) != 0,
         ];
 
-        return view('widget::customer.favourite.index', compact('orderLists', 'columns'));
+        return view('widget::customer.favourites', compact('orderLists', 'columns'));
     }
 }

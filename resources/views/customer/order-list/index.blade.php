@@ -1,7 +1,7 @@
 <div {!! $htmlAttributes !!}>
     <div class="card">
         <div class="card-body">
-            <form id="customer-item-list-search-form" method="get" action="{{ route('frontend.favourites.index') }}">
+            <form id="customer-item-list-search-form" method="get" action="{{ route('frontend.order-lists.index') }}">
                 {{-- <input type="hidden" name="filtered_start_date"
                        value="{{ request('filtered_start_date',now(config('app.timezone'))->subDays(29)->format('Y-m-d')) }}"
                        id="filtered_start_date">
@@ -20,7 +20,7 @@
 
                         @if (!empty(request()->all()))
                             <label>
-                                <a class="border btn btn-sm border" href="{{ Request::url() }}">
+                                <a class="border btn btn-sm" href="{{ Request::url() }}">
                                     Reset
                                 </a>
                             </label>
@@ -134,20 +134,20 @@
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 @if (customer(true)->can('favorites.manage-global-list') || customer(true)->can('favorites.manage-personal-list'))
                                                                     <a class="dropdown-item"
-                                                                       href="{{ route('frontend.favourites.show', $orderList->id) }}">
+                                                                       href="{{ route('frontend.order-lists.show', $orderList->id) }}">
                                                                         <i class="icon-eye mr-1"></i> {{ __('Preview') }}
                                                                     </a>
                                                                 @endif
                                                                 @if (customer(true)->can('favorites.manage-personal-list') || customer(true)->can('favorites.manage-personal-list'))
                                                                     <a class="dropdown-item"
-                                                                       href="{{ route('frontend.favourites.edit', $orderList->id) }}">
+                                                                       href="{{ route('frontend.order-lists.edit', $orderList->id) }}">
                                                                         <i class="pe-7s-edit font-weight-bolder mr-1"></i> {{ __('Update') }}
                                                                     </a>
                                                                 @endif
                                                                 @if (customer(true)->can('favorites.manage-global-list') || customer(true)->can('favorites.manage-personal-list'))
                                                                     <a class="dropdown-item"
                                                                        href="javascript:void(0)"
-                                                                       data-action="{{ route('frontend.favourites.destroy', $orderList->id) }}"
+                                                                       data-action="{{ route('frontend.order-lists.destroy', $orderList->id) }}"
                                                                        onclick="Amplify.deleteConfirmation(this, '{{ $widgetTitle }}')">
                                                                         <i class="icon-trash mr-1"></i> {{ __('Delete') }}
                                                                     </a>
@@ -163,7 +163,7 @@
                                                                 'data' => $orderList,
                                                                 'label' => 'View',
                                                                 'route' => route(
-                                                                    'frontend.favourites.show',
+                                                                    'frontend.order-lists.show',
                                                                     $orderList->id),
                                                             ]
                                                         )
@@ -175,14 +175,14 @@
                                                                 'data' => $orderList,
                                                                 'label' => 'View',
                                                                 'route' => route(
-                                                                    'frontend.favourites.edit',
+                                                                    'frontend.order-lists.edit',
                                                                     $orderList->id),
                                                             ]
                                                         )
                                                     @endif
                                                     @if (customer(true)->can('favorites.manage-global-list') || customer(true)->can('favorites.manage-personal-list'))
                                                         <a class="dropdown-item delete-modal"
-                                                           href="{{ route('frontend.favourites.destroy', $orderList->id) }}"
+                                                           href="{{ route('frontend.order-lists.destroy', $orderList->id) }}"
                                                            data-target="#delete-modal" data-toggle="modal"
                                                            onclick="setFormAction(this)">
                                                             <i class="icon-trash mr-1"></i> Delete
