@@ -656,9 +656,9 @@ window.Amplify = {
                         return "The quantity cannot to be less than 0";
                     }
 
-                    // if (Number(value) >= this.maxCartItemQuantity()) {
-                    //     return "The quantity cannot to be greater than " + this.maxCartItemQuantity();
-                    // }
+                    if (Number(value) >= this.maxCartItemQuantity()) {
+                        return "The quantity cannot to be greater than " + this.maxCartItemQuantity();
+                    }
                 },
                 preConfirm: async function (value) {
                     try {
@@ -724,24 +724,28 @@ window.Amplify = {
                     cancelButton: 'btn btn-outline-secondary'
                 },
                 preConfirm: async () => {
-                    return await $.ajax(element.dataset.action, {
-                        type: 'PATCH',
-                        data: JSON.stringify({
-                            name: $('#swal2-input').val(),
-                            list_type: $('#swal2-select').val(),
-                            description: $('#swal2-textarea').val(),
-                            title: title
-                        }),
-                        contentType: 'application/json; charset=UTF-8',
-                        headers: {
-                            Accept: 'application/json'
-                        },
-                        success: (result) => result,
-                        error: function (xhr) {
-                            Swal.showValidationMessage(xhr.responseJSON?.message ?? xhr.statusText);
-                            Swal.hideLoading();
-                        },
-                    });
+                    try {
+                        return await $.ajax(element.dataset.action, {
+                            type: 'PATCH',
+                            data: JSON.stringify({
+                                name: $('#swal2-input').val(),
+                                list_type: $('#swal2-select').val(),
+                                description: $('#swal2-textarea').val(),
+                                title: title
+                            }),
+                            contentType: 'application/json; charset=UTF-8',
+                            headers: {
+                                Accept: 'application/json'
+                            },
+                            success: (result) => result,
+                            error: function (xhr) {
+                                Swal.showValidationMessage(xhr.responseJSON?.message ?? xhr.statusText);
+                                Swal.hideLoading();
+                            },
+                        });
+                    } catch (err) {
+                        return false;
+                    }
                 },
 
                 allowOutsideClick: () => !Swal.isLoading(),
@@ -780,10 +784,10 @@ window.Amplify = {
                 if (result.isConfirmed) {
                     Amplify.notify('success', result.value.message, title);
                 }
-                // setTimeout(() => {
-                //     const {origin, pathname} = window.location;
-                //     window.location.replace(origin + pathname);
-                // }, 2000);
+                setTimeout(() => {
+                    const {origin, pathname} = window.location;
+                    window.location.replace(origin + pathname);
+                }, 2000);
             });
     },
 

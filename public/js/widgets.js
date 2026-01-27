@@ -5333,6 +5333,7 @@ window.Amplify = {
    * @param title
    */
   addToExistingOrderList: function addToExistingOrderList(listId, sourceId) {
+    var _this3 = this;
     var source = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'product';
     var title = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'Order List';
     this.confirm('Add item to existing ' + title.toLowerCase(), title, 'Save', {
@@ -5353,10 +5354,9 @@ window.Amplify = {
         if (Number(value) <= 0) {
           return "The quantity cannot to be less than 0";
         }
-
-        // if (Number(value) >= this.maxCartItemQuantity()) {
-        //     return "The quantity cannot to be greater than " + this.maxCartItemQuantity();
-        // }
+        if (Number(value) >= _this3.maxCartItemQuantity()) {
+          return "The quantity cannot to be greater than " + _this3.maxCartItemQuantity();
+        }
       },
       preConfirm: function () {
         var _preConfirm5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7(value) {
@@ -5438,9 +5438,11 @@ window.Amplify = {
       },
       preConfirm: function () {
         var _preConfirm6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
+          var _t3;
           return _regenerator().w(function (_context8) {
-            while (1) switch (_context8.n) {
+            while (1) switch (_context8.p = _context8.n) {
               case 0:
+                _context8.p = 0;
                 _context8.n = 1;
                 return $.ajax(element.dataset.action, {
                   type: 'PATCH',
@@ -5465,8 +5467,12 @@ window.Amplify = {
                 });
               case 1:
                 return _context8.a(2, _context8.v);
+              case 2:
+                _context8.p = 2;
+                _t3 = _context8.v;
+                return _context8.a(2, false);
             }
-          }, _callee8);
+          }, _callee8, null, [[0, 2]]);
         }));
         function preConfirm() {
           return _preConfirm6.apply(this, arguments);
@@ -5507,15 +5513,17 @@ window.Amplify = {
       if (result.isConfirmed) {
         Amplify.notify('success', result.value.message, title);
       }
-      // setTimeout(() => {
-      //     const {origin, pathname} = window.location;
-      //     window.location.replace(origin + pathname);
-      // }, 2000);
+      setTimeout(function () {
+        var _window$location4 = window.location,
+          origin = _window$location4.origin,
+          pathname = _window$location4.pathname;
+        window.location.replace(origin + pathname);
+      }, 2000);
     });
   },
   addSingleItemToCart: function addSingleItemToCart(cartElement, quantityTarget) {
     var _arguments = arguments,
-      _this3 = this;
+      _this4 = this;
     return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee9() {
       var extras, defaultContent, quantityElement, warehouse, options, cartItem;
       return _regenerator().w(function (_context9) {
@@ -5526,7 +5534,7 @@ window.Amplify = {
             quantityElement = document.querySelector(quantityTarget);
             cartElement.disabled = true;
             cartElement.innerHTML = '<i class="icon-loader spinner"></i> Processing...';
-            if (!_this3.handleQuantityChange(quantityTarget, 'input')) {
+            if (!_this4.handleQuantityChange(quantityTarget, 'input')) {
               _context9.n = 1;
               break;
             }
@@ -5544,7 +5552,7 @@ window.Amplify = {
             //     cartItem.source_type = options.source_type;
             // }
             _context9.n = 1;
-            return $.ajax(_this3.cartUrl(), {
+            return $.ajax(_this4.cartUrl(), {
               beforeSend: function beforeSend() {
                 return Amplify.renderEmptyCart('/assets/img/preloader.gif');
               },
@@ -5579,7 +5587,7 @@ window.Amplify = {
     }))();
   },
   addMultipleItemToCart: function addMultipleItemToCart(cartElement, formTarget) {
-    var _this4 = this;
+    var _this5 = this;
     var extras = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
     var defaultContent = cartElement.innerHTML;
     cartElement.disabled = true;
@@ -5603,7 +5611,7 @@ window.Amplify = {
             while (1) switch (_context0.n) {
               case 0:
                 _context0.n = 1;
-                return $.ajax(_this4.cartUrl(), {
+                return $.ajax(_this5.cartUrl(), {
                   beforeSend: function beforeSend() {
                     sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().showLoading();
                     $("tr.added_products td span.added-products-error").each(function (index, elem) {
@@ -5618,9 +5626,9 @@ window.Amplify = {
                     if (response.success) {
                       Amplify.notify('success', response.message, 'Cart');
                       setTimeout(function () {
-                        var _window$location4 = window.location,
-                          origin = _window$location4.origin,
-                          pathname = _window$location4.pathname;
+                        var _window$location5 = window.location,
+                          origin = _window$location5.origin,
+                          pathname = _window$location5.pathname;
                         window.location.replace(origin + pathname);
                       }, 2000);
                     }
@@ -5721,9 +5729,9 @@ window.Amplify = {
         Amplify.notify('success', result.value.message, title);
         if (redirect) {
           setTimeout(function () {
-            var _window$location5 = window.location,
-              origin = _window$location5.origin,
-              pathname = _window$location5.pathname;
+            var _window$location6 = window.location,
+              origin = _window$location6.origin,
+              pathname = _window$location6.pathname;
             window.location.replace(origin + pathname);
           }, 2000);
         }
