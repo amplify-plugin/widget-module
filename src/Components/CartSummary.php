@@ -17,6 +17,7 @@ class CartSummary extends BaseComponent
         public bool $createFavoriteFromCart = true,
         public string $createFavoriteLabel = 'Create Shopping List',
         public bool $allowChangeShipTo = true,
+        public string $shoppingListLabel = 'Shopping List'
     ) {
         parent::__construct();
     }

@@ -310,7 +310,7 @@
                 @if($createFavoriteFromCart)
                     <button type="button"
                             class="btn btn-primary"
-                            onclick="Amplify.addToNewOrderList({{ $cartId }}, 'cart')">
+                            onclick="Amplify.addToNewOrderList({{ $cartId }}, 'cart', '{{ $shoppingListLabel }}')">
                         <i class="icon-file-subtract"></i>&nbsp;{{ $createShoppingListLabel() }}
                     </button>
                 @endif
