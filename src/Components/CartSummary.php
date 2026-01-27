@@ -62,7 +62,7 @@ class CartSummary extends BaseComponent
 
     public function createOrderListLabel(): string
     {
-        return 'Create ' . $this->orderListLabel;
+        return 'Create '.$this->orderListLabel;
     }
 
     public function backToShoppingUrl(): string
