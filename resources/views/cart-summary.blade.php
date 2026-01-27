@@ -307,11 +307,11 @@
                         onclick="Amplify.clearCart(this)">
                     <i class="icon-circle-cross"></i>&nbsp;Clear Cart
                 </butoon>
-                @if($createFavoriteFromCart)
+                @if($createOrderListFromCart)
                     <button type="button"
                             class="btn btn-primary"
-                            onclick="Amplify.addToNewOrderList({{ $cartId }}, 'cart', '{{ $shoppingListLabel }}')">
-                        <i class="icon-file-subtract"></i>&nbsp;{{ $createShoppingListLabel() }}
+                            onclick="Amplify.addToNewOrderList({{ $cartId }}, 'cart', '{{ $orderListLabel }}')">
+                        <i class="icon-file-subtract"></i>&nbsp;{{ $createOrderListLabel() }}
                     </button>
                 @endif
             </div>

@@ -14,10 +14,9 @@ use Illuminate\Contracts\View\View;
 class CartSummary extends BaseComponent
 {
     public function __construct(public string $backToUrl = 'home',
-        public bool $createFavoriteFromCart = true,
-        public string $createFavoriteLabel = 'Create Shopping List',
+        public bool $createOrderListFromCart = true,
         public bool $allowChangeShipTo = true,
-        public string $shoppingListLabel = 'Shopping List'
+        public string $orderListLabel = 'Shopping List'
     ) {
         parent::__construct();
     }
@@ -61,9 +60,9 @@ class CartSummary extends BaseComponent
         return view('widget::cart-summary', compact('templateBrandColor', 'isCartEmpty', 'cartId', 'shipToAddress'));
     }
 
-    public function createShoppingListLabel(): string
+    public function createOrderListLabel(): string
     {
-        return $this->createFavoriteLabel;
+        return 'Create ' . $this->orderListLabel;
     }
 
     public function backToShoppingUrl(): string
