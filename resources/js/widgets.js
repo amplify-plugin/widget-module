@@ -552,6 +552,12 @@ window.Amplify = {
      * @param title
      */
     addToNewOrderList(sourceId, source = 'product', title = 'Order List') {
+
+        if (!this.authenticated()) {
+            this.alert('You need to be logged in to access this feature.', title);
+            return;
+        }
+
         this.confirm('Create a new ' + title.toLowerCase() + ' & add item on it',
             title, 'Save', {
                 icon: undefined,
@@ -634,6 +640,12 @@ window.Amplify = {
      * @param title
      */
     addToExistingOrderList(listId, sourceId, source = 'product', title = 'Order List') {
+
+        if (!this.authenticated()) {
+            this.alert('You need to be logged in to access this feature.', title);
+            return;
+        }
+
         this.confirm('Add item to existing ' + title.toLowerCase(),
             title, 'Save', {
                 icon: undefined,
