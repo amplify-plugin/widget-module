@@ -877,39 +877,50 @@ window.Amplify = {
                 confirmButton: 'btn btn-outline-secondary'
             },
             willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center',
-            didOpen: async () => {
-                return await $.ajax(this.cartUrl(), {
-                    beforeSend: () => {
-                        Swal.showLoading();
-                        $('tr span[id^="product-"][id$="-error"]').each(function () {
-                            this.empty();
-                        });
-                    },
-                    method: 'POST',
-                    data: $(`form${formTarget}`).serialize(),
-                    processData: false,
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                    success: function (response) {
-                        if (response.success) {
-                            Amplify.notify('success', response.message, 'Cart');
-                            setTimeout(() => {
-                                const {origin, pathname} = window.location;
-                                window.location.replace(origin + pathname);
-                            }, 2000);
+            didOpen: () => {
+                try {
+                    return $.ajax(this.cartUrl(), {
+                        beforeSend: () => {
+                            Swal.showLoading();
+                            $('span[id^="product-"][id$="-error"]').each(function (index, element) {
+                                const match = this.id.match(/product-(\d+)-error/);
+                                if (match) {
+                                    const key = match[1];
+                                    $(`input#product-code-${key}`).removeClass('is-invalid');
+                                }
+                                $(element).empty();
+                            });
+                        },
+                        method: 'POST',
+                        data: $(`form${formTarget}`).serialize(),
+                        processData: false,
+                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                        success: function (response) {
+                            if (response.success) {
+                                Amplify.notify('success', response.message, 'Cart');
+                                setTimeout(() => {
+                                    const {origin, pathname} = window.location;
+                                    window.location.replace(origin + pathname);
+                                }, 2000);
+                            }
+                        },
+                        error: function (xhr) {
+                            let response = xhr.responseJSON ?? {};
+                            if (xhr.status === 400) {
+                                $.each(response.errors, function (key, messages) {
+                                    let message = messages.join('<br>');
+                                    $(`input#product-code-${key}`).addClass('is-invalid');
+                                    $(`#product-${key}-error`).html(message);
+                                })
+                            }
+                            Swal.showValidationMessage(response.message);
+                            Swal.hideLoading();
                         }
-                    }, error: function (xhr) {
-                        let response = xhr.responseJSON ?? {};
-                        if (xhr.status === 400) {
-                            $.each(response.errors, function (key, messages) {
-                                let message = messages.join('<br>');
-                                $(`input#product-code-${key}`).addClass('is-invalid');
-                                $(`#product-${key}-error`).html(message);
-                            })
-                        }
-                        Swal.showValidationMessage(response.message);
-                        Swal.hideLoading();
-                    }
-                });
+                    });
+                } catch (err) {
+                    console.error(err);
+                    return false;
+                }
             },
             allowOutsideClick: () => !Swal.isLoading()
         }).then(function () {
