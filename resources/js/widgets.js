@@ -881,8 +881,8 @@ window.Amplify = {
                 return await $.ajax(this.cartUrl(), {
                     beforeSend: () => {
                         Swal.showLoading();
-                        $("tr.added_products td span.added-products-error").each((index, elem) => {
-                            elem.empty();
+                        $('tr span[id^="product-"][id$="-error"]').each(function () {
+                            this.empty();
                         });
                     },
                     method: 'POST',
