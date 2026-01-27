@@ -87,7 +87,7 @@
             @endphp
             <div class="tab-pane fade" id="related-products" role="tabpanel">
                 <div id="related-products-content"
-                    data-url="{{ $relatedUrl }}">
+                     data-url="{{ $relatedUrl }}">
                     <div class="text-center w-100 py-4">
                         <button class="btn btn-outline-secondary" disabled>
                             Click the tab to load related products
@@ -112,25 +112,21 @@
             }));
         }
     });
-    // document.addEventListener("DOMContentLoaded", (event) => {
-    //     let tabs = document.querySelectorAll('.x-product-information-tabs .nav-link');
-    //     tabs.forEach(tab => console.log({width: tab.width, offsetWidth: tab.offsetWidth}));
-    // });
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
 
-    $('a[data-toggle="tab"][href="#related-products"]').on('shown.bs.tab', function () {
-        const content = document.getElementById('related-products-content');
+        $('a[data-toggle="tab"][href="#related-products"]').on('shown.bs.tab', function () {
+            const content = document.getElementById('related-products-content');
 
-        if (!content || content.dataset.loaded === '1') return;
+            if (!content || content.dataset.loaded === '1') return;
 
-        const url = content.dataset.url;
-        if (!url) return;
+            const url = content.dataset.url;
+            if (!url) return;
 
-        // Show loader
-        content.innerHTML = `
+            // Show loader
+            content.innerHTML = `
             <div class="text-center w-100 py-4">
                 <div class="spinner-border text-secondary" role="status">
                     <span class="sr-only">Loading...</span>
@@ -139,117 +135,122 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         `;
 
-        // Fetch and load content
-        fetch(url, { credentials: 'same-origin' })
-            .then(r => r.ok ? r.text() : Promise.reject('Network error'))
-            .then(html => {
-                content.innerHTML = html;
-                content.dataset.loaded = '1';
-            })
-            .catch(err => {
-                console.error('Error loading related products:', err);
-                content.innerHTML = `
+            // Fetch and load content
+            fetch(url, {
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(r => r.ok ? r.json() : Promise.reject('Network error'))
+                .then((response) => {
+                    content.innerHTML = response.html;
+                    content.dataset.loaded = '1';
+                })
+                .catch(err => {
+                    console.error('Error loading related products:', err);
+                    content.innerHTML = `
                     <div class="text-center text-danger py-4">
                         Unable to load related products.
                     </div>
                 `;
-            });
+                });
+        });
     });
-});
 
 
-//when change the related proucts type
-(function() {
-    document.addEventListener('change', function (e) {
-        const input = e.target.closest('.relation-type-radio');
-        if (!input) return;
+    //when change the related proucts type
+    (function () {
+        document.addEventListener('change', function (e) {
+            const input = e.target.closest('.relation-type-radio');
+            if (!input) return;
 
-        const url = input.dataset.url;
-        const container = document.getElementById('related-products-content');
-        if (!url || !container) return;
+            const url = input.dataset.url;
+            const container = document.getElementById('related-products-content');
+            if (!url || !container) return;
 
-        container.innerHTML = `
+            container.innerHTML = `
             <div class="text-center w-100 py-4">
                 <div class="spinner-border text-secondary" role="status"></div>
                 <p class="mt-2">Loading related products...</p>
             </div>
         `;
 
-        fetch(url, { credentials: 'same-origin' })
-            .then(res => {
-                if (!res.ok) throw new Error('Network error');
-                return res.text();
-            })
-            .then(html => {
-                const temp = document.createElement('div');
-                temp.innerHTML = html.trim();
-                const newContent = temp.querySelector('#related-products-content');
-                if (newContent) {
-                    container.replaceWith(newContent);
-                }
-            })
-            .catch(err => {
-                console.error('Error loading related products:', err);
-            });
-    });
-})();
-//pagination handler
-(function () {
-    // Delegate pagination clicks inside related-products-content
-    document.addEventListener('click', function (e) {
-        const anchor = e.target.closest('#related-products-content .pagination a');
-        if (!anchor) return;
+            fetch(url, {credentials: 'same-origin'})
+                .then(res => {
+                    if (!res.ok) throw new Error('Network error');
+                    return res.text();
+                })
+                .then(html => {
+                    const temp = document.createElement('div');
+                    temp.innerHTML = html.trim();
+                    const newContent = temp.querySelector('#related-products-content');
+                    if (newContent) {
+                        container.replaceWith(newContent);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error loading related products:', err);
+                });
+        });
+    })();
+    //pagination handler
+    (function () {
+        // Delegate pagination clicks inside related-products-content
+        document.addEventListener('click', function (e) {
+            const anchor = e.target.closest('#related-products-content .pagination a');
+            if (!anchor) return;
 
-        e.preventDefault();
+            e.preventDefault();
 
-        const container = document.getElementById('related-products-content');
-        if (!container) return;
+            const container = document.getElementById('related-products-content');
+            if (!container) return;
 
-        const url = anchor.href;
-        if (!url) return;
+            const url = anchor.href;
+            if (!url) return;
 
-        // show loader
-        container.innerHTML = `
+            // show loader
+            container.innerHTML = `
             <div class="text-center w-100 py-4">
                 <div class="spinner-border text-secondary" role="status"></div>
                 <p class="mt-2">Loading related products...</p>
             </div>
         `;
 
-        fetch(url, { credentials: 'same-origin' })
-            .then(res => {
-                if (!res.ok) throw new Error('Network error');
-                return res.text();
-            })
-            .then(html => {
-                const temp = document.createElement('div');
-                temp.innerHTML = html.trim();
+            fetch(url, {credentials: 'same-origin'})
+                .then(res => {
+                    if (!res.ok) throw new Error('Network error');
+                    return res.text();
+                })
+                .then(html => {
+                    const temp = document.createElement('div');
+                    temp.innerHTML = html.trim();
 
-                // If server returns the full fragment with #related-products-content, replace whole container
-                const newContent = temp.querySelector('#related-products-content');
-                if (newContent) {
-                    container.replaceWith(newContent);
-                } else {
-                    // Fallback: server returned inner HTML only
-                    container.innerHTML = html;
-                }
+                    // If server returns the full fragment with #related-products-content, replace whole container
+                    const newContent = temp.querySelector('#related-products-content');
+                    if (newContent) {
+                        container.replaceWith(newContent);
+                    } else {
+                        // Fallback: server returned inner HTML only
+                        container.innerHTML = html;
+                    }
 
-                // mark loaded so other handlers ignore initial-load logic if needed
-                const finalContainer = document.getElementById('related-products-content');
-                if (finalContainer) finalContainer.dataset.loaded = '1';
+                    // mark loaded so other handlers ignore initial-load logic if needed
+                    const finalContainer = document.getElementById('related-products-content');
+                    if (finalContainer) finalContainer.dataset.loaded = '1';
 
-                // optional: update browser URL so back/forward keep page state
-                // history.pushState(null, '', url);
-            })
-            .catch(err => {
-                console.error('Error loading related products (pagination):', err);
-                container.innerHTML = `
+                    // optional: update browser URL so back/forward keep page state
+                    // history.pushState(null, '', url);
+                })
+                .catch(err => {
+                    console.error('Error loading related products (pagination):', err);
+                    container.innerHTML = `
                     <div class="text-center text-danger py-4">
                         Unable to load related products.
                     </div>
                 `;
-            });
-    });
-})();
+                });
+        });
+    })();
 </script>
 
