@@ -22,10 +22,10 @@ class Details extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        //        $param = request()->route('order_list');
-        //        if (! is_numeric($param)) {
-        //            abort(404, 'Not Found');
-        //        }
+                $param = request()->route('order_list');
+                if (! is_numeric($param)) {
+                    abort(404, 'Not Found');
+                }
 
         $search = request('search', '');
 
@@ -42,7 +42,7 @@ class Details extends BaseComponent
         $orderList = $orderList ?? [];
         $orderListItems = $orderListItems ?? [];
 
-        return view('widget::customer.favourite.details', [
+        return view('widget::customer.order-list.details', [
             'orderList' => $orderList,
             'orderListItems' => $orderListItems,
         ]);

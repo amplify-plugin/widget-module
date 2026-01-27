@@ -16,6 +16,7 @@ window.Amplify = {
     cartItemUpdateUrl: () => '/carts/update/cart_item_id',
     maxCartItemQuantity: () => 9999999999,
     favouritesCreateUrl: () => '/favourites',
+    orderListUrl: () => '/order-lists',
 
     isHtml(text) {
         return new DOMParser()
@@ -135,26 +136,23 @@ window.Amplify = {
         if (oldValue) {
             this.confirm('Are you sure you want to remove this part number?',
                 'Customer Part Number', 'Remove', {
-                    preConfirm: async function () {
-                        return new Promise((resolve, reject) => {
-                            $.ajax({
-                                url: actionLink,
-                                type: 'DELETE',
-                                data: {
-                                    product_id: productId,
-                                    customer_product_uom: uom,
-                                    customer_product_code: oldValue,
-                                },
-                                success: function (result) {
-                                    input.dataset.current = false;
-                                    resolve(result);
-                                },
-                                error: function (xhr, status, err) {
-                                    let response = JSON.parse(xhr.responseText);
-                                    Swal.showValidationMessage(response.message);
-                                    reject(false);
-                                },
-                            });
+                    preConfirm: async () => {
+                        return await $.ajax({
+                            url: actionLink,
+                            type: 'DELETE',
+                            data: {
+                                product_id: productId,
+                                customer_product_uom: uom,
+                                customer_product_code: oldValue,
+                            },
+                            success: function (result) {
+                                input.dataset.current = false;
+                                return result;
+                            },
+                            error: function (xhr) {
+                                Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                                Swal.hideLoading();
+                            },
                         });
                     },
                     allowOutsideClick: () => !Swal.isLoading()
@@ -166,7 +164,7 @@ window.Amplify = {
                         input.dataset.current = '';
                         button.innerHTML = 'Add';
                     }
-                });
+                }).catch((error) => console.error(error));
         } else {
             $.ajax({
                 url: actionLink,
@@ -181,8 +179,8 @@ window.Amplify = {
                     input.dataset.current = newValue;
                     button.innerHTML = 'Delete';
                 },
-                error: function (xhr, status, err) {
-                    Amplify.notify('error', xhr.response.message, 'Customer Part Number');
+                error: function (xhr) {
+                    Amplify.alert(xhr.responseJSON.message ?? xhr.statusText, 'Customer Part Number');
                 }
             });
         }
@@ -196,25 +194,22 @@ window.Amplify = {
         const actionLink = element.dataset.actionLink;
         this.confirm('Are you sure to remove all items from shopping cart?',
             'Cart', 'Confirm', {
-                preConfirm: async function () {
-                    return new Promise((resolve, reject) => {
-                        $.ajax({
-                            url: actionLink,
-                            type: 'DELETE',
-                            data: {},
-                            header: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            },
-                            success: function (result) {
-                                resolve(result);
-                            },
-                            error: function (xhr, status, err) {
-                                let response = JSON.parse(xhr.responseText);
-                                Swal.showValidationMessage(response.message);
-                                reject(false);
-                            },
-                        });
+                preConfirm: async () => {
+                    return await $.ajax({
+                        url: actionLink,
+                        type: 'DELETE',
+                        data: {},
+                        header: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        success: function (result) {
+                            return result;
+                        },
+                        error: function (xhr) {
+                            Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                            Swal.hideLoading();
+                        }
                     });
                 },
                 allowOutsideClick: () => !Swal.isLoading()
@@ -222,34 +217,34 @@ window.Amplify = {
             .then(function (result) {
                 if (result.isConfirmed) {
                     Amplify.notify('success', result.value.message, 'Cart');
-                    setTimeout(() => window.location.reload(), 2500)
+                    setTimeout(() => {
+                        const {origin, pathname} = window.location;
+                        window.location.replace(origin + pathname);
+                    }, 2000);
                 }
-            });
+            }).catch((error) => console.error(error));
     },
 
-    async removeCartItem(cartItemId, redirect = true) {
+    removeCartItem(cartItemId, redirect = true) {
         const actionLink = this.cartItemRemoveUrl().replace('cart_item_id', cartItemId);
         this.confirm('Are you sure to remove this item from cart?',
             'Cart', 'Remove', {
-                preConfirm: async function () {
-                    return new Promise((resolve, reject) => {
-                        $.ajax({
-                            url: actionLink,
-                            type: 'DELETE',
-                            data: {},
-                            header: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            },
-                            success: function (result) {
-                                resolve(result);
-                            },
-                            error: function (xhr, status, err) {
-                                let response = JSON.parse(xhr.responseText);
-                                Swal.showValidationMessage(response.message);
-                                reject(false);
-                            },
-                        });
+                preConfirm: async () => {
+                    return await $.ajax({
+                        url: actionLink,
+                        type: 'DELETE',
+                        data: {},
+                        header: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        success: function (result) {
+                            return result;
+                        },
+                        error: function (xhr) {
+                            Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                            Swal.hideLoading();
+                        },
                     });
                 },
                 allowOutsideClick: () => !Swal.isLoading()
@@ -258,16 +253,20 @@ window.Amplify = {
                 if (result.isConfirmed) {
                     Amplify.notify('success', result.value.message, 'Cart');
                     if (redirect) {
-                        setTimeout(() => window.location.reload(), 2500)
+                        setTimeout(() => {
+                            const {origin, pathname} = window.location;
+                            window.location.replace(origin + pathname);
+                        }, 2000);
                         return;
                     }
 
                     Amplify.loadCartDropdown();
                 }
-            });
+            })
+            .catch((error) => console.error(error));
     },
 
-    async updateCartItem(e, target, cartItemId) {
+    updateCartItem(e, target, cartItemId) {
         e.preventDefault();
         e.stopPropagation();
 
@@ -294,14 +293,8 @@ window.Amplify = {
             },
             willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center',
             didOpen: () => {
-                Swal.showLoading();
-                // $('div.swal2-actions').css({
-                //     display: 'flex',
-                //     'justify-content': 'center'
-                // });
-
-                //make ajax call
-                $.ajax({
+                return $.ajax({
+                    beforeSend: () => Swal.showLoading(),
                     url: actionLink,
                     type: 'PATCH',
                     data: {
@@ -316,13 +309,15 @@ window.Amplify = {
                         if (result.success) {
                             Swal.close();
                             Amplify.notify('success', result.message, 'Cart');
-                            setTimeout(() => window.location.reload(), 2500)
+                            setTimeout(() => {
+                                const {origin, pathname} = window.location;
+                                window.location.replace(origin + pathname);
+                            }, 2000);
                         }
                     },
                     error: function (xhr) {
+                        Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
                         Swal.hideLoading();
-                        let response = JSON.parse(xhr.responseText);
-                        Swal.showValidationMessage(response?.message ?? xhr.responseText);
                     },
                 });
             },
@@ -362,8 +357,7 @@ window.Amplify = {
                 $('#order-subtotal').text(response.data.sub_total);
             },
             error: function (xhr) {
-                let response = JSON.parse(xhr.responseText);
-                Amplify.alert(response?.message ?? xhr.responseText, 'Cart');
+                Amplify.alert(xhr.responseJSON.message ?? xhr.statusText, 'Cart');
             },
         });
     },
@@ -555,6 +549,7 @@ window.Amplify = {
      * The function create a shopping list from product and cart and order and invoice, etc.
      * @param sourceId
      * @param source
+     * @param title
      */
     addToNewOrderList(sourceId, source = 'product', title = 'Order List') {
         this.confirm('Create a new ' + title.toLowerCase() + ' & add item on it',
@@ -572,12 +567,11 @@ window.Amplify = {
                     confirmButton: 'btn btn-primary',
                     cancelButton: 'btn btn-outline-secondary'
                 },
-                preConfirm: async function () {
-                    return new Promise((resolve, reject) => {
+                preConfirm: async () => {
+                    try {
                         let payload = {
                             type: source,
                             list_id: null,
-                            is_shopping_list: 1,
                             list_name: $('#swal2-input').val(),
                             list_type: $('#swal2-select').val(),
                             list_desc: $('#swal2-textarea').val(),
@@ -586,8 +580,8 @@ window.Amplify = {
 
                         payload[source + '_id'] = sourceId;
 
-                        $.ajax({
-                            url: Amplify.favouritesCreateUrl(),
+                        return await $.ajax({
+                            url: Amplify.orderListUrl(),
                             type: 'POST',
                             data: JSON.stringify(payload),
                             contentType: 'application/json; charset=UTF-8',
@@ -595,24 +589,27 @@ window.Amplify = {
                                 Accept: 'application/json'
                             },
                             success: function (result) {
-                                resolve(result);
+                                return result;
                             },
-                            error: function (xhr, status, err) {
-                                let response = JSON.parse(xhr.responseText);
-                                Swal.showValidationMessage(response.message);
+                            error: function (xhr) {
+                                Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
                                 Swal.hideLoading();
-                                reject(false);
                             },
                         });
-                    });
+                    } catch (error) {
+                        return false;
+                    }
                 },
                 allowOutsideClick: () => !Swal.isLoading(),
-                willOpen: function () {
-                    $('#swal2-select').append(
-                        $('<option>', {value: '', text: 'Select Type', disabled: true, selected: true}),
-                        $('<option>', {value: 'personal', text: 'Personal'}),
-                        $('<option>', {value: 'global', text: 'Global'})
-                    ).css({
+                willOpen: () => {
+                    $.get('/api/list-types', (result) => {
+                        $.each(result.data, function (index, item) {
+                            $('#swal2-select').append('<option value="' + index + '">' + item + '</option>');
+                        });
+                    })
+                },
+                didOpen: function () {
+                    $('#swal2-select').css({
                         'display': 'flex',
                     }).addClass('swal2-input');
 
@@ -623,7 +620,7 @@ window.Amplify = {
                 if (result.isConfirmed) {
                     Amplify.notify('success', result.value.message, title);
                 }
-            });
+            }).catch((error) => console.error(error));
 
         return true;
     },
@@ -654,12 +651,17 @@ window.Amplify = {
                     if (isNaN(value)) {
                         return "The quantity is not a number";
                     }
+
                     if (Number(value) <= 0) {
-                        return "The quantity has to be greater than 0";
+                        return "The quantity cannot to be less than 0";
                     }
+
+                    // if (Number(value) >= this.maxCartItemQuantity()) {
+                    //     return "The quantity cannot to be greater than " + this.maxCartItemQuantity();
+                    // }
                 },
                 preConfirm: async function (value) {
-                    return new Promise((resolve, reject) => {
+                    try {
                         let payload = {
                             type: source,
                             list_id: listId,
@@ -674,8 +676,8 @@ window.Amplify = {
                             payload['product_qty'] = value;
                         }
 
-                        $.ajax({
-                            url: Amplify.favouritesCreateUrl(),
+                        return await $.ajax({
+                            url: Amplify.orderListUrl(),
                             type: 'POST',
                             data: JSON.stringify(payload),
                             contentType: 'application/json; charset=UTF-8',
@@ -683,16 +685,16 @@ window.Amplify = {
                                 Accept: 'application/json'
                             },
                             success: function (result) {
-                                resolve(result);
+                                return result;
                             },
-                            error: function (xhr, status, err) {
-                                let response = JSON.parse(xhr.responseText);
-                                Swal.showValidationMessage(response.message);
+                            error: function (xhr) {
+                                Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
                                 Swal.hideLoading();
-                                reject(false);
                             },
                         });
-                    });
+                    } catch (error) {
+                        return false;
+                    }
                 },
                 allowOutsideClick: () => !Swal.isLoading(),
             })
@@ -700,9 +702,89 @@ window.Amplify = {
                 if (result.isConfirmed) {
                     Amplify.notify('success', result.value.message, 'Shopping List');
                 }
-            });
+            }).catch((error) => console.error(error));
 
         return true;
+    },
+
+    manageOrderList(element, title, id = null) {
+        this.confirm(id == null ? 'Create a new ' : 'Update existing ' + title.toLowerCase(),
+            title, 'Save', {
+                icon: undefined,
+                input: "text",
+                inputPlaceholder: 'Enter name',
+                inputAttributes: {
+                    required: true,
+                    max: "255",
+                    maxlength: "255",
+                    autocorrect: "on"
+                },
+                customClass: {
+                    confirmButton: 'btn btn-primary',
+                    cancelButton: 'btn btn-outline-secondary'
+                },
+                preConfirm: async () => {
+                    return await $.ajax(element.dataset.action, {
+                        type: 'PATCH',
+                        data: JSON.stringify({
+                            name: $('#swal2-input').val(),
+                            list_type: $('#swal2-select').val(),
+                            description: $('#swal2-textarea').val(),
+                            title: title
+                        }),
+                        contentType: 'application/json; charset=UTF-8',
+                        headers: {
+                            Accept: 'application/json'
+                        },
+                        success: (result) => result,
+                        error: function (xhr) {
+                            Swal.showValidationMessage(xhr.responseJSON?.message ?? xhr.statusText);
+                            Swal.hideLoading();
+                        },
+                    });
+                },
+
+                allowOutsideClick: () => !Swal.isLoading(),
+
+                willOpen: function () {
+                    $.get('/api/list-types', (result) => {
+                        $.each(result.data, function (index, item) {
+                            $('#swal2-select').append('<option value="' + index + '">' + item + '</option>');
+                        });
+                    }).then(() => {
+                        $.ajax(element.dataset.action, {
+                            type: 'GET',
+                            contentType: 'application/json; charset=UTF-8',
+                            headers: {
+                                Accept: 'application/json'
+                            },
+                            success: function (result) {
+                                let orderList = result.data;
+                                $('#swal2-textarea').val(orderList.description).trigger('change');
+                                $('#swal2-input').val(orderList.name).trigger('change');
+                                $('#swal2-select').val(orderList.list_type).trigger('change');
+                            }
+                        });
+                    });
+                },
+
+                didOpen: function () {
+                    $('#swal2-select').css({
+                        'display': 'flex',
+                    }).addClass('swal2-input');
+
+                    $('#swal2-textarea').css('display', 'flex').attr('placeholder', 'Enter description');
+                }
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    Amplify.notify('success', result.value.message, title);
+                }
+                // setTimeout(() => {
+                //     const {origin, pathname} = window.location;
+                //     window.location.replace(origin + pathname);
+                // }, 2000);
+            });
     },
 
     async addSingleItemToCart(cartElement, quantityTarget, extras = {}) {
@@ -748,7 +830,7 @@ window.Amplify = {
                     Amplify.notify('success', res.message, 'Cart');
                     Amplify.loadCartDropdown();
                 },
-                error: function (xhr, status) {
+                error: function (xhr) {
                     Amplify.alert(xhr.responseJSON?.message ?? 'Something Went Wrong. PLease try again later.', 'Cart');
                 }
             }).always(function () {
@@ -761,7 +843,7 @@ window.Amplify = {
         cartElement.disabled = false;
     },
 
-    async addMultipleItemToCart(cartElement, formTarget, extras = {}) {
+    addMultipleItemToCart(cartElement, formTarget, extras = {}) {
 
         let defaultContent = cartElement.innerHTML;
 
@@ -779,9 +861,14 @@ window.Amplify = {
                 confirmButton: 'btn btn-outline-secondary'
             },
             willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center',
-            didOpen: () => {
-                Swal.showLoading();
-                $.ajax(this.cartUrl(), {
+            didOpen: async () => {
+                return await $.ajax(this.cartUrl(), {
+                    beforeSend: () => {
+                        Swal.showLoading();
+                        $("tr.added_products td span.added-products-error").each((index, elem) => {
+                            elem.empty();
+                        });
+                    },
                     method: 'POST',
                     data: $(`form${formTarget}`).serialize(),
                     processData: false,
@@ -789,9 +876,10 @@ window.Amplify = {
                     success: function (response) {
                         if (response.success) {
                             Amplify.notify('success', response.message, 'Cart');
-                            setTimeout(function () {
-                                window.location.reload();
-                            }, 2500);
+                            setTimeout(() => {
+                                const {origin, pathname} = window.location;
+                                window.location.replace(origin + pathname);
+                            }, 2000);
                         }
                     }, error: function (xhr) {
                         let response = xhr.responseJSON ?? {};
@@ -837,27 +925,23 @@ window.Amplify = {
 
         this.confirm(question,
             title, 'Delete', {
-                preConfirm: async function () {
-                    return new Promise((resolve, reject) => {
-                        $.ajax({
-                            url: actionLink,
-                            type: 'DELETE',
-                            dataType: 'json',
-                            data: payload,
-                            header: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            },
-                            success: function (result) {
-                                resolve(result);
-                            },
-                            error: function (xhr) {
-                                console.error(xhr.responseJSON);
-                                window.swal.showValidationMessage(xhr.responseJSON?.message ?? 'Something Went Wrong. PLease try again');
-                                window.swal.hideLoading();
-                                reject(false);
-                            },
-                        });
+                preConfirm: async () => {
+                    return await $.ajax({
+                        url: actionLink,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        data: payload,
+                        header: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        success: function (result) {
+                            return result;
+                        },
+                        error: function (xhr) {
+                            Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                            Swal.hideLoading();
+                        },
                     });
                 },
                 allowOutsideClick: () => !window.swal.isLoading()
@@ -872,6 +956,7 @@ window.Amplify = {
                         }, 2000);
                     }
                 }
-            });
+            })
+            .catch((error) => console.error(error));
     }
 }

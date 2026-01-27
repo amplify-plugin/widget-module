@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 
 mix.setResourceRoot('resources')
     .setPublicPath('public')
+    .sourceMaps(true, 'source-map')
     .copyDirectory('resources/img', 'public/img')
     .sass('resources/scss/widgets.scss', 'public/css/widgets.css')
     .js('resources/js/widgets.js', 'public/js/widgets.js')
@@ -21,4 +22,5 @@ mix.setResourceRoot('resources')
     .options({
         processCssUrls: false
     })
+    .minify('public/js/widgets.js', 'public/js/widgets.js')
     .version();

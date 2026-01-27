@@ -1,7 +1,7 @@
 <div {!! $htmlAttributes !!}>
     <div class="modal-dialog modal-{{ $modalWidth }}">
         <div class="modal-content">
-            <div class="modal-body bg-light" style="border-radius: 8px">
+            <div class="modal-body" style="border-radius: 8px">
                 <h4 class="modal-title mb-2 @if(strlen($title) == 0) d-none @endif">{{ $title }}</h4>
                 @if(strlen($content) == 0)
                     <script> alert('Warning!! Cookie Consent Content is not setup yet.'); </script>

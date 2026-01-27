@@ -2,8 +2,7 @@
 
 namespace Amplify\Widget\Components\Customer\OrderList;
 
-use Amplify\System\Backend\Models\Contact;
-use Amplify\System\Helpers\UtilityHelper;
+use Amplify\System\Backend\Models\OrderList;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -14,16 +13,9 @@ use Illuminate\Contracts\View\View;
 class Form extends BaseComponent
 {
     /**
-     * @var array
+     * @var OrderList|null
      */
-    public $options;
-
-    /**
-     * @var Contact|null
-     */
-    public $favourite;
-
-    private bool $editable;
+    public $orderlist;
 
     /**
      * Create a new component instance.
@@ -32,14 +24,12 @@ class Form extends BaseComponent
      *
      * @throws \ErrorException
      */
-    public function __construct($editable)
+    public function __construct(public bool $editable = true)
     {
         parent::__construct();
 
-        $this->editable = UtilityHelper::typeCast($editable, 'boolean');
-
         if ($this->editable) {
-            $this->favourite = store()->favouriteModel;
+            $this->orderlist = store()->orderListModel;
         }
     }
 
@@ -56,16 +46,16 @@ class Form extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $action_route = route('frontend.favourites.store');
+        $action_route = route('frontend.order-lists.store');
         $action_method = 'POST';
 
         if ($this->editable) {
-            $action_route = route('frontend.favourites.update', ($this->favourite->id ?? ''));
+            $action_route = route('frontend.order-lists.update', ($this->orderlist->id ?? ''));
             $action_method = 'PUT';
         }
 
-        return view('widget::customer.favourite.form', [
-            'favourite' => $this->favourite,
+        return view('widget::customer.order-list.form', [
+            'favourite' => $this->orderlist,
             'action_route' => $action_route,
             'action_method' => $action_method,
         ]);

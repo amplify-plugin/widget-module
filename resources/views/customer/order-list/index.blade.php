@@ -99,7 +99,7 @@
                                                 </th>
 
                                                 @if ($columns['list_type'])
-                                                    <td width="100">{{ ucwords($orderList->list_type) }}</td>
+                                                    <td width="100">{{ $orderList->list_type_label }}</td>
                                                 @endif
 
                                                 @if ($columns['name'])
@@ -140,7 +140,9 @@
                                                                 @endif
                                                                 @if (customer(true)->can('favorites.manage-personal-list') || customer(true)->can('favorites.manage-personal-list'))
                                                                     <a class="dropdown-item"
-                                                                       href="{{ route('frontend.order-lists.edit', $orderList->id) }}">
+                                                                       href="javascript:void(0)"
+                                                                       onclick="Amplify.manageOrderList(this, '{{ $widgetTitle }}', {{ $orderList->id }});"
+                                                                       data-action="{{ route('frontend.order-lists.update', $orderList->id) }}">
                                                                         <i class="pe-7s-edit font-weight-bolder mr-1"></i> {{ __('Update') }}
                                                                     </a>
                                                                 @endif
@@ -175,7 +177,7 @@
                                                                 'data' => $orderList,
                                                                 'label' => 'View',
                                                                 'route' => route(
-                                                                    'frontend.order-lists.edit',
+                                                                    'frontend.order-lists.update',
                                                                     $orderList->id),
                                                             ]
                                                         )
@@ -233,47 +235,6 @@
     </div>
 </div>
 
-@push('html-default')
-    <div class="modal fade" id="delete-modal" tabindex="-1" aria-hidden="true" data-backdrop="static"
-         data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-danger d-flex align-items-center p-3">
-                    <h5 class="modal-title text-white">Delete Confirmation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="#" method="POST" class="d-inline" id="form-delete">
-                    @method('delete')
-                    @csrf
-                    <div class="modal-body">
-                        <p class="text-center">{{ __('Are you sure you want to delete this item?') }}</p>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary"
-                                data-dismiss="modal">
-                            {{ __('Cancel') }}
-                        </button>
-                        <button type="submit" class="btn btn-danger" name="delete_user">{{ __('Delete') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-@endpush
-
-@push('internal-script')
-    <script>
-        function setFormAction(e) {
-            const form = $('#form-delete');
-            const deleteBtn = $(e);
-
-            form.attr('action', deleteBtn.attr('href'));
-        }
-    </script>
-@endpush
-
 @push('internal-style')
     <style>
         .options > * {
@@ -284,17 +245,7 @@
 
 @push('footer-script')
     <script>
-        const CUSTOMER_LIST_DATE_RANGE = '#filtered_date_range';
-
-        $(document).ready(function () {
-            var startDate = $("#filtered_start_date").val();
-
-            var endDate = $("#filtered_end_date").val();
-
-            initcustomerItemListDateRangePicker(startDate, endDate);
-        });
-
-        function delay(callback, ms) {
+        function debounce(callback, ms) {
             var timer = 0;
             return function () {
                 var context = this, args = arguments;
@@ -304,10 +255,8 @@
                 }, ms || 0);
             };
         }
-
-        $(document).on("keyup change", "#search", delay(function (e) {
+        $(document).on("keyup change", "#search", debounce(function (e) {
             $("#customer-item-list-search-form").submit();
-            // console.log("Time elapsed!", this.value);
         }, 500));
     </script>
 @endpush
