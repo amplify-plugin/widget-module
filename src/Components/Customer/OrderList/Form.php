@@ -20,7 +20,6 @@ class Form extends BaseComponent
     /**
      * Create a new component instance.
      *
-     * @param  bool  $editable
      *
      * @throws \ErrorException
      */
