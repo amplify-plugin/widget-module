@@ -21,5 +21,4 @@ mix.setResourceRoot('resources')
     .options({
         processCssUrls: false
     })
-    .minify('public/js/widgets.js', 'public/js/widgets.js')
     .version();
