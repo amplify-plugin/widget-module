@@ -12,7 +12,7 @@ use Illuminate\Contracts\View\View;
  */
 class Details extends BaseComponent
 {
-    public function __construct(public string $widgetTitle = 'Favourites')
+    public function __construct(public string $widgetTitle = 'Order Lists')
     {
         parent::__construct();
     }
