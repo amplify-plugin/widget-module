@@ -5,18 +5,12 @@ namespace Amplify\Widget\Components\Customer\Contact;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Config;
 
 /**
  * @class Index
  */
 class Index extends BaseComponent
 {
-    /**
-     * @var array
-     */
-    public $options;
-
     /**
      * Create a new component instance.
      */
@@ -30,7 +24,8 @@ class Index extends BaseComponent
         public string $monthlyBudgetLimitLabel = '',
         public string $photoLabel = ''
     ) {
-        $this->options = Config::get('amplify.widget.'.__CLASS__, []);
+
+        parent::__construct();
 
     }
 
