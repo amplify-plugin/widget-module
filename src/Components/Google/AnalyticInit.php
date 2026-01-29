@@ -11,7 +11,6 @@ use Illuminate\Contracts\View\View;
  */
 class AnalyticInit extends BaseComponent
 {
-
     /**
      * Whether the component should be rendered
      */
@@ -77,13 +76,13 @@ class AnalyticInit extends BaseComponent
                 '@type' => 'ListItem',
                 'position' => ++$count,
                 'name' => 'Home',
-                'item' => frontendHomeURL()
+                'item' => frontendHomeURL(),
             ];
             $data['itemListElement'][] = [
                 '@type' => 'ListItem',
                 'position' => ++$count,
                 'name' => \store()->dynamicPageModel->breadcrumb_title ?? \store()->dynamicPageModel->title,
-                'item' => frontendHomeURL()
+                'item' => frontendHomeURL(),
             ];
 
         }
@@ -100,7 +99,7 @@ class AnalyticInit extends BaseComponent
             if ($product?->brand()?->exists()) {
                 $data['brand']['@type'] = 'Brand';
                 $data['brand']['name'] = $product->brand->title ?? '';
-            } else if (!empty($product->brand_name)) {
+            } elseif (! empty($product->brand_name)) {
                 $data['brand']['@type'] = 'Brand';
                 $data['brand']['name'] = $product->brand_name ?? '';
             }
@@ -113,12 +112,11 @@ class AnalyticInit extends BaseComponent
             $data['offers']['@type'] = 'Offer';
             $data['offers']['url'] = request()->url();
             $data['offers']['priceCurrency'] = config('amplify.basic.global_currency', 'USD');
-            $data['offers']['availability'] = "https://schema.org/InStock";
-            $data['offers']['seller']['@type'] = "Organization";
+            $data['offers']['availability'] = 'https://schema.org/InStock';
+            $data['offers']['seller']['@type'] = 'Organization';
             $data['offers']['seller']['@id'] = $this->determineGooglePageId('Organization');
             $data['offers']['seller']['name'] = config('app.name');
         }
-
 
         return $data;
 
@@ -141,8 +139,8 @@ class AnalyticInit extends BaseComponent
         return match ($type) {
             'Organization' => "{$baseUrl}/#organization",
             'WebSite' => "{$baseUrl}/#website",
-            'Product' => request()->url() . "/#product",
-            default => request()->url() . "/#breadcrumb",
+            'Product' => request()->url().'/#product',
+            default => request()->url().'/#breadcrumb',
         };
     }
 }
