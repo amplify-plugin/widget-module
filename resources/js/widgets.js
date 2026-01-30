@@ -494,7 +494,13 @@ window.Amplify = {
 
         targetElement.step = qtyInterval;
 
-        let quantity = parseFloat(targetElement.value);
+        let quantity = Number(targetElement.value);
+
+        if (quantity <= 0 || quantity >= this.maxCartItemQuantity()) {
+            this.alert(`You entered an invalid quantity. Product ${productCode} requires a quantity between ${minOrderQty} and ${this.maxCartItemQuantity()}.`, 'Cart');
+            targetElement.value = minOrderQty;
+            return false;
+        }
 
         switch (action) {
 
@@ -502,7 +508,7 @@ window.Amplify = {
                 let newValue = quantity - qtyInterval;
                 if (newValue < minOrderQty) {
                     this.alert(
-                        `Product ${productCode} requires a minimum order quantity of ${minOrderQty}. You entered ${newValue}.`,
+                        `Product ${productCode} requires a minimum order of ${minOrderQty} quantity. You entered ${newValue}.`,
                         'Cart');
                     return false;
                 }
