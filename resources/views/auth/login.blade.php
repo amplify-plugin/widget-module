@@ -12,6 +12,10 @@
 
         {!! $subtitle ?? '' !!}
 
+        @error('message')
+            <p class="alert alert-danger">{{ $message }}</p>
+        @enderror
+
         <x-auth.login.input-login/>
 
         <x-auth.login.input-password toggle-password="{{ $togglePassword }}"/>

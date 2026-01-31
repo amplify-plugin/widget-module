@@ -224,7 +224,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="5" class="text-center">
+                                                <td colspan="15" class="text-center">
                                                     No data available in table
                                                 </td>
                                             </tr>
