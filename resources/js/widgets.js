@@ -103,7 +103,8 @@ window.Amplify = {
             customClass: {
                 confirmButton: 'btn btn-outline-secondary'
             },
-            willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center'
+            willOpen: () => document.querySelector('.swal2-actions').style.justifyContent = 'center',
+            ...options
         })
     },
 
