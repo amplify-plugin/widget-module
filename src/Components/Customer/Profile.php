@@ -40,7 +40,7 @@ class Profile extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return true;
+        return customer_check();
     }
 
     /**
