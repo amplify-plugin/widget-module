@@ -2,7 +2,6 @@
 
 namespace Amplify\Widget\Components;
 
-use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -12,12 +11,11 @@ use Illuminate\Contracts\View\View;
  */
 class Checkout extends BaseComponent
 {
-    public function __construct(public bool   $createFavouriteFromCart = true,
-                                public bool   $allowRequestQuote = true,
-                                public bool   $allowDraftOrder = false,
-                                public string $backToUrl = 'home'
-    )
-    {
+    public function __construct(public bool $createFavouriteFromCart = true,
+        public bool $allowRequestQuote = true,
+        public bool $allowDraftOrder = false,
+        public string $backToUrl = 'home'
+    ) {
         parent::__construct();
     }
 
@@ -26,15 +24,15 @@ class Checkout extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-//        $class = match (config('amplify.client_code')) {
-//            'ACT' => \Amplify\Widget\Components\Client\CalTool\Checkout::class,
-//            'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Checkout::class,
-//            default => \Amplify\Widget\Components\Checkout::class,
-//        };
-//
-//        $this->component = new $class;
-//
-//        $this->component->attributes = $this->attributes;
+        //        $class = match (config('amplify.client_code')) {
+        //            'ACT' => \Amplify\Widget\Components\Client\CalTool\Checkout::class,
+        //            'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Checkout::class,
+        //            default => \Amplify\Widget\Components\Checkout::class,
+        //        };
+        //
+        //        $this->component = new $class;
+        //
+        //        $this->component->attributes = $this->attributes;
 
         return view('widget::checkout');
     }

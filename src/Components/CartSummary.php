@@ -3,7 +3,6 @@
 namespace Amplify\Widget\Components;
 
 use Amplify\ErpApi\Facades\ErpApi;
-use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
