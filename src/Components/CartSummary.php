@@ -71,6 +71,6 @@ class CartSummary extends BaseComponent
             return frontendHomeURL();
         }
 
-        return frontendShopURL(Sayt::getDefaultCatPath());
+        return frontendShopURL();
     }
 }

@@ -228,7 +228,7 @@ window.Amplify = {
 
     removeCartItem(cartItemId, redirect = true) {
         const actionLink = this.cartItemRemoveUrl().replace('cart_item_id', cartItemId);
-        this.confirm('Are you sure to remove this item from cart?',
+        return this.confirm('Are you sure to remove this item from cart?',
             'Cart', 'Remove', {
                 preConfirm: async () => {
                     return await $.ajax({
@@ -258,10 +258,11 @@ window.Amplify = {
                             const {origin, pathname} = window.location;
                             window.location.replace(origin + pathname);
                         }, 2000);
-                        return;
+                        return true;
+                    } else {
+                        Amplify.loadCartDropdown();
+                        return result;
                     }
-
-                    Amplify.loadCartDropdown();
                 }
             })
             .catch((error) => console.error(error));

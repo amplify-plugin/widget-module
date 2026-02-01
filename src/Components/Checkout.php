@@ -2,6 +2,7 @@
 
 namespace Amplify\Widget\Components;
 
+use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -11,21 +12,13 @@ use Illuminate\Contracts\View\View;
  */
 class Checkout extends BaseComponent
 {
-    public $component;
-
-    public function __construct(public bool $createFavouriteFromCart = true,
-        public bool $allowRequestQuote = true,
-        public bool $allowDraftOrder = false)
+    public function __construct(public bool   $createFavouriteFromCart = true,
+                                public bool   $allowRequestQuote = true,
+                                public bool   $allowDraftOrder = false,
+                                public string $backToUrl = 'home'
+    )
     {
         parent::__construct();
-    }
-
-    /**
-     * Whether the component should be rendered
-     */
-    public function shouldRender(): bool
-    {
-        return true;
     }
 
     /**
@@ -33,16 +26,25 @@ class Checkout extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $class = match (config('amplify.client_code')) {
-            'ACT' => \Amplify\Widget\Components\Client\CalTool\Checkout::class,
-            'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Checkout::class,
-            default => \Amplify\Widget\Components\Checkout::class,
-        };
+//        $class = match (config('amplify.client_code')) {
+//            'ACT' => \Amplify\Widget\Components\Client\CalTool\Checkout::class,
+//            'RHS' => \Amplify\Widget\Components\Client\Rhsparts\Checkout::class,
+//            default => \Amplify\Widget\Components\Checkout::class,
+//        };
+//
+//        $this->component = new $class;
+//
+//        $this->component->attributes = $this->attributes;
 
-        $this->component = new $class;
+        return view('widget::checkout');
+    }
 
-        $this->component->attributes = $this->attributes;
+    public function backToShoppingUrl(): string
+    {
+        if ($this->backToUrl == 'home') {
+            return frontendHomeURL();
+        }
 
-        return $this->component->render();
+        return frontendShopURL();
     }
 }
