@@ -25,7 +25,7 @@
         <input type="password" name="_password" class="form-control" style="opacity: 0; height: 0 !important;"/>
         <x-honeypot/>
         <div class="d-flex justify-content-between mb-3">
-            <h5 class="subtitle font-weight-bold">{{ $displayableSubTitle }}</h5>
+            <h4 class="subtitle">{!! $displayableSubTitle !!}</h4>
             <span>
                 <span class="font-weight-bold text-danger">*</span>
                 {{ trans('Indicates a Required Field') }}

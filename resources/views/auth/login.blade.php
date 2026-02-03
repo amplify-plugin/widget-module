@@ -8,7 +8,7 @@
             <x-honeypot/>
         @endif
 
-        <h4 class="padding-bottom-1x login-box-title">{{ $displayableTitle() }}</h4>
+        <h4 class="padding-bottom-1x login-box-title">{!! $displayableTitle() !!}</h4>
 
         {!! $subtitle ?? '' !!}
 

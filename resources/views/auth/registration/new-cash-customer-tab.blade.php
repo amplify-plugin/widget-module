@@ -16,7 +16,7 @@
         {!! \Form::hidden('tab', 'cash-customer') !!}
         <x-honeypot/>
         <div class="d-flex justify-content-between mb-3">
-            <h4 class="subtitle">{{ $displayableSubTitle }}</h4>
+            <h4 class="subtitle">{!! $displayableSubTitle !!}</h4>
             <span>
                 <span class="font-weight-bold text-danger">*</span>
                 {{ trans('Indicates a Required Field') }}
