@@ -222,8 +222,6 @@
         function verifyCustomerInformation(event, element) {
             event.preventDefault();
 
-            element.disabled = 'disabled';
-
             $('#customer-profile').hide();
 
             let street_address = $('#customer_street_address').val();
@@ -238,13 +236,11 @@
 
             if (payload.street_address === '' && payload.zip_code === '' && payload.customer_number === '') {
                 Amplify.alert('Customer Number, Street address, Postal code any of them is must', 'Registration');
-                element.disabled = false;
                 return false;
             }
 
             if (typeof validateCustomerSearchPayload === 'function') {
                 if (!validateCustomerSearchPayload(payload)) {
-                    element.disabled = false;
                     return;
                 }
             } else {
@@ -294,8 +290,6 @@
                             let response = JSON.parse(xhr.responseText);
                             window.swal.showValidationMessage(response?.message ?? xhr.responseText);
                         }
-                    }).always(() => {
-                        element.disabled = false;
                     });
                 },
                 allowOutsideClick: () => !window.swal.isLoading()
