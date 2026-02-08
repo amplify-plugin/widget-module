@@ -6,20 +6,20 @@
                 @method($action_method)
                 <input type="hidden" name="customer_id" value="{{ customer()->id }}" />
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         {!! \Form::rText('address_name', __('Address Name'), old('address_name', $address->address_name ?? ''), true, [
                             'maxlength' => 100,
                             'title'     => "Letters required; allowed: letters, numbers, spaces, - . , ' & ( ) /",
                             'data-allow' => "address_name"
                         ]) !!}
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         {!! \Form::rText('address_code', __('Address Code'), old('address_code', $address->address_code ?? ''), true, [
                             'maxlength' => 50,
                             'title'     => "Letters, numbers, spaces, hyphens (-), and underscores (_) only",
                             'data-allow'=> "code"
                         ]) !!}
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="form-group">
                     <label>Street Address<span class="text-danger">*</span></label>
