@@ -60,8 +60,8 @@
                         let html = '';
 
                         $.each(response.data, function (key, value) {
-                            html += `<li class="text-primary">
-                                    <a href="javascript:void(0);" class="text-decoration-none"
+                            html += `<li class="text-primary text-truncate">
+                                    <a href="javascript:void(0);" class="text-decoration-none" title="${value.name}"
                                     onclick="Amplify.addToExistingOrderList(${value.id}, ${productId}, 'product', '${title}')">
                                     ${value.name} (${value.list_type})
                                     </a>
