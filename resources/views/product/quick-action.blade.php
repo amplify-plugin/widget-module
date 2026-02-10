@@ -32,6 +32,7 @@
                 {{ __($cartLabel) }}
             </button>
         </div>
+        <x-product-shopping-list :product-id="$product->Amplify_Id" class="w-100 px-0"/>
     @endif
 </div>
 
