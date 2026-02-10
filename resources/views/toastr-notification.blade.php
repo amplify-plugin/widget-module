@@ -1,6 +1,6 @@
 <script>
     @if(!empty($level))
-    $(document).ready(function () {
+    document.addEventListener('DOMContentLoaded', function () {
         if (typeof ShowNotification == 'function') {
             ShowNotification('{{$level}}', '{{$title}}', '{{$message}}');
         }
