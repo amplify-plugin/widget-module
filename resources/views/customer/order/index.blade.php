@@ -33,17 +33,13 @@
                                 </div>
                             </label>
                         </div>
-                        {{-- 🆕 Order Status dropdown (not part of form) --}}
                         <div class="mt-2 d-flex justify-content-center justify-content-md-end">
                             <label class="mb-0 pl-2">
                                 <select id="status_filter" class="form-control form-control-sm" name="status" onchange="$('#order-search-form').submit();">
                                     <option value="">{{ __('ORDER STATUS') }}</option>
-                                    <option value="Ordered">Ordered</option>
-                                    <option value="Picked">Picked</option>
-                                    <option value="Shipped">Shipped</option>
-                                    <option value="Invoiced">Invoiced</option>
-                                    <option value="Paid">Paid</option>
-                                    <option value="Cancelled">Cancelled</option>
+                                    @foreach($orderStatusOptions() as $value => $label)
+                                        <option value="{{ $value }}" {{ request('status') == $value ? 'selected' : '' }}>{{ $label }}</option>
+                                    @endforeach
                                 </select>
                             </label>
                         </div>
