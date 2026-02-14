@@ -53,7 +53,7 @@ class Index extends BaseComponent
 
     public function orderStatusOptions(): array
     {
-        if (ErpApi::currentErp() == 'facts-erp'){
+        if (ErpApi::currentErp() == 'facts-erp') {
             return [
                 'In Process' => 'In Process',
                 'Ordered' => 'Ordered',
@@ -63,7 +63,7 @@ class Index extends BaseComponent
                 'Paid' => 'Paid',
                 'Cancelled' => 'Cancelled',
             ];
-        }else{
+        } else {
             return [
                 'Ordered' => 'Ordered',
                 'Picked' => 'Picked',
