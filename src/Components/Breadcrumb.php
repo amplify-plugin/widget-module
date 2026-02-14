@@ -15,11 +15,6 @@ use Illuminate\Support\Collection;
  */
 class Breadcrumb extends BaseComponent
 {
-    /**
-     * @var array
-     */
-    public $options;
-
     public Collection $breadcrumbs;
 
     protected ?Page $page;
@@ -138,7 +133,7 @@ class Breadcrumb extends BaseComponent
             }
         }
 
-        return $this->breadcrumbs->first()?->title ?? 'No Name';
+        return $this->breadcrumbs->last()?->title ?? 'No Name';
     }
 
     protected function errorTitle(): string
