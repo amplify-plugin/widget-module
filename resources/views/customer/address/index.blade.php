@@ -47,31 +47,31 @@
                                             <th width="20">#</th>
 
                                             @if ($columns['address_code'])
-                                                <th>{{ $addressCodeLabel ?? 'Address Code' }}</th>
+                                                <th>{{ $addressCodeLabel ?? __('Address Code') }}</th>
                                             @endif
 
                                             @if ($columns['address_name'])
-                                                <th>{{ $addressNameLabel ?? 'Address Name' }}</th>
+                                                <th>{{ $addressNameLabel ?? __('Address Name') }}</th>
                                             @endif
 
                                             @if ($columns['address_line'])
-                                                <th>{{ $addressLineLabel ?? 'Address Line' }}</th>
+                                                <th>{{ $addressLineLabel ?? __('Address Line') }}</th>
                                             @endif
 
                                             @if ($columns['city'])
-                                                <th>{{ $cityLabel ?? 'City' }}</th>
+                                                <th>{{ $cityLabel ?? __('City') }}</th>
                                             @endif
 
                                             @if ($columns['state'])
-                                                <th>{{ $stateLabel ?? 'State' }}</th>
+                                                <th>{{ $stateLabel ?? __('State') }}</th>
                                             @endif
 
                                             @if ($columns['zip_code'])
-                                                <th>{{ $zipCodeLabel ?? 'Zip Code' }}</th>
+                                                <th>{{ $zipCodeLabel ?? __('Zip Code') }}</th>
                                             @endif
 
                                             @if ($columns['country'])
-                                                <th>{{ $countryLabel ?? 'Country' }}</th>
+                                                <th>{{ $countryLabel ?? __('Country') }}</th>
                                             @endif
 
 
@@ -130,33 +130,34 @@
                                                             <button type="button"
                                                                     class="btn btn-outline-warning mx-0 dropdown-toggle btn-sm"
                                                                     data-toggle="dropdown" aria-expanded="false">
-                                                                Actions
+                                                                {{ __('Actions') }}
                                                             </button>
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 @if (!$isSelected && ! empty($address->address_code))
                                                                     <a class="dropdown-item"
                                                                        href="{{ route('frontend.session.shipping-address.store', $address->address_code) }}">
-                                                                        <i class="icon-location-pin mr-1"></i> Use this address
+                                                                        <i class="icon-location-pin mr-1"></i>
+                                                                        {{ __('Use this address') }}
                                                                     </a>
                                                                 @endif
-                                                                @if (!$address->isDefaultAddress())
-                                                                    <a class="dropdown-item"
-                                                                       href="{{ route('frontend.addresses.default-address', $address->id) }}">
-                                                                        <i class="icon-circle-check mr-1"></i> Set
-                                                                        As
-                                                                        Default
-                                                                    </a>
-                                                                @endif
+                                                                {{--                                                                @if (!$address->isDefaultAddress())--}}
+                                                                {{--                                                                    <a class="dropdown-item"--}}
+                                                                {{--                                                                       href="{{ route('frontend.addresses.default-address', $address->id) }}">--}}
+                                                                {{--                                                                        <i class="icon-circle-check mr-1"></i> Set--}}
+                                                                {{--                                                                        As--}}
+                                                                {{--                                                                        Default--}}
+                                                                {{--                                                                    </a>--}}
+                                                                {{--                                                                @endif--}}
                                                                 @if (customer(true)->can('ship-to-addresses.view'))
                                                                     <a class="dropdown-item"
                                                                        href="{{ route('frontend.addresses.show', $address->id) }}">
-                                                                        <i class="icon-eye mr-1"></i> Preview
+                                                                        <i class="icon-eye mr-1"></i> {{ __('Preview') }}
                                                                     </a>
                                                                 @endif
                                                                 @if (customer(true)->can('ship-to-addresses.update'))
                                                                     <a class="dropdown-item"
                                                                        href="{{ route('frontend.addresses.edit', $address->id) }}">
-                                                                        <i class="icon-paper-clip mr-1"></i> Edit
+                                                                        <i class="icon-paper-clip mr-1"></i> {{ __('Edit') }}
                                                                     </a>
                                                                 @endif
                                                                 @if (customer(true)->can('ship-to-addresses.remove'))
@@ -165,7 +166,7 @@
                                                                        data-target="#delete-modal"
                                                                        data-toggle="modal"
                                                                        onclick="setFormAction(this)">
-                                                                        <i class="icon-trash mr-1"></i> Delete
+                                                                        <i class="icon-trash mr-1"></i> {{ __('Delete') }}
                                                                     </a>
                                                                 @endif
                                                             </div>
@@ -173,7 +174,7 @@
                                                         {{-- Show badge in the row if selected --}}
                                                         @if($isSelected)
                                                             <span class="badge badge-success mt-1 d-block">
-                                                                <i class="icon-check mr-1"></i> Selected shipping address
+                                                                <i class="icon-check mr-1"></i> {{ __('Selected shipping address') }}
                                                             </span>
                                                         @endif
                                                     </td>
@@ -183,7 +184,7 @@
                                                             'widget::customer.permission-component',
                                                             [
                                                                 'data' => $address,
-                                                                'label' => 'Set As Default',
+                                                                'label' => __('Set As Default'),
                                                                 'route' => route(
                                                                     'frontend.addresses.default-address',
                                                                     $address->id),
@@ -195,7 +196,7 @@
                                                             'widget::customer.permission-component',
                                                             [
                                                                 'data' => $address,
-                                                                'label' => 'Preview',
+                                                                'label' => __('Preview'),
                                                                 'route' => route(
                                                                     'frontend.addresses.show',
                                                                     $address->id),
@@ -207,7 +208,7 @@
                                                             'widget::customer.permission-component',
                                                             [
                                                                 'data' => $address,
-                                                                'label' => 'Edit',
+                                                                'label' => __('Edit'),
                                                                 'route' => route(
                                                                     'frontend.addresses.edit',
                                                                     $address->id),
@@ -225,7 +226,7 @@
                                         @empty
                                             <tr>
                                                 <td colspan="15" class="text-center">
-                                                    No data available in table
+                                                    {{ __('No data available in table') }}
                                                 </td>
                                             </tr>
                                         @endforelse
@@ -266,7 +267,8 @@
 </div>
 
 @push('html-default')
-    <div class="modal fade" id="delete-modal" tabindex="-1" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="delete-modal" tabindex="-1" aria-hidden="true" data-backdrop="static"
+         data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-danger d-flex align-items-center p-3">
