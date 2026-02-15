@@ -67,7 +67,7 @@ class ShopByBrand extends BaseComponent
             ->groupBy(function ($item, $key) {
                 $firstLetter = $item->title[0];
 
-                if (!ctype_alnum($firstLetter)) {
+                if (! ctype_alnum($firstLetter)) {
                     return '@';
                 }
 
@@ -75,7 +75,7 @@ class ShopByBrand extends BaseComponent
             })
             ->sortKeys();
 
-        if (!request()->has('key') && !request()->has('search')) {
+        if (! request()->has('key') && ! request()->has('search')) {
             $filteredGroupedBrands = $filteredGroupedBrands->map(function ($brandItems) {
                 return [
                     'totalItems' => count($brandItems),
@@ -89,7 +89,7 @@ class ShopByBrand extends BaseComponent
                 $filteredGroupedBrands->toArray(),
                 function ($item) {
                     if (request()->key == '*') {
-                        if (!ctype_alnum((string) $item)) {
+                        if (! ctype_alnum((string) $item)) {
                             return true;
                         }
                     }
@@ -102,13 +102,13 @@ class ShopByBrand extends BaseComponent
 
         if (Request::has('search')) {
             $filteredGroupedBrands = $initialQuery
-                ->where('title', 'like', '%' . request()->search . '%')
+                ->where('title', 'like', '%'.request()->search.'%')
                 ->get()
                 ->sortBy('title', SORT_NATURAL | SORT_FLAG_CASE)
                 ->groupBy(function ($item, $key) {
                     $firstLetter = $item->title[0];
 
-                    if (!ctype_alnum($firstLetter)) {
+                    if (! ctype_alnum($firstLetter)) {
                         return '@';
                     }
 
@@ -132,7 +132,7 @@ class ShopByBrand extends BaseComponent
         return [
             'filtered_brands' => $filteredGroupedBrands,
             'brands' => $groupedBrands,
-            'btn_class' => $class
+            'btn_class' => $class,
         ];
     }
 }

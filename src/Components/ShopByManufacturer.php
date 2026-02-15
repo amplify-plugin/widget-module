@@ -67,7 +67,7 @@ class ShopByManufacturer extends BaseComponent
             ->groupBy(function ($item, $key) {
                 $firstLetter = isset($item->name[0]) ? $item->name[0] : '@';
 
-                if (!ctype_alnum($firstLetter)) {
+                if (! ctype_alnum($firstLetter)) {
                     return '@';
                 }
 
@@ -75,7 +75,7 @@ class ShopByManufacturer extends BaseComponent
             })
             ->sortKeys();
 
-        if (!request()->has('key') && !request()->has('search')) {
+        if (! request()->has('key') && ! request()->has('search')) {
             $filteredGroupedManufacturers = $filteredGroupedManufacturers->map(function ($manufacturerItems) {
                 return [
                     'totalItems' => count($manufacturerItems),
@@ -89,7 +89,7 @@ class ShopByManufacturer extends BaseComponent
                 $filteredGroupedManufacturers->toArray(),
                 function ($item) {
                     if (request()->key == '*') {
-                        if (!ctype_alnum((string) $item)) {
+                        if (! ctype_alnum((string) $item)) {
                             return true;
                         }
                     }
@@ -102,13 +102,13 @@ class ShopByManufacturer extends BaseComponent
 
         if (Request::has('search')) {
             $filteredGroupedManufacturers = $initialQuery
-                ->where('name', 'like', '%' . request()->search . '%')
+                ->where('name', 'like', '%'.request()->search.'%')
                 ->get()
                 ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
                 ->groupBy(function ($item, $key) {
                     $firstLetter = isset($item->name[0]) ? $item->name[0] : '@';
 
-                    if (!ctype_alnum($firstLetter)) {
+                    if (! ctype_alnum($firstLetter)) {
                         return '@';
                     }
 
@@ -132,7 +132,7 @@ class ShopByManufacturer extends BaseComponent
         return [
             'filtered_manufacturers' => $filteredGroupedManufacturers,
             'manufacturers' => $groupedManufacturers,
-            'btn_class' => $class
+            'btn_class' => $class,
         ];
     }
 }
