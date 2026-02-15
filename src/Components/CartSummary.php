@@ -3,7 +3,6 @@
 namespace Amplify\Widget\Components;
 
 use Amplify\ErpApi\Facades\ErpApi;
-use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -14,9 +13,9 @@ use Illuminate\Contracts\View\View;
 class CartSummary extends BaseComponent
 {
     public function __construct(public string $backToUrl = 'home',
-        public bool $createFavoriteFromCart = true,
-        public string $createFavoriteLabel = 'Create Shopping List',
+        public bool $createOrderListFromCart = true,
         public bool $allowChangeShipTo = true,
+        public string $orderListLabel = 'Shopping List'
     ) {
         parent::__construct();
     }
@@ -60,9 +59,9 @@ class CartSummary extends BaseComponent
         return view('widget::cart-summary', compact('templateBrandColor', 'isCartEmpty', 'cartId', 'shipToAddress'));
     }
 
-    public function createShoppingListLabel(): string
+    public function createOrderListLabel(): string
     {
-        return $this->createFavoriteLabel;
+        return 'Create '.$this->orderListLabel;
     }
 
     public function backToShoppingUrl(): string
@@ -71,6 +70,6 @@ class CartSummary extends BaseComponent
             return frontendHomeURL();
         }
 
-        return frontendShopURL(Sayt::getDefaultCatPath());
+        return frontendShopURL();
     }
 }

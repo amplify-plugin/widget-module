@@ -12,11 +12,6 @@ use Illuminate\Contracts\View\View;
 class BrandLogo extends BaseComponent
 {
     /**
-     * @var array
-     */
-    public $options;
-
-    /**
      * Create a new component instance.
      */
     public function __construct(public $imageAlt = null)
@@ -38,7 +33,13 @@ class BrandLogo extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-
         return view('widget::brand-logo');
+    }
+
+    public function htmlAttributes(): string
+    {
+        $this->attributes = $this->attributes->class(['site-branding']);
+
+        return parent::htmlAttributes();
     }
 }

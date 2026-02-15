@@ -47,7 +47,7 @@ class Details extends BaseComponent
         $perPage = request('per_page', getPaginationLengths()[0]);
         $search = request('search');
 
-        $quickList = store('favouriteModel');
+        $quickList = store('orderListModel');
 
         $quickListItems = $quickList->orderListItems()
             ->with('product')

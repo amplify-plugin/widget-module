@@ -41,7 +41,7 @@ class Login extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $this->referrer = request()->headers->get('referer');
+        $this->referrer = session('url.intended', '/');
 
         $minPassLength = SecurityHelper::passwordLength();
 

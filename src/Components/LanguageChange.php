@@ -13,20 +13,6 @@ use Illuminate\Contracts\View\View;
 class LanguageChange extends BaseComponent
 {
     /**
-     * @var array
-     */
-    public $options;
-
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-    }
-
-    /**
      * Whether the component should be rendered
      */
     public function shouldRender(): bool

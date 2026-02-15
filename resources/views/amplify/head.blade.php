@@ -1,25 +1,16 @@
 @php $meta_data = (isset($meta_data)) ? $meta_data : [] @endphp
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Meta Tags -->
 <x-site.meta-tags :tags="$meta_data"/>
-<!-- Favicon -->
 <x-site.favicon/>
-<!-- Plugin Style -->
 @stack('plugin-style')
-<!-- Template Style -->
 @stack('template-style')
-<!-- Custom Style -->
 @stack('custom-style')
-<!-- Internal Style -->
 @stack('internal-style')
-<!-- Head Style -->
 @stack('head-script')
-<!--Google Analytics -->
 <x-google-analytic/>
-<!--Custom Head Scripts -->
 <x-site.script-manager position="header"/>
-<!-- CSS Variable Overwrites Start-->
+{{--
 <style>
     :root {
         --blue: {{ theme_option('primary_color', null, '#007bff') }};
@@ -36,5 +27,4 @@
         --light: {{ theme_option('light_color', null, '#f8f9fa') }};
         --dark: {{ theme_option('dark_color', null, '#343a40') }};
     }
-</style>
-<!-- CSS Variable Overwrites End-->
+</style>--}}

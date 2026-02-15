@@ -3,44 +3,54 @@
         <div class="card-body">
             <div class="row">
                 @if ($showContactDetail)
-                    <div class="col-md-7">
-                        <p class="mb-3">Customer: {{ $accountSummary['CustomerName'] ?? '' }}</p>
-                    </div>
-
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <p>Terms: {{ $accountSummary['TermsDescription'] ?? '' }}</p>
+                    <div class="col-12 mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Account Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <small class="text-black">Customer</small>
+                                        <p class="mb-0 font-weight-bold">{{ $accountSummary['CustomerName'] ?? 'N/A' }}</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-black">Terms</small>
+                                        <p class="mb-0 font-weight-bold">{{ $accountSummary['TermsDescription'] ?? 'N/A' }}</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-black">Credit Limit</small>
+                                        <p class="mb-0 font-weight-bold">{{ price_format($accountSummary['CreditLimit'] ?? 0) }}</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-black">Last Payment</small>
+                                        <p class="mb-0 font-weight-bold">{{ carbon_date($accountSummary['DateOfLastPayment']) }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <small class="text-black">Last Pay Amount</small>
+                                        <p class="mb-0 font-weight-bold">{{ price_format($accountSummary['LastPayAmount'] ?? 0) }}</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-black">Open Order Amount</small>
+                                        <p class="mb-0 font-weight-bold">{{ price_format($accountSummary['OpenOrderAmount'] ?? 0) }}</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-black">Total Due</small>
+                                        <p class="mb-0 font-weight-bold text-danger">{{ price_format($accountSummary['TradeAmountDue'] ?? 0) }}</p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-black">Will Pay</small>
+                                        <p class="mb-0 font-weight-bold" id="will-pay">{{ price_format(0) }}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <p class="mb-3">Credit Limit: {{ price_format($accountSummary['CreditLimit'] ?? 0) }}</p>
-                    </div>
-
-                    <div class="col-md-4">
-                        <p class="mb-3">Last Payment: {{ carbon_date($accountSummary['DateOfLastPayment']) }}</p>
-                    </div>
-
-                    <div class="col-md-4">
-                        <p class="mb-3">Amount: {{ price_format($accountSummary['LastPayAmount'] ?? 0) }}</p>
-                    </div>
-
-                    <div class="col-md-4">
-                        <p class="mb-3">Open Order
-                            Amount: {{ price_format($accountSummary['OpenOrderAmount'] ?? 0) }}</p>
-                    </div>
-
-                    <div class="col-md-4">
-                        <p class="mb-3">Total Due: {{ price_format($accountSummary['TradeAmountDue'] ?? 0) }}</p>
-                    </div>
-
-                    <div class="col-md-4">
-                        <p class="mb-3">Will pay: <span id="will-pay">{{ price_format(0) }}</span></p>
                     </div>
                 @endif
 
                 <div class="col-md-12">
-
                     <x-site.data-table-wrapper id="invoice-table">
                         <x-slot name="rightside">
                             <form method="get" action="{{ url()->current() }}" id="order-search-form">
@@ -52,7 +62,7 @@
                                        id="created_end_date">
 
 
-                                <div class="d-md-flex d-block justify-content-around justify-content-md-end gap-3">
+                                <div class="d-md-flex d-block justify-content-around justify-content-md-end gap-2">
                                     <select class="form-control-inline form-control-sm border rounded"
                                             name="invoice_status"
                                             onchange="$('#order-search-form').submit()">
@@ -76,12 +86,12 @@
                                     </label>
                                     @if (customer(true)->can('invoices.pay') && config('amplify.payment.allow_bulk_invoice_payments', false))
                                         <div class="d-flex justify-content-center justify-content-md-end">
-                                            <button class="btn btn-primary btn-sm d-block mr-0 mt-0 text-white"
+                                            <button class="btn btn-primary btn-sm d-block mr-0 mt-0 text-white border-0"
                                                     disabled
                                                     onclick="redirectToInvoicePayment(event);"
                                                     id="make-pay"
                                                     type="button">
-                                                <i class="icon-circle-check"></i> Pay Selected Invoices
+                                                <i class="icon-circle-check"></i> Pay Invoices
                                             </button>
                                         </div>
                                     @endif

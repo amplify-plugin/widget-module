@@ -15,7 +15,7 @@ class Availability extends BaseComponent
 {
     public int $restrictLimit = 25;
 
-    public function __construct(public Product|ItemRow|\stdClass $product, public mixed $value = null)
+    public function __construct(public Product|ItemRow|\stdClass|null $product, public mixed $value = null)
     {
         parent::__construct();
     }
@@ -37,7 +37,7 @@ class Availability extends BaseComponent
             $this->product = Product::findOrFail($this->product->Amplify_Id);
         }
 
-        $availability = $this->product->availability?->value ?? 'A';
+        $availability = $this->product?->availability?->value ?? 'A';
 
         return view('widget::product.availability', compact('availability'));
     }

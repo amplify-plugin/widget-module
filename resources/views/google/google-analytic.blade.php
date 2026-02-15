@@ -32,3 +32,7 @@
     })(window, document, 'script', 'dataLayer', '{{ $tag_manager_id }}');
 </script>
 @endif
+<script type="application/ld+json">
+    @json($pageSchemaForGoogle(), JSON_PRETTY_PRINT)
+
+</script>

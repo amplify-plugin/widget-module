@@ -2,6 +2,7 @@
 
 namespace Amplify\Widget\Components\Customer\Order;
 
+use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -48,5 +49,29 @@ class Index extends BaseComponent
         $this->component->attributes = $this->attributes;
 
         return $this->component->render();
+    }
+
+    public function orderStatusOptions(): array
+    {
+        if (ErpApi::currentErp() == 'facts-erp') {
+            return [
+                'In Process' => 'In Process',
+                'Ordered' => 'Ordered',
+                'Picked' => 'Picked',
+                'Shipped' => 'Shipped',
+                'Invoiced' => 'Invoiced',
+                'Paid' => 'Paid',
+                'Cancelled' => 'Cancelled',
+            ];
+        } else {
+            return [
+                'Ordered' => 'Ordered',
+                'Picked' => 'Picked',
+                'Shipped' => 'Shipped',
+                'Invoiced' => 'Invoiced',
+                'Paid' => 'Paid',
+                'Cancelled' => 'Cancelled',
+            ];
+        }
     }
 }

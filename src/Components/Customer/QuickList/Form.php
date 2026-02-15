@@ -33,7 +33,7 @@ class Form extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return (bool) store()->favouriteModel;
+        return (bool) store()->orderListModel;
     }
 
     /**
@@ -41,7 +41,7 @@ class Form extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $quickListModel = store('favouriteModel');
+        $quickListModel = store('orderListModel');
 
         $productIds = $quickListModel->orderListItems->pluck('product_id')?->toArray() ?? [];
 

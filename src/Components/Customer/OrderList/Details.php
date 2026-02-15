@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\Widget\Components\Customer\Favourite;
+namespace Amplify\Widget\Components\Customer\OrderList;
 
 use Amplify\System\Backend\Models\OrderList;
 use Amplify\Widget\Abstracts\BaseComponent;
@@ -12,12 +12,9 @@ use Illuminate\Contracts\View\View;
  */
 class Details extends BaseComponent
 {
-    /**
-     * Whether the component should be rendered
-     */
-    public function shouldRender(): bool
+    public function __construct(public string $widgetTitle = 'Order Lists')
     {
-        return true;
+        parent::__construct();
     }
 
     /**
@@ -25,9 +22,9 @@ class Details extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $param = request()->route('favourite');
+        $param = request()->route('order_list');
         if (! is_numeric($param)) {
-            abort(404, 'Page Not Found');
+            abort(404, 'Not Found');
         }
 
         $search = request('search', '');
@@ -45,7 +42,7 @@ class Details extends BaseComponent
         $orderList = $orderList ?? [];
         $orderListItems = $orderListItems ?? [];
 
-        return view('widget::customer.favourite.details', [
+        return view('widget::customer.order-list.details', [
             'orderList' => $orderList,
             'orderListItems' => $orderListItems,
         ]);

@@ -53,10 +53,16 @@ class Index extends BaseComponent
         //     'contact_id' => $contact_code,
         // ])->sortByDesc('EntryDate');
 
-        $orders = ErpApi::getPastItemList();
+        $orders = ErpApi::getPastItemList([
+            'contact_id' => customer(true)->contact_code,
+            'start_month' => 1,
+            'start_year' => now()->year - 5,
+            'end_month' => now()->month,
+            'end_year' => now()->year,
+        ]);
+
         $products = [];
         $erpProductDetails = [];
-        // $contacts = customer()->contacts;
 
         foreach ($orders as $order) {
             $products[$order->ItemNumber] = $order->History;
@@ -64,7 +70,9 @@ class Index extends BaseComponent
 
         $productsCodes = array_keys($products);
         $productsWithItemKey = array_map(function ($item) {
-            return ['item' => $item, 'qty' => 1];
+            $uom = Product::where('product_code', $item)->pluck('uom')->first();
+
+            return ['item' => $item, 'qty' => 1, 'uom' => $uom ?? 'EA'];
         }, $productsCodes);
 
         if (! empty($productsWithItemKey)) {

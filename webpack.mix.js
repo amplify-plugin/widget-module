@@ -19,6 +19,14 @@ mix.setResourceRoot('resources')
     .copy('resources/js/modernizr.min.js', 'public/js/modernizr.min.js')
     .copy('resources/js/utility.js', 'public/js/utility.js')
     .options({
-        processCssUrls: false
+        processCssUrls: false,
+        terser: {
+            extractComments: false,
+            terserOptions: {
+                format: {
+                    comments: false
+                }
+            }
+        },
     })
     .version();

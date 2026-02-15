@@ -55,7 +55,8 @@
                                             <tr class="added_products align-center" id="product-{{ $key }}">
                                                 <th scope="row">{{ $orderListItems->firstItem() + $key }}</th>
                                                 <td>
-                                                    <input type="hidden" name="products[{{ $key }}][product_warehouse_code]"
+                                                    <input type="hidden"
+                                                           name="products[{{ $key }}][product_warehouse_code]"
                                                            value="{{\ErpApi::getCustomerDetail()->DefaultWarehouse }}"/>
                                                     <input type="hidden" name="products[{{ $key }}][product_id]"
                                                            value="{{ $item->product->id }}"/>
@@ -79,7 +80,7 @@
                                                             </a>
                                                             <a class="text-decoration-none"
                                                                href="{{ frontendSingleProductURL(optional($item->product)) }}">
-                                                                <p>{{ optional($item->product)->product_name ?? '' }}</p>
+                                                                <p>{!! optional($item->product)->product_name ?? '' !!}</p>
                                                             </a>
                                                         </div>
                                                         <span class="text-danger" id="product-{{ $key }}-error"></span>
@@ -100,19 +101,21 @@
                                                             Actions
                                                         </button>
                                                         <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item delete-modal"
-                                                               href="javascript:void(0);"
-                                                               onclick="setFormAction(this)"
-                                                               data-toggle="modal" data-target="#remove-item"
-                                                               data-action="{{ route('frontend.favourites.destroy-item', $item->id) }}">
-                                                                <i class="icon-ban mr-1"></i> {{ __('Remove') }}
-                                                            </a>
                                                             <a class="dropdown-item"
                                                                href="javascript:void(0)"
                                                                data-warehouse="{{ \ErpApi::getCustomerDetail()->DefaultWarehouse }}"
                                                                data-options="{{ json_encode(['code' => $item->product?->product_code ?? '']) }}"
                                                                onclick="Amplify.addSingleItemToCart(this, '{{ "#cart-item-{$key}" }}');"
-                                                            ><i class="icon-bag mr-1"></i> {{ __('Add to Cart') }}</a>
+                                                            ><i class="pe-7s-cart font-weight-bolder mr-1"></i>
+                                                                {{ __('Add to Cart') }}
+                                                            </a>
+                                                            <a class="dropdown-item"
+                                                               href="javascript:void(0);"
+                                                               onclick="Amplify.deleteConfirmation(this, '{{ $widgetTitle }}')"
+                                                               data-action="{{ route('frontend.favourites.destroy-item', $item->id) }}">
+                                                                <i class="icon-trash mr-1"></i>
+                                                                {{ __('Delete') }}
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -159,37 +162,6 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="remove-item" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm">
-        <div class="modal-content shadow-sm">
-            <form method="POST" class="d-inline" id="form-delete">
-                @method('delete')
-                @csrf
-                <div class="modal-body">
-                    <h3 class="text-center">{{__('Are you sure?')}}</h3>
-                </div>
-                <div class="modal-footer justify-content-around pt-0 border-top-0">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                            onclick="setPositionOffCanvas()">Close
-                    </button>
-                    <button type="submit" class="btn btn-danger" name="delete_user">{{__('Delete')}}</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-@push('internal-script')
-    <script>
-        function setFormAction(e) {
-            setPositionOffCanvas(false);
-            const form = $('#form-delete');
-            const deleteBtn = $(e);
-
-            form.attr('action', deleteBtn.data('action'));
-        }
-    </script>
-@endpush
 
 @push('internal-style')
     <style>
