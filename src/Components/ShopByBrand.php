@@ -63,20 +63,19 @@ class ShopByBrand extends BaseComponent
                 return $builder->where('featured', true);
             })
             ->get()
+            ->sortBy('title', SORT_NATURAL | SORT_FLAG_CASE)
             ->groupBy(function ($item, $key) {
                 $firstLetter = $item->title[0];
-                if (! ctype_alnum($firstLetter)) {
+
+                if (!ctype_alnum($firstLetter)) {
                     return '@';
                 }
 
-                return ucfirst($firstLetter);     // treats the name string as an array
-
+                return ucfirst($firstLetter);
             })
-            ->sortBy(function ($item, $key) {      // sorts A-Z at the top level
-                return $key;
-            });
+            ->sortKeys();
 
-        if (! request()->has('key') && ! request()->has('search')) {
+        if (!request()->has('key') && !request()->has('search')) {
             $filteredGroupedBrands = $filteredGroupedBrands->map(function ($brandItems) {
                 return [
                     'totalItems' => count($brandItems),
@@ -86,27 +85,37 @@ class ShopByBrand extends BaseComponent
         }
 
         if (Request::has('key')) {
-            $filteredGroupedBrands = array_filter($filteredGroupedBrands->toArray(), function ($item) {
-                if (request()->key == '*') {
-                    if (! ctype_alnum((string) $item)) {
-                        return true;
+            $filteredGroupedBrands = array_filter(
+                $filteredGroupedBrands->toArray(),
+                function ($item) {
+                    if (request()->key == '*') {
+                        if (!ctype_alnum((string) $item)) {
+                            return true;
+                        }
                     }
-                }
 
-                return $item == request()->key;
-            }, ARRAY_FILTER_USE_KEY);
+                    return $item == request()->key;
+                },
+                ARRAY_FILTER_USE_KEY
+            );
         }
 
         if (Request::has('search')) {
             $filteredGroupedBrands = $initialQuery
-                ->where('title', 'like', '%'.request()->search.'%')
+                ->where('title', 'like', '%' . request()->search . '%')
                 ->get()
+                ->sortBy('title', SORT_NATURAL | SORT_FLAG_CASE)
                 ->groupBy(function ($item, $key) {
-                    return $item->title[0];     // treats the name string as an array
+                    $firstLetter = $item->title[0];
+
+                    if (!ctype_alnum($firstLetter)) {
+                        return '@';
+                    }
+
+                    return ucfirst($firstLetter);
                 })
-                ->sortBy(function ($item, $key) {      // sorts A-Z at the top level
-                    return $key;
-                })->map(function ($brandItems) {
+                ->sortKeys()
+                ->map(function ($brandItems) {
                     return [
                         'totalItems' => count($brandItems),
                         'brands' => $brandItems->take(6),
@@ -120,6 +129,10 @@ class ShopByBrand extends BaseComponent
             default => ['bg' => 'btn-warning', 'bg-outline' => 'btn-outline-warning'],
         };
 
-        return ['filtered_brands' => $filteredGroupedBrands, 'brands' => $groupedBrands, 'btn_class' => $class];
+        return [
+            'filtered_brands' => $filteredGroupedBrands,
+            'brands' => $groupedBrands,
+            'btn_class' => $class
+        ];
     }
 }

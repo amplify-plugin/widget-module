@@ -63,20 +63,19 @@ class ShopByManufacturer extends BaseComponent
                 return $builder->where('featured', true);
             })
             ->get()
+            ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
             ->groupBy(function ($item, $key) {
                 $firstLetter = isset($item->name[0]) ? $item->name[0] : '@';
-                if (! ctype_alnum($firstLetter)) {
+
+                if (!ctype_alnum($firstLetter)) {
                     return '@';
                 }
 
-                return ucfirst($firstLetter);     // treats the name string as an array
-
+                return ucfirst($firstLetter);
             })
-            ->sortBy(function ($item, $key) {      // sorts A-Z at the top level
-                return $key;
-            });
+            ->sortKeys();
 
-        if (! request()->has('key') && ! request()->has('search')) {
+        if (!request()->has('key') && !request()->has('search')) {
             $filteredGroupedManufacturers = $filteredGroupedManufacturers->map(function ($manufacturerItems) {
                 return [
                     'totalItems' => count($manufacturerItems),
@@ -86,27 +85,37 @@ class ShopByManufacturer extends BaseComponent
         }
 
         if (Request::has('key')) {
-            $filteredGroupedManufacturers = array_filter($filteredGroupedManufacturers->toArray(), function ($item) {
-                if (request()->key == '*') {
-                    if (! ctype_alnum((string) $item)) {
-                        return true;
+            $filteredGroupedManufacturers = array_filter(
+                $filteredGroupedManufacturers->toArray(),
+                function ($item) {
+                    if (request()->key == '*') {
+                        if (!ctype_alnum((string) $item)) {
+                            return true;
+                        }
                     }
-                }
 
-                return $item == request()->key;
-            }, ARRAY_FILTER_USE_KEY);
+                    return $item == request()->key;
+                },
+                ARRAY_FILTER_USE_KEY
+            );
         }
 
         if (Request::has('search')) {
             $filteredGroupedManufacturers = $initialQuery
-                ->where('name', 'like', '%'.request()->search.'%')
+                ->where('name', 'like', '%' . request()->search . '%')
                 ->get()
+                ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
                 ->groupBy(function ($item, $key) {
-                    return $item->name[0];     // treats the name string as an array
+                    $firstLetter = isset($item->name[0]) ? $item->name[0] : '@';
+
+                    if (!ctype_alnum($firstLetter)) {
+                        return '@';
+                    }
+
+                    return ucfirst($firstLetter);
                 })
-                ->sortBy(function ($item, $key) {      // sorts A-Z at the top level
-                    return $key;
-                })->map(function ($manufacturerItems) {
+                ->sortKeys()
+                ->map(function ($manufacturerItems) {
                     return [
                         'totalItems' => count($manufacturerItems),
                         'manufacturers' => $manufacturerItems->take(6),
@@ -120,6 +129,10 @@ class ShopByManufacturer extends BaseComponent
             default => ['bg' => 'btn-warning', 'bg-outline' => 'btn-outline-warning'],
         };
 
-        return ['filtered_manufacturers' => $filteredGroupedManufacturers, 'manufacturers' => $groupedManufacturers, 'btn_class' => $class];
+        return [
+            'filtered_manufacturers' => $filteredGroupedManufacturers,
+            'manufacturers' => $groupedManufacturers,
+            'btn_class' => $class
+        ];
     }
 }
