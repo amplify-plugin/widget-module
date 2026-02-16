@@ -7,7 +7,6 @@ use Amplify\System\Backend\Models\OrderList;
 use Amplify\System\Backend\Models\Product;
 use Amplify\System\Helpers\UtilityHelper;
 use Amplify\System\Marketing\Models\MerchandisingZone;
-use Amplify\System\Support\Money;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -149,14 +148,6 @@ class ProductSlider extends BaseComponent
                     return $formattedProducts;
                 }
             );
-
-            // if (! $this->orderList->isEmpty()) {
-            //     $this->products = $this->products->map(function ($item) {
-            //         $this->productExistOnFavorite($item->id, $item);
-
-            //         return $item;
-            //     });
-            // }
         }
     }
 
@@ -237,7 +228,7 @@ class ProductSlider extends BaseComponent
     {
         $price = isset($product->Msrp) ? $product->Msrp : $product->Price ?? 0.0;
 
-        if (ErpApi::enabled() && has_erp_customer() && $price instanceof Money) {
+        if (ErpApi::enabled() && has_erp_customer()) {
             $erpProduct = ErpApi::getProductPriceAvailability([
                 'items' => [['item' => $product->Sku_ProductCode ?? $product->Product_Code, 'qty' => 1]],
             ])->first();
@@ -249,14 +240,4 @@ class ProductSlider extends BaseComponent
 
         return price_format($price);
     }
-
-    // private function productExistOnFavorite($id, &$product): void
-    // {
-    //     foreach ($this->orderList as $orderList) {
-    //         if ($item = $orderList->orderListItems->firstWhere('product_id', $id)) {
-    //             $product->exists_in_favorite = true;
-    //             $product->favorite_list_id = $item->id;
-    //         }
-    //     }
-    // }
 }
