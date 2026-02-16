@@ -44,11 +44,8 @@
                                     <p class="product-code"><span>{{ __('Product Code:') }}</span> {{ $product->product_code }}</p>
                                 @endif
                                 @if ($show_price)
-                                    <h4 class="product-price">
-                                        {{ $product->price ?? '' }}@isset($product?->ERP->PricingUnitOfMeasure)/{{ strtoupper($product->ERP->PricingUnitOfMeasure) }}@endisset
-                                        <span class="product-old-price @if (!$show_top_discount_badge) d-none @endif">
-                                        {{ $product->old_price ?? '' }}@isset($product?->ERP->PricingUnitOfMeasure)/{{ strtoupper($product->ERP->PricingUnitOfMeasure) }}@endisset
-                                    </span>
+                                    <h4 class="hide-product-price product-price">
+                                        {{ customer_check() ? checkPrice($product->id, $product->price) : '-' }}
                                     </h4>
                                 @endif
                                 <x-product-hidden-fields :product="$product" :input="$key"/>
