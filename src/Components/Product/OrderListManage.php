@@ -9,7 +9,7 @@ use Illuminate\Contracts\View\View;
 /**
  * @class ShoppingList
  */
-class ShoppingList extends BaseComponent
+class OrderListManage extends BaseComponent
 {
     public function __construct(public string $productId = '', public string $addLabel = 'Add to Shopping List', public string $widgetTitle = 'Shopping List', public ?int $index = null)
     {

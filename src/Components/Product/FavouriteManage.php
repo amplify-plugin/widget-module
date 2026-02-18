@@ -9,7 +9,7 @@ use Illuminate\Contracts\View\View;
 /**
  * @class FavouriteManageButton
  */
-class FavouriteManageButton extends BaseComponent
+class FavouriteManage extends BaseComponent
 {
     /**
      * @var array

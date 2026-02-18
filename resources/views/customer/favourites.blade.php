@@ -1,17 +1,8 @@
 <div {!! $htmlAttributes !!}>
     <div class="card">
         <div class="card-body">
-            <div class="d-flex align-content-around gap-2">
-                <label class="font-weight-bold">Name:</label>
-                <p>{{ $orderList->name ?? '' }}</p>
-            </div>
-            <div class="d-flex align-content-around gap-2">
-                <label class="font-weight-bold">Description:</label>
-                <p>{{ $orderList->description ?? '' }}</p>
-            </div>
-            <p class="my-2 font-weight-bold">Items:</p>
             <form id="customer-item-list-search-form" method="get" action="{{ url()->current() }}">
-                <input type="hidden" value="{{ $orderList->id }}" name="list_id">
+                <input type="hidden" value="{{ $favourite->id }}" name="list_id">
                 <div class="row">
                     <div class="col-md-6 my-2 mb-md-0">
                         <div class="d-flex justify-content-center justify-content-md-start">
@@ -51,9 +42,9 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @forelse ($orderListItems as $key => $item)
+                                        @forelse ($items as $key => $item)
                                             <tr class="added_products align-center" id="product-{{ $key }}">
-                                                <th scope="row">{{ $orderListItems->firstItem() + $key }}</th>
+                                                <th scope="row">{{ $items->firstItem() + $key }}</th>
                                                 <td>
                                                     <input type="hidden"
                                                            name="products[{{ $key }}][product_warehouse_code]"
@@ -152,7 +143,7 @@
                                     </label>
                                 </div>
                                 <div class="col-sm-12 col-md-7">
-                                    {!! $orderListItems->withQueryString()->links() !!}
+                                    {!! $items->withQueryString()->links() !!}
                                 </div>
                             </div>
                         </div>
