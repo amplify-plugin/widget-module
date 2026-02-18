@@ -11,7 +11,6 @@
 {{--<div {!! $htmlAttributes !!}>--}}
 {{--    <!-- Page Content-->--}}
 {{--    @if ($authenticated = customer_check())--}}
-{{--        <x-product-favorite-list :list="$orderList"/>--}}
 {{--    @endif--}}
 
 

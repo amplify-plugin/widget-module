@@ -551,7 +551,6 @@
     </div>
 
     @include('cms::inc.full-page-loader')
-    <x-product-favorite-list/>
 </div>
 
 <script>

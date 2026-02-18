@@ -3,7 +3,7 @@
     $hasPermission = customer(true)?->canAny(['favorites.manage-global-list', 'favorites.manage-personal-list']) ?? false;
 @endphp--}}
 <div {!! $htmlAttributes !!}>
-    <x-product-favorite-list />
+
     {!! $before ?? '' !!}
 
     <p @class(["font-weight-bold my-2 error-message", 'd-none' => empty($message)])>{!! $message !!}</p>

@@ -2,7 +2,6 @@
     $product_code_id = str_replace(' ', '-', $product->Product_Code);
 @endphp
 <div {!! $htmlAttributes !!}>
-    <x-product-favorite-list />
 
     {!! $before ?? '' !!}
 

@@ -1,7 +1,6 @@
 @pushonce('footer-script')
 	<script src="{{ asset('rhs/rhs_script.js') }}"></script>
 @endpushonce
-<x-product-favorite-list />
 <div {!! $htmlAttributes !!}>
 
     {!! $before ?? '' !!}

@@ -5,7 +5,6 @@
     :per-page="$perPage"
     :sort-by="$sortBy"/>
 @endif
-<x-product-favorite-list/>
 <div {!! $htmlAttributes !!}>
     @if ($productView === 'grid')
         <div class="row">

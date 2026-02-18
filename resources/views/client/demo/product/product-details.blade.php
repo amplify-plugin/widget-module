@@ -3,8 +3,6 @@
 @endphp
     <!-- Product Tabs-->
 <div {!! $htmlAttributes !!}>
-    <x-product-favorite-list />
-
     <div class="row mb-4">
 
         {!! $before ?? '' !!}

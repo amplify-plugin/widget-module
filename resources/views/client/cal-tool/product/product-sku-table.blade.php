@@ -63,7 +63,6 @@
                 </div>
             </div>
 
-            <x-product-favorite-list/>
 
             <div class="col-12">
                 <div class="products-table rounded border" id="sku_details_table_body">

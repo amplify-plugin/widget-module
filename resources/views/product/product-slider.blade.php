@@ -1,6 +1,5 @@
 <div {!! $htmlAttributes !!}>
     @if(!$products->isEmpty())
-        <x-product-favorite-list />
         @if($show_title)
             <h3 class="product-slider-title">
                 {{ __($title) }}

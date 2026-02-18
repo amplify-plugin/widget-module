@@ -7,7 +7,6 @@
 @endphp
 <div {!! $htmlAttributes !!}>
     @if (!empty($productsData->items))
-        <x-product-favorite-list/>
         @if ($productView === 'list')
             @include('widget::client.rhsparts.product.inc.product-list')
         @else

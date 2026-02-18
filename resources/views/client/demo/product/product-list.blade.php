@@ -1,5 +1,5 @@
 <div {!! $htmlAttributes !!}>
-    <x-product-favorite-list />
+
     @if (isset($message))
         <p class="font-weight-bold my-2" style="font-size: 1rem">{!! $message !!}</p>
     @endif
