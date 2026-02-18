@@ -13,7 +13,6 @@ use Illuminate\Contracts\View\View;
  */
 class Favourites extends BaseComponent
 {
-
     public function __construct(public string $widgetTitle = 'Favorites')
     {
         parent::__construct();
@@ -28,13 +27,10 @@ class Favourites extends BaseComponent
 
         $items = OrderListItem::where('list_id', $favourite->id)
             ->with('product')
-            ->where(function ($query) {
-
-            })->orderBy('updated_at', 'desc')
+            ->where(function ($query) {})->orderBy('updated_at', 'desc')
             ->orderBy(request()->input('sort', 'id'), request()->input('dir', 'desc'))
             ->paginate(\request()->input('per_page', getPaginationLengths()[0]));
 
-
-        return view('widget::customer.favourites', compact('favourite','items'));
+        return view('widget::customer.favourites', compact('favourite', 'items'));
     }
 }
