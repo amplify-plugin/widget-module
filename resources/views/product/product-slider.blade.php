@@ -51,7 +51,7 @@
                                 <input id="product_qty_{{ $key }}" type="hidden" name="qty[]" value="1"
                                        min="1" max="" class="form-control">
                             </div>
-                            @if ($show_customer_list || $show_cart_btn)
+                            {{-- @if ($show_customer_list || $show_cart_btn)
                                 <div class="product-buttons d-flex justify-content-between">
 
                                     @if ($show_customer_list)
@@ -71,7 +71,7 @@
                                         </a>
                                     @endif
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
                 </div>
