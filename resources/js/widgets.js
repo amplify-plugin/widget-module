@@ -151,7 +151,7 @@ window.Amplify = {
                                 return result;
                             },
                             error: function (xhr) {
-                                Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                                Swal.showValidationMessage(`<p>${xhr.responseJSON.message ?? xhr.statusText}</p>`);
                                 Swal.hideLoading();
                             },
                         });
@@ -208,7 +208,7 @@ window.Amplify = {
                             return result;
                         },
                         error: function (xhr) {
-                            Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                            Swal.showValidationMessage(`<p>${xhr.responseJSON.message ?? xhr.statusText}</p>`);
                             Swal.hideLoading();
                         }
                     });
@@ -243,7 +243,7 @@ window.Amplify = {
                             return result;
                         },
                         error: function (xhr) {
-                            Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                            Swal.showValidationMessage(`<p>${xhr.responseJSON.message ?? xhr.statusText}</p>`);
                             Swal.hideLoading();
                         },
                     });
@@ -318,7 +318,7 @@ window.Amplify = {
                         }
                     },
                     error: function (xhr) {
-                        Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                        Swal.showValidationMessage(`<p>${xhr.responseJSON.message ?? xhr.statusText}</p>`);
                         Swal.hideLoading();
                     },
                 });
@@ -606,7 +606,7 @@ window.Amplify = {
                                 return result;
                             },
                             error: function (xhr) {
-                                Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                                Swal.showValidationMessage(`<p>${xhr.responseJSON.message ?? xhr.statusText}</p>`);
                                 Swal.hideLoading();
                             },
                         });
@@ -708,7 +708,7 @@ window.Amplify = {
                                 return result;
                             },
                             error: function (xhr) {
-                                Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                                Swal.showValidationMessage(`<p>${xhr.responseJSON.message ?? xhr.statusText}</p>`);
                                 Swal.hideLoading();
                             },
                         });
@@ -759,7 +759,7 @@ window.Amplify = {
                             },
                             success: (result) => result,
                             error: function (xhr) {
-                                Swal.showValidationMessage(xhr.responseJSON?.message ?? xhr.statusText);
+                                Swal.showValidationMessage(`<p>${xhr.responseJSON?.message ?? xhr.statusText}</p>`);
                                 Swal.hideLoading();
                             },
                         });
@@ -921,7 +921,7 @@ window.Amplify = {
                                     $(`#product-${key}-error`).html(message);
                                 })
                             }
-                            Swal.showValidationMessage(response.message);
+                            Swal.showValidationMessage(`<p>${response.message}</p>`);
                             Swal.hideLoading();
                         }
                     });
@@ -974,7 +974,7 @@ window.Amplify = {
                             return result;
                         },
                         error: function (xhr) {
-                            Swal.showValidationMessage(xhr.responseJSON.message ?? xhr.statusText);
+                            Swal.showValidationMessage(`<p>${xhr.responseJSON.message ?? xhr.statusText}</p>`);
                             Swal.hideLoading();
                         },
                     });
