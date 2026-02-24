@@ -7,52 +7,60 @@ use Amplify\System\Sayt\Classes\ItemRow;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Str;
 
 /**
  * @class InformationTabs
  */
 class InformationTabs extends BaseComponent
 {
-    public array $tabs = [];
+    public array $entries = [];
+
+    public array $views = [];
 
     public function __construct(
         public Product|ItemRow $product,
-        public string $featureSpecsView = 'list',
-        public array $only = [],
-        public array $skip = [],
-        public string $headerClass = 'nav-justified'
-    ) {
+        public array           $tabs = [],
+        public string          $headerClass = 'nav-justified'
+    )
+    {
         parent::__construct();
-
-        $this->tabs = [
-            Product::TAB_DESCRIPTION,
-            Product::TAB_FEATURE,
-            Product::TAB_SPECIFICATION,
-            Product::TAB_DOCUMENT,
-            Product::TAB_SKU,
-            Product::TAB_RELATED_ITEM,
-        ];
     }
 
-    /**
-     * Whether the component should be rendered
-     */
-    public function shouldRender(): bool
+    private function configureTabs(): void
     {
-        return true;
-    }
+        foreach ($this->tabs as $key => $tab) {
+            if (is_string($tab) && is_int($key)) {
+                $viewPath = Str::contains($tab, '::') ? $tab : "widget::product.tabs.{$tab}";
+                $this->entries[$viewPath] = [
+                    'name' => $tab,
+                    'label' => Str::title(Str::replace(['_', '-'], ' ', $tab)),
+                    'active' => false,
+                ];
+                continue;
+            }
 
-    private function configureTabs()
-    {
-        if (! empty($this->only)) {
-            $this->tabs = array_unique($this->only);
+            if (is_string($key) && is_bool($tab)) {
+                $viewPath = Str::contains($key, '::') ? $key : "widget::product.tabs.{$key}";
+                $this->entries[$viewPath] = [
+                    'name' => $key,
+                    'label' => Str::title(Str::replace(['_', '-'], ' ', $key)),
+                    'active' => $tab,
+                ];
+                continue;
+            }
 
-            return;
+            if (is_string($key) && is_array($tab)) {
+                $viewPath = Str::contains($key, '::') ? $key : "widget::product.tabs.{$key}";
+
+                $tab['name'] = $key;
+                $tab['active'] = $tab['active'] ?? false;
+                $tab['label'] = $tab['label'] ?? Str::title(Str::replace(['_', '-'], ' ', $key));
+                $this->entries[$viewPath] = $tab;
+            }
         }
 
-        if (! empty($this->skip)) {
-            $this->tabs = array_diff($this->tabs, $this->skip);
-        }
+        $this->views = array_keys($this->entries);
     }
 
     /**
@@ -65,8 +73,4 @@ class InformationTabs extends BaseComponent
         return view('widget::product.information-tabs');
     }
 
-    public function displayTab(string $name = ''): bool
-    {
-        return in_array($name, $this->tabs);
-    }
 }
