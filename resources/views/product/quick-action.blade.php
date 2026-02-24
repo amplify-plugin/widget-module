@@ -13,18 +13,8 @@
             {{--            </button>--}}
         </div>
     @else
-        <x-cart.quantity-update :product="$product" :index="$index"/>
         <div class="d-flex gap-2">
-            @if(class_exists(\Amplify\Wishlist\Widgets\WishlistButton::class))
-                <x-wishlist-button :product="$product" class="btn m-0 btn-sm px-0">
-                    <x-slot:add-label>
-                        <i class="icon-heart text-primary"></i>
-                    </x-slot>
-                    <x-slot:remove-label>
-                        <i class="icon-heart"></i>
-                    </x-slot>
-                </x-wishlist-button>
-            @endif
+            <x-cart.quantity-update :product="$product" :index="$index"/>
             <button
                     data-warehouse="{{ $defaultWarehouse }}"
                     onclick="Amplify.addSingleItemToCart(this, '#cart-item-{{$index}}', {{ json_encode($extras) }})"
@@ -33,6 +23,18 @@
                 {{ __($cartLabel) }}
             </button>
         </div>
-        <x-product-shopping-list :product-id="$product->Amplify_Id" class="w-100 m-0"/>
+        <div class="d-flex gap-2">
+            @if(class_exists(\Amplify\Wishlist\Widgets\WishlistButton::class))
+                <x-wishlist-button :product="$product" class="btn-wishlist">
+                    <x-slot:add-label>
+                        <i class="icon-heart"></i>
+                    </x-slot>
+                    <x-slot:remove-label>
+                        <i class="icon-heart"></i>
+                    </x-slot>
+                </x-wishlist-button>
+            @endif
+            <x-product-shopping-list :product-id="$product->Amplify_Id" class="w-100 m-0"/>
+        </div>
     @endif
 </div>
