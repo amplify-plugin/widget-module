@@ -5,11 +5,11 @@
                 <div class="product-badge text-danger">50% Off</div>
             @endif
             @if ($allowFavourites() && !$isMasterProduct($product))
-                <x-product.favourite-manage-button
-                    class="btn-wishlist position-absolute"
-                    :already-exists="$product->exists_in_favorite ?? false"
-                    :favourite-list-id="$product->favorite_list_id ?? ''"
-                    :product-id="$product->Amplify_Id"/>
+{{--                <x-product.favourite-manage-button--}}
+{{--                    class="btn-wishlist position-absolute"--}}
+{{--                    :already-exists="$product->exists_in_favorite ?? false"--}}
+{{--                    :favourite-list-id="$product->favorite_list_id ?? ''"--}}
+{{--                    :product-id="$product->Amplify_Id"/>--}}
             @endif
             <x-product.main-image
                 :product="$product"
@@ -37,10 +37,10 @@
         <div class="product-badge text-danger">50% Off</div>
     @endif
     @if ($allowFavourites() && !$isMasterProduct($product))
-        <x-product.favourite-manage-button class="btn-wishlist position-absolute"
-                                           :already-exists="$product->exists_in_favorite ?? false"
-                                           :favourite-list-id="$product->favorite_list_id ?? ''"
-                                           :product-id="$product->Amplify_Id"/>
+{{--        <x-product.favourite-manage-button class="btn-wishlist position-absolute"--}}
+{{--                                           :already-exists="$product->exists_in_favorite ?? false"--}}
+{{--                                           :favourite-list-id="$product->favorite_list_id ?? ''"--}}
+{{--                                           :product-id="$product->Amplify_Id"/>--}}
     @endif
     <x-product.main-image :product="$product" :seo-path="$seoPath" :wrap-link="true"/>
     @if($allowDisplayProductCode())

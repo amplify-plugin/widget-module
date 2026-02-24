@@ -1,7 +1,3 @@
-{{--@php
-    $authenticated = customer_check();
-    $hasPermission = customer(true)?->canAny(['favorites.manage-global-list', 'favorites.manage-personal-list']) ?? false;
-@endphp--}}
 <div {!! $htmlAttributes !!}>
 
     {!! $before ?? '' !!}
