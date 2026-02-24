@@ -39,7 +39,7 @@ class MainImage extends BaseComponent
         $this->attributes = $this->attributes->merge([
             'class' => 'product-thumb',
             'href' => $this->product->Product_Image ?? '',
-//            'href' => frontendSingleProductURL($this->product, $this->seoPath),
+            //            'href' => frontendSingleProductURL($this->product, $this->seoPath),
             'data-size' => '1000x667',
         ]);
 
