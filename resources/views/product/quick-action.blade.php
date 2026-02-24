@@ -34,7 +34,7 @@
                     </x-slot>
                 </x-wishlist-button>
             @endif
-            <x-product-shopping-list :product-id="$product->Amplify_Id" class="w-100 m-0"/>
+            <x-product-shopping-list :product-id="$product->Amplify_Id" class="w-100 m-0" :index="$product->Amplify_Id"/>
         </div>
     @endif
 </div>
