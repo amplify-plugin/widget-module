@@ -134,9 +134,9 @@
                     fetch(url, {credentials: 'same-origin'})
                         .then(res => {
                             if (!res.ok) throw new Error('Network error');
-                            return res.text();
+                            return res.json();
                         })
-                        .then(html => {
+                        .then(({html}) => {
                             const temp = document.createElement('div');
                             temp.innerHTML = html.trim();
 
