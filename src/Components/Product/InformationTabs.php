@@ -20,10 +20,9 @@ class InformationTabs extends BaseComponent
 
     public function __construct(
         public Product|ItemRow $product,
-        public array           $tabs = [],
-        public string          $headerClass = 'nav-justified'
-    )
-    {
+        public array $tabs = [],
+        public string $headerClass = 'nav-justified'
+    ) {
         parent::__construct();
     }
 
@@ -37,6 +36,7 @@ class InformationTabs extends BaseComponent
                     'label' => Str::title(Str::replace(['_', '-'], ' ', $tab)),
                     'active' => false,
                 ];
+
                 continue;
             }
 
@@ -47,6 +47,7 @@ class InformationTabs extends BaseComponent
                     'label' => Str::title(Str::replace(['_', '-'], ' ', $key)),
                     'active' => $tab,
                 ];
+
                 continue;
             }
 
@@ -72,5 +73,4 @@ class InformationTabs extends BaseComponent
 
         return view('widget::product.information-tabs');
     }
-
 }
