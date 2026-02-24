@@ -16,13 +16,12 @@
         <x-cart.quantity-update :product="$product" :index="$index"/>
         <div class="d-flex gap-2">
             @if(class_exists(\Amplify\Wishlist\Widgets\WishlistButton::class))
-                <x-wishlist-button :product="$product" style="width: 42px; height: 36px"
-                                   class="btn m-0 btn-sm btn-outline-info px-0">
+                <x-wishlist-button :product="$product" class="btn m-0 btn-sm px-0">
                     <x-slot:add-label>
                         <i class="icon-heart text-primary"></i>
                     </x-slot>
                     <x-slot:remove-label>
-                        <i class="icon-heart text-danger"></i>
+                        <i class="icon-heart"></i>
                     </x-slot>
                 </x-wishlist-button>
             @endif
@@ -34,23 +33,6 @@
                 {{ __($cartLabel) }}
             </button>
         </div>
-        <x-product-shopping-list :product-id="$product->Amplify_Id" class="w-100 m-0" :index="$index"/>
+        <x-product-shopping-list :product-id="$product->Amplify_Id" class="w-100 m-0"/>
     @endif
 </div>
-
-@pushonce('internal-style')
-    <style>
-        .spinner {
-            animation: spin 2.5s linear infinite;
-        }
-
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
-@endpushonce
