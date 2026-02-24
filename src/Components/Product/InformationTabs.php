@@ -20,7 +20,7 @@ class InformationTabs extends BaseComponent
 
     public function __construct(
         public Product|ItemRow $product,
-        public array $tabs = [],
+        public array $tabs = ['description', 'feature', 'specification', 'document', 'sku', 'related-products'],
         public string $headerClass = 'nav-justified'
     ) {
         parent::__construct();

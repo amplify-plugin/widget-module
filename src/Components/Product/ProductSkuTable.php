@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\Widget\Components\Shop;
+namespace Amplify\Widget\Components\Product;
 
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
