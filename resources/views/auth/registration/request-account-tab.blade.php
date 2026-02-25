@@ -31,7 +31,7 @@
                 {{ trans('Indicates a Required Field') }}
             </span>
         </div>
-
+        <p class="font-weight-bold text-danger"> {{ session('message') }}</p>
         @includeWhen($withCustomerVerification, 'widget::auth.registration.request-account.stepped')
         @includeWhen(!$withCustomerVerification, 'widget::auth.registration.request-account.single')
     </form>

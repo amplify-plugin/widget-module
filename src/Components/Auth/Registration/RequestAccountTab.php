@@ -30,8 +30,8 @@ class RequestAccountTab extends BaseComponent
         public string $termsLabel = 'I agree the terms and conditions',
     ) {
 
-        if (request()->filled('tab')) {
-            $this->active = request('tab') == 'request-account';
+        if (session()->has('tab')) {
+            $this->active = session('tab') == 'request-account';
         }
 
         parent::__construct();
@@ -61,7 +61,7 @@ class RequestAccountTab extends BaseComponent
         $classes = ['tab-pane'];
 
         if ($this->active) {
-            $classes[] = 'active';
+            $classes[] = 'fade show active';
         }
 
         $this->attributes = $this->attributes->merge([
