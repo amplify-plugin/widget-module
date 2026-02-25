@@ -16,7 +16,7 @@ class ToastrNotification extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return session()->has(['success', 'error', 'warning']);
+        return true;
     }
 
     /**
