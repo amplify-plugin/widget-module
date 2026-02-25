@@ -36,3 +36,40 @@
         @includeWhen(!$withCustomerVerification, 'widget::auth.registration.request-account.single')
     </form>
 </div>
+
+@pushonce('footer-script')
+    <script>
+        $(function () {
+            var $form = $('#registration-form-request-account');
+
+            // Validate
+            $form.validate({
+                rules: {
+                    email: {required: true, email: true},
+                    password: {required: true, minlength: 4}
+                }
+                // messages: {
+                //     email: {required: "Email is required", email: "Enter a valid email"},
+                //     password: {
+                //         required: "Password is required",
+                //         minlength: "Password must be at least 4 characters."
+                //     }
+                // },
+                // highlight: function (el) {
+                //     $(el).removeClass('is-valid').addClass('is-invalid');
+                // },
+                // unhighlight: function (el) {
+                //     $(el).removeClass('is-invalid').addClass('is-valid');
+                // },
+                // errorPlacement: function (error, element) {
+                //     // Put error message in the <span.invalid-feedback>
+                //     element.closest('.form-group').find('.invalid-feedback').html(error);
+                // },
+                // submitHandler: function (form) {
+                //     form.submit();
+                // }
+            });
+
+        });
+    </script>
+@endpushonce

@@ -83,10 +83,10 @@
                     password: {required: true, minlength: {{ $minPassLength }}}
                 },
                 messages: {
-                    email: {required: "{{ __('Email is required') }}", email: "{{ __('Enter a valid email') }}"},
+                    email: {required: "{{ __('The email field is required.') }}", email: "{{ __('The email must be a valid email address.') }}"},
                     password: {
-                        required: "{{ __('Password is required') }}",
-                        minlength: "{{ __('Password must be at least :n characters.', ['n' => $minPassLength]) }}"
+                        required: "{{ __('The password field is required.') }}",
+                        minlength: "{{ __('The :attribute must be at least :min characters.', ['attribute' => 'password', 'min' => $minPassLength]) }}"
                     }
                 },
                 highlight: function (el) {

@@ -1,6 +1,7 @@
 @pushonce('plugin-style')
     <link type="text/css" href="{{ asset('vendor/bs-stepper/css/bs-stepper.min.css') }}" rel="stylesheet"/>
 @endpushonce
+
 <div class="bs-stepper" id="customer-verification-steps">
     <div class="bs-stepper-header" role="tablist">
         <div class="step" data-target="#verification-part">
@@ -25,10 +26,10 @@
              aria-labelledby="verification-part-trigger">
             <div class="row">
                 <div class="px-2 col-md-6">
-                    {!! \Form::rText('customer_street_address', trans('Street Address'), null, false, ['placeholder' => trans('Enter Street Address')]) !!}
-                    {!! \Form::rText('customer_postal_code', trans('Postal/Zip Code'), null, false, ['placeholder' => trans('Enter Postal/Zip Code')]) !!}
+                    {!! \Form::rText('customer_street_address', trans('Street Address'), null, false, ['placeholder' => trans('Enter Street Address'), 'tabindex' => '1']) !!}
+                    {!! \Form::rText('customer_postal_code', trans('Postal/Zip Code'), null, false, ['placeholder' => trans('Enter Postal/Zip Code'), 'tabindex' => '2']) !!}
                     <input type="hidden" name="required[]" value="search_account_number">
-                    {!! \Form::rText('search_account_number', trans('Customer Number/Code'), null, false, ['placeholder' => trans('Enter Customer Number/Code'), 'autocomplete' => 'off']) !!}
+                    {!! \Form::rText('search_account_number', trans('Customer Number/Code'), null, false, ['placeholder' => trans('Enter Customer Number/Code'), 'autocomplete' => 'off', 'tabindex' => '3']) !!}
                     <button class="btn btn-primary"
                             onclick="verifyCustomerInformation(event, this);"
                             type="button">
@@ -44,8 +45,8 @@
                                     <strong>{{ trans('Company Name:') }}</strong>
                                 </div>
                                 <div class="col-sm-8 text-uppercase">
-                                    <span id="CustomerName"></span>
-                                    {!!\Form::hidden('customer_name') !!}
+                                    <span id="CustomerName">{{ old('customer_name') }}</span>
+                                    {!!\Form::hidden('customer_name', old('customer_name')) !!}
                                 </div>
                             </div>
                             <div class="mb-2 row">
@@ -53,8 +54,8 @@
                                     <strong>{{ trans('Street Address:') }}</strong>
                                 </div>
                                 <div class="col-sm-8 text-uppercase">
-                                    <span id="CustomerAddress"></span>
-                                    {!!\Form::hidden('customer_address') !!}
+                                    <span id="CustomerAddress">{{ old('customer_address') }}</span>
+                                    {!!\Form::hidden('customer_address', old('customer_address')) !!}
                                 </div>
                             </div>
                             <div class="mb-2 row">
@@ -62,8 +63,8 @@
                                     <strong>{{ trans('City:') }}</strong>
                                 </div>
                                 <div class="col-sm-8 text-uppercase">
-                                    <span id="CustomerCity"></span>
-                                    {!!\Form::hidden('customer_city') !!}
+                                    <span id="CustomerCity">{{ old('customer_city') }}</span>
+                                    {!!\Form::hidden('customer_city', old('customer_city')) !!}
                                 </div>
                             </div>
                             <div class="mb-2 row">
@@ -71,8 +72,8 @@
                                     <strong>{{ trans('State:') }}</strong>
                                 </div>
                                 <div class="col-sm-8 text-uppercase">
-                                    <span id="CustomerState"></span>
-                                    {!!\Form::hidden('customer_state') !!}
+                                    <span id="CustomerState">{{ old('customer_state') }}</span>
+                                    {!!\Form::hidden('customer_state', old('customer_state')) !!}
                                 </div>
                             </div>
                             <div class="mb-2 row">
@@ -80,8 +81,8 @@
                                     <strong>{{ trans('Postal Code:') }}</strong>
                                 </div>
                                 <div class="col-sm-8 text-uppercase">
-                                    <span id="CustomerZipCode"></span>
-                                    {!!\Form::hidden('customer_zip_code') !!}
+                                    <span id="CustomerZipCode">{{ old('customer_zip_code') }}</span>
+                                    {!!\Form::hidden('customer_zip_code', old('customer_zip_code')) !!}
                                 </div>
                             </div>
                             <div class="row">
@@ -89,9 +90,9 @@
                                     <strong>{{ trans('Country:') }}</strong>
                                 </div>
                                 <div class="col-sm-8 text-uppercase">
-                                    <span id="CustomerCountry"></span>
-                                    {!!\Form::hidden('customer_country') !!}
-                                    {!!\Form::hidden('customer_account_number') !!}
+                                    <span id="CustomerCountry">{{ old('customer_country') }}</span>
+                                    {!!\Form::hidden('customer_country', old('customer_country')) !!}
+                                    {!!\Form::hidden('customer_account_number', old('customer_account_number')) !!}
                                 </div>
                             </div>
                         </div>
@@ -108,19 +109,18 @@
              aria-labelledby="information-part-trigger">
             <div class="row">
                 <div class="col-md-6">
-                    {!! \Form::rText('contact_name', trans('Full Name'), null, true, ['placeholder' => 'Enter Contact Full Name']) !!}
+                    {!! \Form::rText('contact_name', trans('Full Name'), null, true, ['placeholder' => 'Enter Contact Full Name', 'tabindex' => 4]) !!}
                 </div>
                 <div class="col-md-6">
-                    {!! \Form::rSelect('contact_account_title', trans('Account Title'), $accountTitles, null, true, ['placeholder' => 'Select Account Title/Department']) !!}
+                    {!! \Form::rSelect('contact_account_title', trans('Account Title'), $accountTitles, null, true, ['placeholder' => 'Select Account Title/Department', 'tabindex' => 5]) !!}
                 </div>
                 <div class="col-md-6">
                     {!! \Form::rTel('contact_phone_number', trans('Phone'), null, true, [
-    'placeholder' => 'Enter Contact Phone Number', 'pattern' => '^[0-9+\-\(\)\.\s]+$',
-    'title' => 'The field may only contain digits and phone symbols (+,-,(,),. & space).'
+    'placeholder' => 'Enter Contact Phone Number', 'tabindex' => 6,
     ]) !!}
                 </div>
                 <div class="col-md-6">
-                    {!! \Form::rEmail('contact_email', trans("Email Address"), null, true, ['placeholder' => 'Email Address']) !!}
+                    {!! \Form::rEmail('contact_email', trans("Email Address"), null, true, ['placeholder' => 'Email Address', 'tabindex' => 7]) !!}
                     <small class="text-muted small">
                         ({{ trans('Your E-Mail Address will serve as your User ID when you Login') }})
                     </small>
@@ -128,22 +128,17 @@
                 <div class="col-md-6">
                     {!! \Form::rPassword('contact_password', trans('Password'), true, [
                     'placeholder' => trans('Enter Password'),
-                     'title'=>"Minimum {$minPasswordLength()} character required with at least one Number, one lower case, one upper case letter and special characters(#?!@$%^&amp;*).",
-                    "min" => $minPasswordLength(),
-                     "max" => '255',
                     "minlength" => $minPasswordLength(),
-                     "maxlength" => '255'
+                     "maxlength" => '255',
+                      'tabindex' => 8
                     ]) !!}
                 </div>
                 <div class="col-md-6">
                     {!! \Form::rPassword('contact_password_confirmation', trans('Retype Password'), true, [
                     'placeholder' => trans('Enter Password'),
-                    'title'=>"Minimum {$minPasswordLength()} character required with at least one Number, one lower case, one upper case letter and special characters(#?!@$%^&amp;*).",
-                    "min" => $minPasswordLength(),
-                     "max" => '255',
                     "minlength" => $minPasswordLength(),
                      "maxlength" => '255'
-
+, 'tabindex' => 9
                     ]) !!}
                 </div>
             </div>
@@ -154,42 +149,52 @@
                 @if($newsletterSubscription)
                     <div class="col-md">
                         <div class="form-group">
-                            <label for="newsletter"></label>
+                            <label for="contact_newsletter" class="sr-only"></label>
                             <div class="custom-control custom-checkbox">
                                 <input class="form-control custom-control-input"
-                                       id="newsletter-checkbox-yes"
-                                       name="newsletter"
+                                       id="contact_newsletter-checkbox-yes"
+                                       name="contact_newsletter"
                                        type="checkbox"
-                                       @checked(old('newsletter') =='yes')
+                                       tabindex="10"
+                                       @checked(old('contact_newsletter') =='yes')
                                        value="yes">
-                                <label for="newsletter-checkbox-yes"
+                                <label for="contact_newsletter-checkbox-yes"
                                        class="custom-control-label">
                                     {!! $newsletterLabel ?? '' !!}
                                 </label>
                             </div>
-                            <span id="newsletter-error" class="d-block invalid-feedback"></span>
+                            <span id="contact_newsletter-error" class="d-block invalid-feedback">
+                                @error('contact_newsletter')
+                                {{ $message }}
+                                @enderror
+                            </span>
                         </div>
                     </div>
                 @endif
                 @if($acceptTermsConfirmation)
                     <div class="col-md">
                         <div class="form-group">
-                            <label for="accept_term"></label>
+                            <label for="contact_accept_term" class="sr-only"></label>
                             <div class="custom-control custom-checkbox">
                                 <input type="hidden" name="required[]" value="contact_accept_term"/>
                                 <input class="form-control custom-control-input"
-                                       id="accept_term-checkbox-yes"
-                                       name="accept_term"
+                                       id="contact_accept_term-checkbox-yes"
+                                       name="contact_accept_term"
                                        type="checkbox"
                                        required
-                                       @checked(old('accept_term') =='yes')
+                                       tabindex="11"
+                                       @checked(old('contact_accept_term') =='yes')
                                        value="yes">
-                                <label for="accept_term-checkbox-yes"
+                                <label for="contact_accept_term-checkbox-yes"
                                        class="custom-control-label">
                                     {!! $termsLabel ?? '' !!}
                                 </label>
                             </div>
-                            <span id="accept_term-error" class="d-block invalid-feedback"></span>
+                            <span id="contact_accept_term-error" class="d-block invalid-feedback">
+                                @error('contact_accept_term')
+                                {{ $message }}
+                                @enderror
+                            </span>
                         </div>
                     </div>
                 @endif
@@ -216,6 +221,7 @@
         </div>
     </div>
 </div>
+
 @pushonce('plugin-script')
     <script src="{{ asset('vendor/bs-stepper/js/bs-stepper.min.js') }}"></script>
     <script>
@@ -298,8 +304,23 @@
 
         var stepper = new Stepper(document.querySelector('#customer-verification-steps'));
 
+        @if(empty(old('customer_account_number')))
         document.addEventListener('DOMContentLoaded', function () {
             $('#customer-profile').hide();
+        });
+        @endif
+    </script>
+@endpushonce
+
+@pushonce('footer-script')
+    <script>
+        $('#verification-part input').on('keydown', function (e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                e.preventDefault();
+                e.stopPropagation();
+                verifyCustomerInformation(e, this);
+                return false;
+            }
         });
     </script>
 @endpushonce
