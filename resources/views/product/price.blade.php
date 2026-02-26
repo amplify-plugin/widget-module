@@ -1,7 +1,7 @@
 <{{$element}} {!! $htmlAttributes !!}>
 @if(customer_check() || config('amplify.basic.enable_guest_pricing'))
 
-    @if((!empty($product) && $product->pricing) || $value != null)
+    @if(!empty($product) && $product->pricing && $value != null)
         {!! $slot ?? '' !!}
         <span class="amount">{{ currency_format($value, null, true) }}</span>
         <span class="separator">/</span>
