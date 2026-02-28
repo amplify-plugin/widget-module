@@ -34,8 +34,8 @@ class NewCustomerTab extends BaseComponent
     ) {
         parent::__construct();
 
-        if (request()->filled('tab')) {
-            $this->active = request('tab') == 'cash-customer';
+        if (session()->has('tab')) {
+            $this->active = session('tab') == 'cash-customer';
         }
 
     }
@@ -67,7 +67,7 @@ class NewCustomerTab extends BaseComponent
         $classes = ['tab-pane'];
 
         if ($this->active) {
-            $classes[] = 'active';
+            $classes[] = 'fade show active';
         }
 
         $this->attributes = $this->attributes->merge([

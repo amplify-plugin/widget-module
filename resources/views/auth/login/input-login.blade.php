@@ -1,6 +1,6 @@
 <div class="form-group">
     <div class="input-group">
-        <label class="sr-only" for="email">Email</label>
+        <label class="sr-only" for="login-email">Email</label>
         <span class="input-group-addon">
             <i class="icon-mail"></i>
         </span>
@@ -10,6 +10,7 @@
                class="form-control @error('email') is-invalid @enderror"
                placeholder="{{ __('Email') }}"
                autocomplete="username"
+               tabindex="1"
                required>
     </div>
     <span class="invalid-feedback d-block">
