@@ -6,7 +6,6 @@ use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\Frontend\Http\Controllers\DynamicPageLoadController;
 use Amplify\System\Backend\Enums\ProductAvailabilityEnum;
 use Amplify\System\Backend\Models\CategoryProduct;
-use Amplify\System\Backend\Models\DocumentTypeProduct;
 use Amplify\System\Backend\Models\OrderList;
 use Amplify\System\Backend\Models\OrderListItem;
 use Amplify\System\Backend\Models\Warehouse;
@@ -32,12 +31,11 @@ class ProductDetail extends BaseComponent
      * Create a new component instance.
      */
     public function __construct(
-        public bool   $showDiscountBadge = false,
-        public bool   $showFavourite = false,
-        public bool   $displayProductCode = false,
+        public bool $showDiscountBadge = false,
+        public bool $showFavourite = false,
+        public bool $displayProductCode = false,
         public string $cartButtonLabel = 'Add To Cart'
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->getOrderList();
@@ -50,7 +48,7 @@ class ProductDetail extends BaseComponent
     {
         $dbProduct = store()->productModel;
 
-        if (!$dbProduct) {
+        if (! $dbProduct) {
             abort(404, 'Product Unavailable');
         }
 
@@ -58,7 +56,7 @@ class ProductDetail extends BaseComponent
 
         $Product = $easSearchData->getFirstProduct();
 
-        if (!$Product) {
+        if (! $Product) {
             $Product = new ItemRow([], []);
             logger()->debug("Product ID: {$dbProduct->getKey()} not Found in EasyAsk.");
             $Product->Amplify_Id = $dbProduct->getKey();
@@ -79,7 +77,7 @@ class ProductDetail extends BaseComponent
             $value = $item->pivot->attribute_value;
             $value = UtilityHelper::isJson($value) ? json_decode($value, true)[config('app.locale')] ?? null : $value;
 
-            return (object)[
+            return (object) [
                 'name' => $item->name,
                 'value' => $value,
             ];
@@ -93,7 +91,7 @@ class ProductDetail extends BaseComponent
         if (customer_check() || config('amplify.basic.enable_guest_pricing')) {
             $warehouses = ErpApi::getWarehouses([['enabled', '=', true]]);
             $warehouseString = $warehouses->pluck('WarehouseNumber')->implode(',');
-            if (!Str::contains($warehouseString, $erpCustomer->DefaultWarehouse)) {
+            if (! Str::contains($warehouseString, $erpCustomer->DefaultWarehouse)) {
                 $warehouseString = "$warehouseString,{$erpCustomer->DefaultWarehouse}";
             }
             $priceAvailability = ErpApi::getProductPriceAvailability([
@@ -109,9 +107,9 @@ class ProductDetail extends BaseComponent
 
             $Product->warehouses = Warehouse::whereIn('code', $warehouseNumber)->get(['code', 'name'])->toArray();
 
-            $Product->warehouses = array_map(fn($warehouse, $index) => array_merge($warehouse, [
+            $Product->warehouses = array_map(fn ($warehouse, $index) => array_merge($warehouse, [
                 'price' => $priceAvailability[$index]['Price'],
-                'quantity_available' => (int)$priceAvailability[$index]['QuantityAvailable'],
+                'quantity_available' => (int) $priceAvailability[$index]['QuantityAvailable'],
                 'unit_of_measure' => $priceAvailability[$index]['UnitOfMeasure'],
             ]), $Product->warehouses, array_keys($Product->warehouses));
 
@@ -151,17 +149,17 @@ class ProductDetail extends BaseComponent
 
     public function allowDisplayProductCode(): bool
     {
-        return (bool)$this->displayProductCode;
+        return (bool) $this->displayProductCode;
     }
 
     public function allowFavourites(): bool
     {
-        return (bool)$this->showFavourite;
+        return (bool) $this->showFavourite;
     }
 
     public function displayDiscountBadge(): bool
     {
-        return (bool)$this->showDiscountBadge;
+        return (bool) $this->showDiscountBadge;
     }
 
     public function isMasterProduct($product): bool
@@ -171,7 +169,7 @@ class ProductDetail extends BaseComponent
 
     public function isShowMultipleWarehouse($product): bool
     {
-        return !$this->isMasterProduct($product) && erp()->allowMultiWarehouse() && havePermissions(['checkout.choose-warehouse']);
+        return ! $this->isMasterProduct($product) && erp()->allowMultiWarehouse() && havePermissions(['checkout.choose-warehouse']);
     }
 
     public function addToCartBtnLabel(): string
@@ -230,7 +228,7 @@ class ProductDetail extends BaseComponent
 
     protected function productExistOnFavorite($id): ?OrderListItem
     {
-        if (!empty($this->orderList) && $this->showFavourite) {
+        if (! empty($this->orderList) && $this->showFavourite) {
             foreach ($this->orderList as $orderList) {
                 if ($item = $orderList->orderListItems->firstWhere('product_id', $id)) {
                     return $item;
