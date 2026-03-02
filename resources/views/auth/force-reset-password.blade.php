@@ -1,37 +1,37 @@
 <div {!! $htmlAttributes !!}>
     <form id="force-password-reset-box" class="login-box" method="post"
-          action="{{route('frontend.force-reset-password-attempt')}}">
+          action="{{route('frontend.force-reset-password')}}">
         @csrf
         @honeypot
-        <h4 class="margin-bottom-1x">{{ $displayableTitle() }}</h4>
+        <h4 class="login-box-title">{{ $displayableTitle() }}</h4>
+        {!! $subtitle ?? '' !!}
         <div class="form-group">
+            <label for="password" class="sr-only">{{ __('New Password') }}</label>
             <div class="input-group {{$errors->has('password') ? 'is-invalid' : ''}}">
-                <input id="password" class="form-control" type="password" name="password" placeholder="{{ __('Password') }}"
+                <input id="password" tabindex="1" class="form-control" type="password" name="password"
+                       placeholder="{{ __('Enter New Password') }}"
                        required>
                 <span class="input-group-addon">
                     <i class="icon-lock"></i>
                 </span>
             </div>
-            @if ($errors->has('password'))
-                <span class="invalid-feedback d-block">
-                    <strong>{{ $errors->first('password') }}</strong>
-                </span>
-            @endif
+            <span class="invalid-feedback d-block">
+                    @error('password') <strong>{{ $message }}</strong> @enderror
+            </span>
         </div>
 
         <div class="form-group">
+            <label for="password_confirmation" class="sr-only">{{ __('Retype New Password') }}</label>
             <div class="input-group {{$errors->has('password_confirmation') ? 'is-invalid' : ''}}">
-                <input id="password_confirmation" class="form-control" type="password" name="password_confirmation"
-                       placeholder="{{ __('Confirm Password') }}" required>
+                <input id="password_confirmation" tabindex="2" class="form-control" type="password" name="password_confirmation"
+                       placeholder="{{ __('Enter Retype New Password') }}" required>
                 <span class="input-group-addon">
                             <i class="icon-lock"></i>
                         </span>
             </div>
-            @if ($errors->has('password_confirmation'))
-                <span class="invalid-feedback d-block">
-                    <strong>{{ $errors->first('password_confirmation') }}</strong>
-                </span>
-            @endif
+            <span class="invalid-feedback d-block">
+                    @error('password_confirmation') <strong>{{ $message }}</strong> @enderror
+            </span>
         </div>
 
         <div class="text-center text-sm-right">
@@ -40,10 +40,11 @@
             </button>
         </div>
     </form>
+    {!!  $slot ?? '' !!}
 </div>
-@pushOnce('footer-script')
+@pushonce('footer-script')
     <script>
-        $(function() {
+        $(function () {
             $('#force-password-reset-box').validate({
                 rules: {
                     password_confirmation: {
@@ -56,8 +57,18 @@
                         minlength: {{ $minPassLength }},
                     },
                 },
+                messages: {
+                    password: {
+                        required: 'The new password field is required.',
+                        minlength: 'The new password must be at least {{ $minPassLength }} characters.'
+                    },
+                    password_confirmation: {
+                        required: 'The retype new password field is required.',
+                        minlength: 'The retype new password must be at least {{ $minPassLength }} characters.'
+                    }
+                }
             });
         });
     </script>
-@endPushOnce
+@endpushonce
 
