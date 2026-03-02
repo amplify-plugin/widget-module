@@ -1,6 +1,6 @@
 <div {!! $htmlAttributes !!}>
     <form id="forgot-password-form" class="login-box">
-        <h4 class="padding-bottom-1x login-box-title">{{ $displayableTitle() }}</h4>
+        <h4 class="login-box-title">{{ $displayableTitle() }}</h4>
         {!! $subtitle ?? '' !!}
         <div class="form-group">
             <div class="input-group">
@@ -14,12 +14,13 @@
         <div class="d-flex justify-content-center justify-content-sm-end">
             <button class="btn btn-primary margin-bottom-none" id="submit-btn" type="submit">
                 <span id="submit-text"><i
-                        class="icon-location font-weight-bold mr-2"></i>{{ $submitButtonTitle() }}</span>
+                            class="icon-location font-weight-bold mr-2"></i>{{ $submitButtonTitle() }}</span>
             </button>
         </div>
     </form>
     {!!  $slot ?? '' !!}
 </div>
+
 @pushonce("html-default")
     <!-- OTP Modal -->
     <div class="modal fade" id="otpModal" tabindex="-1" role="dialog" aria-labelledby="otpModalLabel" aria-hidden="true"
@@ -70,12 +71,12 @@
                     <div class="form-group">
                         <div class="input-group">
                             <input
-                                class="form-control"
-                                type="password"
-                                id="password"
-                                placeholder="Password"
-                                minlength="{{ $minPassLength }}" min="{{ $minPassLength }}"
-                                required
+                                    class="form-control"
+                                    type="password"
+                                    id="password"
+                                    placeholder="Password"
+                                    minlength="{{ $minPassLength }}" min="{{ $minPassLength }}"
+                                    required
                             />
                             <span class="input-group-addon">
                                 <i class="icon-lock"></i>
@@ -86,12 +87,12 @@
                     <div class="form-group">
                         <div class="input-group">
                             <input
-                                class="form-control"
-                                type="password"
-                                id="confirmPassword"
-                                placeholder="Confirm Password"
-                                minlength="{{ $minPassLength }}" min="{{ $minPassLength }}"
-                                required
+                                    class="form-control"
+                                    type="password"
+                                    id="confirmPassword"
+                                    placeholder="Confirm Password"
+                                    minlength="{{ $minPassLength }}" min="{{ $minPassLength }}"
+                                    required
                             />
                             <span class="input-group-addon">
                                 <i class="icon-lock"></i>
@@ -172,9 +173,11 @@
                 email = emailInput.value;
                 clearErrors();
                 setLoading(submitBtn, submitText, true);
-                fetch('/password-reset-otp', {
+                fetch('{{ route('frontend.password_reset_otp') }}', {
                     method: 'POST',
                     headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -203,9 +206,11 @@
 
             // ⏳ Resend OTP with 2-minute timer
             resendLink.addEventListener('click', function () {
-                fetch('/password-reset-otp', {
+                fetch('{{ route('frontend.password_reset_otp') }}', {
                     method: 'POST',
                     headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -243,9 +248,11 @@
                 e.preventDefault();
                 otp = otpInput.value;
                 setLoading(otpSubmitBtn, otpSubmitText, true);
-                fetch('/otp-check', {
+                fetch('{{ route('frontend.otp_check') }}', {
                     method: 'POST',
                     headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -293,9 +300,11 @@
                     confirmPasswordError.innerHTML = '';
                 }
 
-                fetch('/reset-password', {
+                fetch('{{ route('frontend.reset_password') }}', {
                     method: 'POST',
                     headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
