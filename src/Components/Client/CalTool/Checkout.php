@@ -62,7 +62,7 @@ class Checkout extends BaseComponent
         $addresses->push($this->loadEmptyShippingLocation());
 
         $country_codes = array_map(fn ($country) => $country['id'], config('amplify.basic.countries'));
-        $countries = Country::select(['iso2', 'id', 'name'])->whereIn('id', $country_codes)->orderBy('name', 'ASC')->get();
+        $countries = Country::enabled()->select(['iso2', 'id', 'name'])->whereIn('id', $country_codes)->orderBy('name', 'ASC')->get();
         $states = State::select(['iso2', 'country_id', 'country_code', 'name'])->whereIn('country_id', $country_codes)->orderBy('name', 'ASC')->get();
         $shipOptions = ErpApi::getShippingOption();
         $templateBrandColor = theme_option('primary_color');

@@ -66,7 +66,7 @@ class OrderCheckout extends BaseComponent
         $steps = array_reverse($steps);
         $addresses->push($this->loadEmptyShippingLocation());
         $country_codes = array_map(fn ($country) => $country['id'], config('amplify.basic.countries'));
-        $countries = Country::select('id', 'name', 'iso2')->whereIn('id', $country_codes)->get();
+        $countries = Country::enabled()->select('id', 'name', 'iso2')->whereIn('id', $country_codes)->get();
         $states = State::select('iso2', 'country_id', 'name')->whereIn('country_id', $country_codes)->get();
         $shipOptions = ErpApi::getShippingOption();
         $templateBrandColor = theme_option('primary_color');
