@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Request;
  */
 class SocialMediaLink extends BaseComponent
 {
-
     public array $links = [];
 
     /**

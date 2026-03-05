@@ -24,7 +24,7 @@ class ManufacturerImage extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return !empty($this->product->manufacturer);
+        return ! empty($this->product->manufacturer);
     }
 
     /**
