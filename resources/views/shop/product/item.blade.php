@@ -27,9 +27,9 @@
                     element="span"/>
         @endif
         <x-product.name element="span" :product="$product" class="product-title d-block"/>
-        <p class="hidden-xs-down">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore odit officiis illo
-            perferendis deserunt, ipsam dolor ad dolorem eaque veritatis harum facilis aliquid id doloribus incidunt
-            quam beatae, soluta magni alori sedum quanto.</p>
+        <div class="hidden-xs-down product-summary">
+            {!! $product->short_description ? strip_tags($product->short_description): '' !!}
+        </div>
         <x-product.price
                 element="div"
                 class="w-100 d-flex justify-content-md-start justify-content-center product-price"
@@ -132,5 +132,12 @@
             :uom="$product->ERP?->UnitOfMeasure ?? 'EA'"
             :std-price="$product->Msrp->toFloat()"/>
 
-    <x-product.quick-action :product="$product" :seo-path="$seoPath" :index="$loop->index"/>
+    <x-product.quick-action
+            :cart-label="$cartButtonLabel"
+            :detail-label="$detailButtonLabel"
+            :product="$product"
+            :seo-path="$seoPath"
+            :index="$loop->index"
+            order-list-label="List"
+    />
 @endif

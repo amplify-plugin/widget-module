@@ -66,6 +66,7 @@ class ProductDetail extends BaseComponent
         }
 
         $Product->documents = $this->getDocuments($Product->Amplify_Id);
+        $Product->short_description = $dbProduct->short_description;
         $Product->description = $dbProduct->description;
         $Product->short_description = $dbProduct->short_description;
         $Product->product_image = $dbProduct->productImage;
@@ -145,6 +146,13 @@ class ProductDetail extends BaseComponent
             'customer' => $erpCustomer,
             'productImage' => $dbProduct->productImage,
         ]);
+    }
+
+    public function htmlAttributes(): string
+    {
+        $this->attributes = $this->attributes->class('single-product-details');
+
+        return parent::htmlAttributes();
     }
 
     public function allowDisplayProductCode(): bool

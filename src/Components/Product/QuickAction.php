@@ -19,6 +19,7 @@ class QuickAction extends BaseComponent
         public mixed $index = 1,
         public string $detailLabel = 'View Details',
         public string $cartLabel = 'Add To Cart',
+        public string $orderListLabel = 'Order List',
         public array $extras = [])
     {
         parent::__construct();
@@ -55,7 +56,9 @@ class QuickAction extends BaseComponent
                 : config('amplify.frontend.guest_checkout_warehouse');
         }
 
-        return view('widget::product.quick-action', compact('cartData', 'defaultWarehouse'));
+        $productView = active_shop_view();
+
+        return view('widget::product.quick-action', compact('cartData', 'defaultWarehouse', 'productView'));
     }
 
     public function htmlAttributes(): string

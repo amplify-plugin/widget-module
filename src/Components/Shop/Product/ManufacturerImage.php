@@ -7,26 +7,16 @@ use Closure;
 use Illuminate\Contracts\View\View;
 
 /**
- * @class ManufacterImage
+ * @class ManufacturerImage
  */
 class ManufacturerImage extends BaseComponent
 {
     /**
-     * @var array
-     */
-    public $options;
-
-    public $product;
-
-    /**
      * Create a new component instance.
      */
-    public function __construct($product)
+    public function __construct(public mixed $product)
     {
         parent::__construct();
-
-        $this->product = $product;
-
     }
 
     /**
@@ -34,7 +24,7 @@ class ManufacturerImage extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return $this->product->manufacturer !== null;
+        return !empty($this->product->manufacturer);
     }
 
     /**
@@ -42,8 +32,7 @@ class ManufacturerImage extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-
-        return view('widget::shop.product.manufacture-image');
+        return view('widget::product.manufacturer-image');
     }
 
     public function htmlAttributes(): string

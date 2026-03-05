@@ -12,26 +12,15 @@ use Illuminate\Support\Facades\Request;
  */
 class SocialMediaLink extends BaseComponent
 {
-    /**
-     * @var array
-     */
-    public $options;
 
-    public mixed $product;
-
-    public $links;
+    public array $links = [];
 
     /**
      * Create a new component instance.
      */
-    public function __construct($product)
+    public function __construct(public mixed $product)
     {
         parent::__construct();
-
-        $this->product = $product;
-
-        $this->links = [];
-
     }
 
     /**
@@ -51,7 +40,7 @@ class SocialMediaLink extends BaseComponent
             $this->links[$item] = str_replace('__webpage_url__', Request::url(), $value);
         }
 
-        return view('widget::shop.product.social-media-link');
+        return view('widget::product.social-media-link');
     }
 
     public function htmlAttributes(): string

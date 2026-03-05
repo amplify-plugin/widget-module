@@ -160,9 +160,12 @@ class ProductList extends BaseComponent
                     $product->min_order_qty = $product->ERP->MinOrderQuantity ?? $ownProduct->min_order_qty;
                     $product->qty_interval = $product->ERP->QuantityInterval ?? $ownProduct->qty_interval;
                     $product->allow_back_order = $product->ERP->AllowBackOrder ?? $ownProduct->allow_back_order ?? false;
+                    $product->short_description = $ownProduct->short_description ?? null;
                 });
+
             }
         }
+//        dd($products);
 
         return view('widget::shop.product-list', compact('productView', 'products', 'message', 'seoPath'));
     }
@@ -214,7 +217,7 @@ class ProductList extends BaseComponent
         }
 
         if ($product instanceof Product) {
-            return ! empty($product->has_sku) && empty($product->parent_id);
+            return !empty($product->has_sku) && empty($product->parent_id);
         }
 
         return false;
@@ -222,7 +225,7 @@ class ProductList extends BaseComponent
 
     public function isShowMultipleWarehouse($product): bool
     {
-        return ! $this->isMasterProduct($product) && erp()->allowMultiWarehouse() && havePermissions(['checkout.choose-warehouse']);
+        return !$this->isMasterProduct($product) && erp()->allowMultiWarehouse() && havePermissions(['checkout.choose-warehouse']);
     }
 
     protected function productExistOnFavorite($id, &$product): ?OrderListItem

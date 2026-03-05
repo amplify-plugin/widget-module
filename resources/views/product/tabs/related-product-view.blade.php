@@ -58,7 +58,7 @@
                         <div class="spec-column" style="min-width:180px;">
                             @foreach($first as $s)
                                 <div class="text-nowrap">{{ $s->name ?? ($s['name'] ?? '') }} :</div>
-                                <div class="font-roboto text-nowrap">{{ $s->value ?? ($s['value'] ?? '') }}</div>
+                                <strong class="font-roboto text-nowrap">{{ $s->value ?? ($s['value'] ?? '') }}</strong>
                             @endforeach
                         </div>
 
@@ -66,7 +66,7 @@
                         <div class="spec-column" style="min-width:180px;">
                             @foreach($second as $s)
                                 <div class="text-nowrap">{{ $s->name ?? ($s['name'] ?? '') }} :</div>
-                                <div class="font-roboto text-nowrap">{{ $s->value ?? ($s['value'] ?? '') }}</div>
+                                <strong class="font-roboto text-nowrap">{{ $s->value ?? ($s['value'] ?? '') }}</strong>
                             @endforeach
                         </div>
 

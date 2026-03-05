@@ -20,7 +20,7 @@
             <div class="gutter-sizer"></div>
             <div class="grid-sizer"></div>
             @foreach($products as $product)
-                <div class="grid-item p-2">
+                <div class="grid-item p-1">
                     <div @class(['product-card','product-grid' => $productView == 'grid', 'product-list' => $productView == 'list'])>
                         @include('widget::shop.product.item')
                     </div>

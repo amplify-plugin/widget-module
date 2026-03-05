@@ -13,7 +13,7 @@
             {{--            </button>--}}
         </div>
     @else
-        <div class="d-flex gap-2">
+        <div @class(['gap-2', 'd-flex' => $productView == 'list', 'd-grid' => $productView == 'grid'])class="gap-2">
             <x-cart.quantity-update :product="$product" :index="$index"/>
             <button
                     data-warehouse="{{ $defaultWarehouse }}"
@@ -34,7 +34,12 @@
                     </x-slot>
                 </x-wishlist-button>
             @endif
-            <x-product-shopping-list :product-id="$product->Amplify_Id" class="w-100 m-0" :index="$product->Amplify_Id"/>
+            <x-product-shopping-list
+                    :product-id="$product->Amplify_Id"
+                    class="w-100 m-0"
+                    :index="$product->Amplify_Id"
+                    :add-label="'Add to ' . $orderListLabel"
+                    :widget-title="$orderListLabel"/>
         </div>
     @endif
 </div>
