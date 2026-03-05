@@ -1,7 +1,8 @@
 <div {!! $htmlAttributes !!}>
-    <div @class(["page-title", 'container-fluid' => theme_option('full_screen_header'),  'container' => !theme_option('full_screen_header')])>
+    <div @class(['container-collapse-p0', 'container-fluid' => theme_option('full_screen_header'),  'container' => !theme_option('full_screen_header')])>
+        <div class="row">
         @if(!$hideTitle)
-            <div class="column">
+            <div class="column col-md">
                 <h1 class="cs-truncate-1"
                     data-toggle="tooltip"
                     data-html="true"
@@ -11,7 +12,7 @@
                 </h1>
             </div>
         @endif
-        <div class="column">
+        <div class="column col-md">
             <ul class="breadcrumbs cs-truncate-1">
                 @foreach($breadcrumbs as $breadcrumb)
                     @if($breadcrumb != $breadcrumbs->last())
@@ -24,6 +25,7 @@
                     @endif
                 @endforeach
             </ul>
+        </div>
         </div>
     </div>
 </div>

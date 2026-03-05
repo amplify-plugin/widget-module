@@ -181,4 +181,11 @@ class Breadcrumb extends BaseComponent
 
         $this->push('Home', $this->homeUrl());
     }
+
+    public function htmlAttributes(): string
+    {
+        $this->attributes = $this->attributes->class('page-title');
+
+        return parent::htmlAttributes();
+    }
 }
