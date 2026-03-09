@@ -24,12 +24,16 @@ class Index extends BaseComponent
     public function render(): View|Closure|string
     {
         $data = [
-            'lookup_type' => ErpApiService::LOOKUP_DATE_RANGE,
+            'lookup_type' => ErpApiService::LOOKUP_OPEN_ORDER,
             'start_date' => request()->has('created_start_date') ? request('created_start_date') : now(config('app.timezone'))->subDays(7)->format('Y-m-d'),
             'end_date' => request()->has('created_end_date') ? request('created_end_date') : now(config('app.timezone'))->format('Y-m-d'),
             'contact_id' => request()->has('type') && request('type') == 'all_order' ? null : (customer(true)->contact_code ?: null),
             'transaction_types' => ErpApiService::TRANSACTION_TYPES_ORDER,
         ];
+
+        if (request()->has('created_start_date') && request()->has('created_end_date')) {
+            $data['lookup_type'] = ErpApiService::LOOKUP_DATE_RANGE;
+        }
 
         $orders = ErpApi::getOrderList($data);
 
